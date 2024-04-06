@@ -1,0 +1,458 @@
+.imageFront{
+  height: 50vh;
+}
+
+.btnf{
+ background-color:  bisque;
+}
+
+
+
+.features-svg{
+  height: 10vh;
+}
+
+
+
+
+.footer{
+  /* background-image: url('./images/wc2.jpg'); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+
+
+}
+
+
+.howToCard{
+  
+  background-size: cover;
+  background-repeat: no-repeat; 
+}
+
+
+
+.aboutImages{
+  border-radius: 5px;
+}
+
+.rounded-tes{
+  border-radius: 50px;
+  width: 90px;
+}
+
+body{
+  color:#000000;
+  background-image: url('./images/white-wood.jpg');
+  
+  
+}
+
+.buttonColor{
+  background-color:#000000;
+}
+
+.sub-color{
+  color: whitesmoke;
+  backdrop-filter: blur(3px);
+}
+
+.form-control{
+  margin-bottom: 10px;
+
+}
+
+.errorMessage{
+  color: red;
+  margin-bottom: 20px;
+  font-size: 25px;
+}
+
+input:invalid[focused="true"] ~ .errorMessage
+{
+  display: block;
+}
+
+.findUs{
+  width: 100px;
+  height: 100px;
+}
+
+.image {
+  width:  280px;
+  height: 180px;
+  object-fit: cover;
+  margin: 0.3rem;
+  border-radius: 5px;
+}
+
+
+.showPets{
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.login-form{
+ 
+  padding: 15px;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: rgba(0,0,0,0.35) 0px 5px 15px;
+  border-radius: 15px;
+  
+}
+
+.msg-across{
+  color: whitesmoke;
+}
+
+@media screen and (max-width: 500px) {
+  .location-words{
+    margin-bottom: 150px;
+  }
+  .msg-across{
+    backdrop-filter: blur(3px);
+
+  }
+  .footer-box{
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    
+  }
+
+}
+
+.list-group-item-check
+{
+  position: absolute;
+  clip:rect(0,0,0,0);
+}
+.list-group-item-check:checked + .list-group-item {
+  color: #fff;
+  background-color: var(--bs-dark);
+  border-color: var(--bs-dark);
+}
+
+.gap-2 {
+  gap: inherit;
+}
+.list-group-checkable .list-group-item {
+  cursor: pointer;
+}
+
+.list-group-item-check:hover + .list-group-item {
+  background-color: var(--bs-dark-bg);
+}
+
+.rounded-3 {
+  border-radius: var(--bs-border-radius-lg);
+}
+
+.pe-none {
+  pointer-events: none;
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: var(--bs-list-group-item-padding-y) var(--bs-list-group-item-padding-x);
+    color: var(--bs-list-group-color);
+    text-decoration: none;
+    background-color: var(--bs-list-group-bg);
+    border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+}
+
+.login-form{
+  position: fixed;
+  z-index: 4;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(500px);
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+@media screen and (min-width: 1200px)
+{
+  .login-form{
+    position: fixed;
+    z-index: 4;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(500px);
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .msg-across{
+    margin-top: 140px;
+    backdrop-filter: blur(6px);
+  
+  }
+
+
+}
+
+.testimonials{
+  z-index: 1;
+}
+
+
+.nav-cust{
+  background-color: white;
+  color: #012169;
+}
+
+
+
+
+.cardBack{
+ height: 40vh;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+ color: white;
+ 
+
+ padding: 10px 10px;
+ border-radius: 15px;
+
+}
+
+.weAre{
+  background-image: url('./images/town.jpeg');
+}
+
+.findUsBox{
+  backdrop-filter: blur(20px);
+}
+
+.image-mini {
+  width:  310px;
+  height: 280px;
+  object-fit: cover;
+  margin: 0.3rem;
+  border-radius: 5px;
+}
+
+
+@keyframes bounce {
+	0%, 100%, 20%, 50%, 80% {
+		-webkit-transform: translateY(0);
+		-ms-transform:     translateY(0);
+		transform:         translateY(0)
+	}
+	40% {
+		-webkit-transform: translateY(-30px);
+		-ms-transform:     translateY(-30px);
+		transform:         translateY(-30px)
+	}
+	60% {
+		-webkit-transform: translateY(-15px);
+		-ms-transform:     translateY(-15px);
+		transform:         translateY(-15px)
+	}
+}
+
+
+.howToContainer{
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.howToContainer:hover{
+  cursor: pointer;
+  animation-name: bounce;
+  -moz-animation-name: bounce;
+}
+
+
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.logos {
+  overflow: hidden;
+  padding: 60px 0;
+  background: white;
+  background-image: url('./images/white-wood.jpg');
+  white-space: nowrap;
+  position: relative;
+}
+
+.logos:before,
+.logos:after {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  content: "";
+  z-index: 2;
+}
+
+.logos:before {
+  left: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), white);
+}
+
+.logos:after {
+  right: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), white);
+}
+
+.logos:hover .logos-slide {
+  animation-play-state: paused;
+}
+
+.logos-slide {
+  display: inline-block;
+  animation: 35s slide infinite linear;
+}
+
+.logos-slide img {
+  height: 50px;
+  margin: 0 40px;
+}
+
+.adoptionForm{
+  
+  z-index: 2; 
+  backdrop-filter: blur(150px);
+  padding: 30px;
+  margin-top: 40px;
+  padding-top: 50px;
+  
+  border-radius: 15px;
+
+}
+
+
+
+
+
+@media screen and (min-width: 1200px)
+{
+
+.home-head{
+  height: 90vh;
+  margin-top: 55px;
+}
+
+
+}
+
+
+@media screen and (max-width: 1150px) {
+
+
+  .home-head{
+    height: 70vh;
+    margin-top: 55px;
+  
+  }
+}
+
+.adopt-gallery{
+  margin-top: 20px;
+}
+
+
+
+.create-userForm
+{
+  position: fixed;
+  z-index: 4;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(500px);
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+.endorse-box{
+  height: 60vh;
+  color: whitesmoke;
+}
+
+
+
+.petSide{
+  .dogSideBox{
+    
+    border-radius: 15px;
+  }
+}
+
+.petSideBox > img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+@keyframes pulse{
+  from, to{
+    scale:1;
+  }
+
+  50%{
+    scale: 1.08;
+  }
+}
+
+.petSideBox:hover>img{
+  animation: pulse 800ms ease-in-out;
+}
+
+
+.slide-in{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  background-size: cover;
+  transform-origin: bottom;
+  z-index: 4;
+}
+
+.slide-out{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000000;
+  background-size: cover;
+  transform-origin: top;
+  z-index: 4;
+}
+
+.google{
+  margin-right: 10px;
+  margin-bottom: 5px;
+}

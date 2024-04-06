@@ -1,0 +1,28 @@
+import Col from 'react-bootstrap/Col';
+
+
+import React from 'react';
+
+
+
+const HowToCard = (props)=>
+{
+    return (
+
+        <Col md={4} className='d-flex justify-content-center mb-5 pb-5 howToContainer '>
+        <div class="d-flex w-75 text-white howToCard rounded-5  shadow-lg" style={{backgroundImage:`url(${props.Background})`}}>
+          <div class="d-flex flex-column p-5 pb-3  text-shadow-1 sub-color">
+            <h2 class="pt-5 mt-5 mb-4 display-1 fw-bolder">{props.header}</h2>
+          
+          
+              <span className='display-4'>{props.para} </span>
+           
+          
+          </div>
+        </div>
+    </Col>
+    )
+
+}
+
+export default HowToCard;
