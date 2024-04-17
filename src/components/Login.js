@@ -27,10 +27,6 @@ const Login = () =>{
             
             signInSuccess.userCred.then((result)=>{
                 setAuthUser(result);
-            })
-            
-            if (signInSuccess.toShow)
-            {
                 alert("login successful");
                 setOpenLogin(false);
                 
@@ -38,7 +34,9 @@ const Login = () =>{
                 {
                     setCreateUserTrigger(true);
                 }
-            }
+            })
+            
+
         }
         catch(err)
         {
@@ -58,10 +56,6 @@ const Login = () =>{
 
         signInSuccess.userCred.then((result)=>{
             setAuthUser(result);
-        })
-
-        if (signInSuccess.toShow)
-        {
             alert("login successful");
             setFacedError(false);
             setOpenLogin(false);
@@ -69,8 +63,12 @@ const Login = () =>{
             {
                 setCreateUserTrigger(true);
             }
+        })
 
-        }
+        
+
+
+        
     }
     catch(err)
     {
