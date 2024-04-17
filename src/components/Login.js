@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../svg/mainLogo.svg';
 import google from '../svg/google.svg';
 import { useContext } from 'react';
 import { Context } from '../App';
-
+import { UserAuthenticator } from '../controller/UserAuthenticator';
 
 
 
@@ -11,13 +11,72 @@ import { Context } from '../App';
 const Login = () =>{
 
     
-    const {setOpenLogin,signIn,facedError,signInWithGoogle,
-           email,password,setEmail, setPassword} = useContext(Context);
+    const {setOpenLogin,userProfileCreated,setCreateUserTrigger, 
+        email,password,setFacedError,setAuthUser,
+        setEmail,setPassword,facedError} = useContext(Context);
 
-  
    
    
+    // sign in with google
+    const signInWithGoogle = async () =>{
+       
+        try{
+      
+            const userAuth = new UserAuthenticator();
+            const signInSuccess = await userAuth.signInWithGoogleMeth();
+            
+            signInSuccess.userCred.then((result)=>{
+                setAuthUser(result);
+            })
+            
+            if (signInSuccess.toShow)
+            {
+                alert("login successful");
+                setOpenLogin(false);
+                
+                if (!userProfileCreated)
+                {
+                    setCreateUserTrigger(true);
+                }
+            }
+        }
+        catch(err)
+        {
+            setFacedError(true);
+        }
+       
+    }
 
+
+    // sign in with email
+    const signIn = async (event)=> {
+    try{
+        event.preventDefault();
+        
+        const userAuth = new UserAuthenticator();
+        const signInSuccess = await userAuth.signInNormal(email,password);
+
+        signInSuccess.userCred.then((result)=>{
+            setAuthUser(result);
+        })
+
+        if (signInSuccess.toShow)
+        {
+            alert("login successful");
+            setFacedError(false);
+            setOpenLogin(false);
+            if (!userProfileCreated)
+            {
+                setCreateUserTrigger(true);
+            }
+
+        }
+    }
+    catch(err)
+    {
+        setFacedError(true);
+    }
+    };
 
 
     return (
@@ -43,7 +102,8 @@ const Login = () =>{
                     
                         <div className='d-flex flex-row justify-content-center mt-5'>
                         <span class=" btn btn-lg buttonColor btn-outline-light me-3" 
-                        onClick={()=> setOpenLogin(false)}>Cancel</span>
+                        onClick={()=> {setOpenLogin(false);
+                                        setFacedError(false)}}>Cancel</span>
 
                         <button class=" btn btn-lg buttonColor btn-outline-light" 
                         type="submit">Sign In</button>

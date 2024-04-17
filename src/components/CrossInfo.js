@@ -1,9 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import catAndDog from '../images/cat-and-dog.jpg';
-import Image from 'react-bootstrap/Image';
-import mental from '../images/mental-well.jpg';
+
 import React from 'react';
 
 const CrossInfo=()=>{

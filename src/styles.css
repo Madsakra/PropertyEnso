@@ -14,21 +14,18 @@
 
 
 
-
 .footer{
   /* background-image: url('./images/wc2.jpg'); */
   background-repeat: no-repeat;
   background-size: cover;
-  
-
-
 }
 
 
 .howToCard{
-  
+  height: 500px;
   background-size: cover;
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
+  background-position: center; 
 }
 
 
@@ -120,6 +117,14 @@ input:invalid[focused="true"] ~ .errorMessage
     font-weight: 600;
     
   }
+
+  .listings-head-words{
+    backdrop-filter: blur(18px);
+  }
+
+
+ 
+
 
 }
 
@@ -332,21 +337,6 @@ input:invalid[focused="true"] ~ .errorMessage
   margin: 0 40px;
 }
 
-.adoptionForm{
-  
-  z-index: 2; 
-  backdrop-filter: blur(150px);
-  padding: 30px;
-  margin-top: 40px;
-  padding-top: 50px;
-  
-  border-radius: 15px;
-
-}
-
-
-
-
 
 @media screen and (min-width: 1200px)
 {
@@ -356,22 +346,15 @@ input:invalid[focused="true"] ~ .errorMessage
   margin-top: 55px;
 }
 
-
 }
 
 
 @media screen and (max-width: 1150px) {
 
-
   .home-head{
     height: 70vh;
     margin-top: 55px;
-  
   }
-}
-
-.adopt-gallery{
-  margin-top: 20px;
 }
 
 
@@ -390,28 +373,12 @@ input:invalid[focused="true"] ~ .errorMessage
 }
 
 
-
-
 .endorse-box{
   height: 60vh;
   color: whitesmoke;
 }
 
 
-
-.petSide{
-  .dogSideBox{
-    
-    border-radius: 15px;
-  }
-}
-
-.petSideBox > img{
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 15px;
-}
 
 @keyframes pulse{
   from, to{
@@ -423,9 +390,7 @@ input:invalid[focused="true"] ~ .errorMessage
   }
 }
 
-.petSideBox:hover>img{
-  animation: pulse 800ms ease-in-out;
-}
+
 
 
 .slide-in{
@@ -455,4 +420,72 @@ input:invalid[focused="true"] ~ .errorMessage
 .google{
   margin-right: 10px;
   margin-bottom: 5px;
+}
+
+.caro-imgs
+{
+  width:100%;
+  height:600px;
+  border-radius: 50px;
+
+}
+
+.footer{
+  background-image: url('./images/footer1.jpg');
+  padding: 60px;
+}
+
+.dashBoard{
+  margin-top: 100px;
+  background-image: url('./images/kitchen.png');
+  color:white
+}
+
+.vr{
+  height: 200px;
+}
+
+.listings-head{
+  margin-top: 6vh;
+  background-image: url('images/sentosa.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  height: 30vh;
+}
+
+.caro-list-item{
+ 
+  padding:10px;
+  margin: 20px;
+}
+.big-card{
+  width: 100%;
+  height: 50vh;
+  border-radius: 2rem;
+}
+
+.shortlist{
+  cursor: grab;
+}
+
+
+.save{
+  fill: black;
+}
+
+.tabs{
+  background-color: grey;
+}
+
+.loading-cont{
+  position: fixed;
+  z-index: 5;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(500px);
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

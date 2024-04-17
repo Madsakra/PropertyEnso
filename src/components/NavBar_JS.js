@@ -8,12 +8,38 @@ import Button from 'react-bootstrap/Button';
 import Register from './Register';
 import { useContext } from 'react';
 import { Context } from '../App';
+import { UserAuthenticator } from '../controller/UserAuthenticator';
 
 function Navbar_JS() {
 
   
-  const {openLogin,setOpenLogin,openRegister,
-        setOpenRegister,authUser,userSignOut} = useContext(Context);
+  const {setOpenLogin,setOpenRegister,setCreateUserTrigger, 
+        setAuthUser,setUserProfileCreated,
+        setEmail,setPassword,openRegister,openLogin,authUser} = useContext(Context);
+
+  
+
+
+  const userSignOut = () =>{
+          try{
+              const userAuth = new UserAuthenticator();
+              const successSignOut = userAuth.customSignOut();
+              if (successSignOut)
+              {
+                alert('Sign out successful');
+                setCreateUserTrigger(false);
+                setAuthUser(null);
+                setUserProfileCreated(false);
+                setEmail("");
+                setPassword("");
+              }
+            }
+            catch(error)
+            {
+              alert("Sign Out Failed")
+            }
+          };
+          
 
   return (
 
@@ -29,7 +55,8 @@ function Navbar_JS() {
           <Nav className="me-auto">
           
           <Nav.Link as={Link} to='/' exact>Home</Nav.Link>
-
+          <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>
+          <Nav.Link as={Link} to='/viewlistings' exact>View Listings</Nav.Link>
           </Nav>
 
             <div className='text-end topButtons'>

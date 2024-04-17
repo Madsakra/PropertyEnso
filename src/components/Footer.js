@@ -13,8 +13,7 @@ import logo from '../svg/mainLogo.svg';
 const MyFooter = ()=>{
     return (
         <footer class="py-5 my-3 mt-5 pt-5 footer">
-        <hr class="hr" />
-
+     
         <Container>
         <Row className='d-flex text-start footer-box'>
 
@@ -24,7 +23,7 @@ const MyFooter = ()=>{
       
         </Col>
         <Col sm={6}>
-        <h3>Contact Us</h3>
+        <h3 className='mb-3'>Contact Us</h3>
         <p className='lead fw-bold'><img src={location} alt='svg' height="35vh"></img> 461 Clementi Rd, Singapore 599491</p>
         <p className='lead fw-bold'><img src={phone} alt='svg' height="35vh"></img> +65 1234 4490</p>
         <p className='lead fw-bold'><img src={mail} alt='svg' height="35vh"></img> enquiries@PropertyEnso.org.sg</p>
@@ -32,7 +31,7 @@ const MyFooter = ()=>{
 
         </Col>
 
-        <Col sm={3} >
+        <Col sm={3} className='mt-2' >
         <h3>Social Media</h3>
         <p><img src={fb} alt='svg' height="35vh"></img> Facebook</p>
         <p><img src={insta} alt='svg' height="35vh"></img> Instagram</p>

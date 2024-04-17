@@ -1,24 +1,79 @@
 
 import logo from '../svg/mainLogo.svg';
-import SuccessMsg from './SuccessMsg';
-import { React,useContext,useState } from 'react';
+import { React,useContext, useState} from 'react';
 import { Context } from '../App';
+import { UserAuthenticator } from '../controller/UserAuthenticator';
 
-import {auth,googleProvider} from '../firebase-config';
-import { createUserWithEmailAndPassword,signOut } from 'firebase/auth';
 import google from '../svg/google.svg'
 
 const Register = () =>{
     
-    const {email,setEmail, password, setPassword, signInWithGoogle,
-            setOpenRegister,regStatus, facedError,
-            signUp} = useContext(Context);
+    const {setOpenLogin,setOpenRegister,userProfileCreated,setCreateUserTrigger, 
+        email,password,setFacedError,setAuthUser,
+        setEmail,setPassword,facedError,
+        setLoading} = useContext(Context);
+
     
+   
+ 
+   
+    // sign in with google
+    const signInWithGoogle = async () =>{
+        try{
+            const userAuth = new UserAuthenticator();
+            const signInSuccess = await userAuth.signInWithGoogleMeth();
+            if (signInSuccess)
+            {
+                alert("login successful");
+                setOpenLogin(false);
+                // in case user sign in via register page
+                setOpenRegister(false);
+                if (!userProfileCreated)
+                {
+                    setCreateUserTrigger(true);
+                }
+            }
+        }
+        catch(err)
+        {
+            setFacedError(true);
+        }
+       
+    }
 
 
+    const signUp = async (e)=>{
+        e.preventDefault();
+        try{
+            const userAuth = new UserAuthenticator();
+            const createSuccess = await userAuth.createNewUser(email,password);
+            if (createSuccess)
+            {
+                setOpenRegister(false);
+                setFacedError(false);
+                alert("Registration Successful");
+                setLoading(true);
+                setTimeout(()=>{
+                    
+                    userAuth.customSignOut();
+                    setCreateUserTrigger(false);
+                    setAuthUser(null);
+                    setEmail("");
+                    setPassword("");
+                    setOpenLogin(true);
+                    setLoading(false);
+                },1300);
+          
+            }
+            
+            }
+            catch(err)
+            {
+                setFacedError(true);
+            }
+
+    };
     
-
-
 
 
 
@@ -51,7 +106,8 @@ const Register = () =>{
                 {/* buttons */}
                 <div className='d-flex flex-row justify-content-center mt-5'>
                 <span class=" btn btn-lg buttonColor btn-outline-light me-3" 
-                onClick={()=> setOpenRegister(false)}>Cancel</span>
+                onClick={()=> {setOpenRegister(false);
+                                setFacedError(false);}}>Cancel</span>
 
                 <button class=" btn btn-lg buttonColor btn-outline-light" 
                 type="submit">Sign Up</button>

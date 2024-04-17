@@ -77,7 +77,7 @@ const CreateUserProfile = ()=>{
                     name="listGroupCheckableRadios" id="listGroupCheckableRadios4" 
                     value="Property Agent"  onChange={(e)=>setUserType(e.target.value)}/>
                     <label class="list-group-item rounded-3 py-3 display-4" for="listGroupCheckableRadios4">
-                    Property Agent 
+                    Real Estate Agent 
 
                     <img src={propertyAgent} class="m-3" height='75vh' alt="img"></img>
                     <span class="d-block small opacity-50">Big Bucks For Those With Big Brains</span>

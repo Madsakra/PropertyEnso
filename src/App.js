@@ -1,153 +1,100 @@
 import NavBar from './components/NavBar_JS';
 import './styles.css';
 
+// COMPONENTS
 import Home from './components/Home_JS';
+import DashBoard from './components/DashBoard';
+
 import {React, useState,createContext,useEffect} from 'react';
 import {HashRouter as Router,  Route, Routes} from 'react-router-dom';
 
-import { AnimatePresence } from 'framer-motion';
+
 import ScrollToTop from './components/ScrollToTop';
 
-import {signInWithEmailAndPassword,
-        createUserWithEmailAndPassword,
-        signOut, 
-        signInWithPopup} from 'firebase/auth';
 
-
-
-import {auth,googleProvider} from './firebase-config';
-
-
-import AuthDetails from './components/AuthDetails';
 import CreateUserProfile from './components/CreateUserProfile';
-import {getAllUserDetails} from './controller/RetrieveAccounts';
-import {writeNewAccount} from './controller/WriteNewAccount';
+import {UserDataController}  from './controller/UserDataController';
+
+
+import ViewListings from './components/ViewListings';
 
 export const Context = createContext();
 
-function App() {
+const App =()=>{
 
 
     // states to trigger the login and register buttons
    const [openLogin,setOpenLogin] = useState(false);
    const [openRegister,setOpenRegister] = useState(false);
    
+   // state that make error occur on login 
    const [facedError,setFacedError] = useState(false);
 
+   // states for email tab
    const [email,setEmail] = useState("");
    const [password,setPassword] = useState("");
 
+   // state for authentication
    const [authUser,setAuthUser] = useState(null);
+   const[loading,setLoading] = useState(false);
 
-
-   
+   // state to check if user exist in database
    const [userProfileCreated, setUserProfileCreated] = useState(false);
+   // trigger create user if they haven't done so 
    const [createUserTrigger,setCreateUserTrigger] = useState(false);
+   
+   // take current user name from db and store here
    const [userName,setUserName] = useState("");
    const [userType,setUserType] = useState("");
 
+   // controller objects ------- GET USER ACCOUNT
 
-   // sign in with google
-  const signInWithGoogle = async () =>{
-    try{
-      await signInWithPopup(auth,googleProvider);
-      alert("login successful");
-      setOpenLogin(false);
-      setOpenRegister(false);
-      if (!userProfileCreated)
-      {
-          setCreateUserTrigger(true);
-      }
-    }
-    catch(err)
-    {
-      console.error(err);
-    }
-  }
+   
 
 
 
-    // sign in with email
-    const signIn = (event)=> 
-    {
+   // LISTING DATA (WILL BE PASSED DOWN TO VIEWLISTING AS CONTEXT)
+   const [listingData,setListingData] = useState([]);
+
+
+
   
-      event.preventDefault();
-      signInWithEmailAndPassword(auth,email,password)
-      .then((userCredential)=>{
-          console.log(userCredential);
-          setFacedError(false);
-          // IF AUTHETHICATED SUCCESSFULLY WITH FIREBASE
-          // TRIGGER FALSE SCREENS
-          // updateLogin();
-          alert("login successful");
-          setOpenLogin(false);
-          
-          if (!userProfileCreated)
-          {
-              setCreateUserTrigger(true);
-          }
 
-      }).catch((error)=>{
-          console.log(error);
-          setFacedError(true);
-      });
-  };
+ 
 
-  // MAIN SIGN OUT FUNCTION
-  const userSignOut = () =>{
-    signOut(auth).then(()=>{
-        console.log('signout successful');
-        setAuthUser(null);
-        setUserProfileCreated(false);
-        setEmail("");
-        setPassword("");
-        setCreateUserTrigger(false);
-    }).catch(error=>console.log(error));
-}
-  
-  const signUp = (e)=>{
-    e.preventDefault();
-    createUserWithEmailAndPassword(auth,email,password)
-    .then((userCredential)=>{
-        // IF REGISTRATION IS SUCCESSFUL, WILL TURN UP MESSAGE SCREEN
-        // TURN IT OFF AFTER FEW SECONDS
-        setOpenRegister(false);
-
-        // redirect to login
-        setOpenLogin(true);
-        console.log(userCredential)
-        setFacedError(false);
-        alert("Registration Successful!");
-        // WHEN CREATING ACCOUNT, FIREBASE AUTOMATICALLY LOGS IN
-        // LOG OUT FOR THE USER SO THEY CAN LOG BACK IN THROUGH LOGIN SCREEN
-        userSignOut();
-        
-
-    }).catch((error)=>{
-        console.log(error);
-        setFacedError(true);
-    });
-};
-
-
-  const passInfoOver = () =>{
+  const passInfoOver = async () =>{
     // pass all info from the states to database
     // 1. close the create user profile page
+    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
     setUserProfileCreated(true);
-    writeNewAccount(authUser.email,userType,userName);
+    try{
+      
+       await userDataProvider.writeNewAccount(authUser.email,userType,userName);
+       alert("Profile succesfully created.");
+    }
+    catch(error)
+    {
+      alert("Failed to Create profile");
+    }
   }
 
 
 
   useEffect(()=>{
-    getAllUserDetails(authUser,setUserProfileCreated,setUserName,setUserType);
-    if (authUser!=null && !userProfileCreated)
-    {
-     
-      setCreateUserTrigger(true);
-    }
+    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
+    userDataProvider.getAllUserDetails().then(()=>{
+      if (authUser!=null && !userProfileCreated)
+      {
+        
+        setCreateUserTrigger(true);
+      }
+    });
+
+    // for testing to remove after
     console.log(userName);
     console.log(userType);
+  
+    console.log(listingData);
   })
 
 
@@ -167,29 +114,37 @@ function App() {
       <ScrollToTop/>
       <Context.Provider value={{  openLogin,setOpenLogin,openRegister,setOpenRegister,
                                 authUser, setAuthUser,setEmail, setPassword,
-                                signIn, signUp, userSignOut,
+                                setFacedError,
                                 facedError, email,password,
                                 userName,setUserName, userProfileCreated,
                                 setUserProfileCreated,setCreateUserTrigger, userType,
-                                setUserType, passInfoOver, signInWithGoogle
+                                setUserType, passInfoOver, setListingData,listingData,
+                                setLoading
+                          
                                 }}>
       
      
       <NavBar />
-      <AuthDetails/>
+
 
    
 
       {(createUserTrigger && !userProfileCreated ) &&
         <CreateUserProfile/>}
-  
+        
+      {loading && 
+      <div className='loading-cont display-1'>
+        LOADING......
+      </div>}
       <div className='bgf'>
-        <AnimatePresence mode="wait">
+       
           <Routes>
             <Route path='/' exact element={ <Home /> } />
+            <Route path='/dashboard' exact element={ <DashBoard /> } />
+            <Route path='/viewlistings' exact element={ <ViewListings /> } />
 
           </Routes>
-        </AnimatePresence>
+        
       </div>
       </Context.Provider>
       </Router>
