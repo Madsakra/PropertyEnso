@@ -4,18 +4,13 @@ import './styles.css';
 // COMPONENTS
 import Home from './components/Home_JS';
 import DashBoard from './components/DashBoard';
-
 import {React, useState,createContext,useEffect} from 'react';
 import {HashRouter as Router,  Route, Routes} from 'react-router-dom';
-
-
 import ScrollToTop from './components/ScrollToTop';
-
-
 import CreateUserProfile from './components/CreateUserProfile';
 import {UserDataController}  from './controller/UserDataController';
-
-
+import {auth} from './firebase-config';
+import { onAuthStateChanged } from 'firebase/auth';
 import ViewListings from './components/ViewListings';
 
 export const Context = createContext();
@@ -31,8 +26,10 @@ const App =()=>{
    const [facedError,setFacedError] = useState(false);
 
    // states for email tab
+   
    const [email,setEmail] = useState("");
    const [password,setPassword] = useState("");
+
 
    // state for authentication
    const [authUser,setAuthUser] = useState(null);
@@ -47,14 +44,9 @@ const App =()=>{
    const [userName,setUserName] = useState("");
    const [userType,setUserType] = useState("");
 
-   // controller objects ------- GET USER ACCOUNT
-
-   
-
-
 
    // LISTING DATA (WILL BE PASSED DOWN TO VIEWLISTING AS CONTEXT)
-   const [listingData,setListingData] = useState([]);
+   const [shortListedData,setShortListedData] = useState([]);
 
 
 
@@ -78,6 +70,15 @@ const App =()=>{
     }
   }
 
+  // if user refresh page, at least keep the auth
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        
+        setAuthUser(user);
+       
+      } })
+  },[])
 
 
   useEffect(()=>{
@@ -94,7 +95,7 @@ const App =()=>{
     console.log(userName);
     console.log(userType);
   
-    console.log(listingData);
+    console.log(shortListedData);
   })
 
 
@@ -118,7 +119,7 @@ const App =()=>{
                                 facedError, email,password,
                                 userName,setUserName, userProfileCreated,
                                 setUserProfileCreated,setCreateUserTrigger, userType,
-                                setUserType, passInfoOver, setListingData,listingData,
+                                setUserType, passInfoOver, shortListedData, setShortListedData,
                                 setLoading
                           
                                 }}>
@@ -127,7 +128,7 @@ const App =()=>{
       <NavBar />
 
 
-   
+    
 
       {(createUserTrigger && !userProfileCreated ) &&
         <CreateUserProfile/>}

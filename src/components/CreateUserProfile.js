@@ -75,7 +75,7 @@ const CreateUserProfile = ()=>{
 
                     <input class="list-group-item-check pe-none" type="radio" 
                     name="listGroupCheckableRadios" id="listGroupCheckableRadios4" 
-                    value="Property Agent"  onChange={(e)=>setUserType(e.target.value)}/>
+                    value="Real Estate Agent"  onChange={(e)=>setUserType(e.target.value)}/>
                     <label class="list-group-item rounded-3 py-3 display-4" for="listGroupCheckableRadios4">
                     Real Estate Agent 
 

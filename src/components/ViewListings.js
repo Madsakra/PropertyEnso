@@ -10,8 +10,8 @@ import InputGroup from 'react-bootstrap/InputGroup';
 
 import ListingCard from './ListingCard';
 import {ListingDataController} from '../controller/ListingDataController';
-import { db } from '../firebase-config';
-import { collection } from 'firebase/firestore';
+
+
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
@@ -20,43 +20,29 @@ const ViewListings =()=>{
    const [search,setSearch] = useState("");
   
    // listing data from db
-   const listingDataCollection = collection(db, "propertyData");
-   
    const [allListing,setAllListing] = useState([]);
  
-
+   const [statusFilter, setStatusFilter] = useState("Both");
    const [filter,setFilter] = useState("Name");
    
-
+  
    
     useEffect(()=>{
-       const listingDataController = new ListingDataController(listingDataCollection);
+    
+       const listingDataController = new ListingDataController();
        // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
        listingDataController.getAllListing().then((response)=>{
         setAllListing([...response]);
+       
 
     });
     },[])
 
 
-   function compare(a,b)
-   {
-    if (a.name > b.name) return 1;
-    if (a.name < b.name) return -1;
-    return 0;
-   }
-  
-   const sortByPrice = () =>{
-    
-    console.log(allListing[0].indiProps);
-    const sorted = allListing[0].indiProps.sort(compare);
-    setAllListing(prevState=>({
-      ...prevState,
-      indiProps:sorted
-    }));
-   };
 
 
+
+   
 
     return (
         <>
@@ -68,7 +54,7 @@ const ViewListings =()=>{
           </div>
         </div>
         
-        <button onClick={sortByPrice}>Sort By Price</button>
+        {/* <button onClick={sortByPrice}>Sort By New</button> */}
 
         <InputGroup className="mb-3">
         <Form.Control placeholder='Search for....' className='fs-4'
@@ -89,38 +75,62 @@ const ViewListings =()=>{
       </Dropdown.Menu>
     </Dropdown>
 
-       
-
+      
       </InputGroup>
 
+      <Form.Select onChange={(e)=>{setStatusFilter(e.currentTarget.value)}} className='mb-5'>
+      <option value="Both">Both</option>
+      <option value="Sold">Sold</option>
+      <option value="New">New</option>
+      </Form.Select>
 
 
         
         <Tabs  id="fill-tab-example" className="mb-3 fs-1 tabs" fill>
         <Tab eventKey="home"  title={allListing[0]?.project}>
-          <div> 
-                {allListing[0]?.indiProps.filter((listing)=>{
-                
-                  if (filter==="Name")
+          <div>
+                {/* carry on editing tmr below*/}
+                {allListing[0]?.indiProps.filter((item) => {
+                  if (statusFilter === 'New')
                   {
-                    return search.toLowerCase() === ""?listing:listing.name.toLowerCase().startsWith(search.toLowerCase());
+                    return item.status === 'new';
+                  }
+                  else if (statusFilter==='Sold'){
+                    return item.status === 'sold';
                   }
 
+                  else{
+                    return item.status === 'sold' || item.status === 'new';
+                  }
+                  }
+                )
+                .filter((listing)=>{
+                  
+                  // NAME FILTER-----------------------------------------------------------
+
+                  if (filter==="Name")
+                  {
+                    return search.toLowerCase() === ""?listing: listing.name.toLowerCase().startsWith(search.toLowerCase());
+
+                  }
+                  // BEDROOM FILTER-----------------------------------------------------------
                   else if (filter === "BedRooms")
                   {
                   
                     return search === ""?listing:listing.bedRooms.startsWith(search);
                   }
 
+                  // BATHROOM FILTER-----------------------------------------------------------
                   else if (filter === "BathRooms")
                   {
                     return search.toLowerCase() === ""?listing:listing.bathRooms.startsWith(search);
                   }
 
-                  else{
+                  // PRICE FILTER --------------------------------------------------------------
+                  else 
+                  {
                     var num = listing.price + '';
-                    return search === ""?listing:num.startsWith(search);
-               
+                    return search === ""?listing: num.startsWith(search);
                   }
                   
                 }).map(listing=>{
@@ -134,6 +144,7 @@ const ViewListings =()=>{
                                      bathRooms ={listing.bathRooms}
                                      size={listing.floorRange}
                                      price={listing.price}
+                                     status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
                                      key = {listing.id}/>
@@ -145,29 +156,52 @@ const ViewListings =()=>{
 
 
       <Tab eventKey="profile" title={allListing[1]?.project}>
-      {allListing[1]?.indiProps.filter((listing)=>{
-                  if (filter==="Name")
+      {allListing[1]?.indiProps.filter((item) => {
+                  if (statusFilter === 'New')
                   {
-                    return search.toLowerCase() === ""?listing:listing.name.toLowerCase().startsWith(search.toLowerCase());
+                    return item.status === 'new';
+                  }
+                  else if (statusFilter==='Sold'){
+                    return item.status === 'sold';
                   }
 
+                  else{
+                    return item.status === 'sold' || item.status === 'new';
+                  }
+                  }
+                )
+      
+      .filter((listing)=>{
+        
+                  // NAME FILTER-----------------------------------------------------------
+
+                  if (filter==="Name")
+                  {
+                    return search.toLowerCase() === ""?listing: listing.name.toLowerCase().startsWith(search.toLowerCase());
+
+                  }
+                  // BEDROOM FILTER-----------------------------------------------------------
                   else if (filter === "BedRooms")
                   {
                   
                     return search === ""?listing:listing.bedRooms.startsWith(search);
                   }
 
+                  // BATHROOM FILTER-----------------------------------------------------------
                   else if (filter === "BathRooms")
                   {
                     return search.toLowerCase() === ""?listing:listing.bathRooms.startsWith(search);
                   }
 
-
-                  else
+                  // PRICE FILTER --------------------------------------------------------------
+                  else 
                   {
                     var num = listing.price + '';
-                    return search === ""?listing:num.startsWith(search);
+                    return search === ""?listing: num.startsWith(search);
                   }
+
+
+
                 }).map(listing=>{
                     return(
                         <div>
@@ -178,6 +212,7 @@ const ViewListings =()=>{
                                      bathRooms ={listing.bathRooms}
                                      size={listing.floorRange}
                                      price={listing.price}
+                                     status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
                                      key = {listing.id}/>
@@ -186,27 +221,46 @@ const ViewListings =()=>{
                 })}
       </Tab>
       <Tab eventKey="longer-tab" title={allListing[2]?.project}>
-      {allListing[2]?.indiProps.filter((listing)=>{
-                  if (filter==="Name")
+      {allListing[2]?.indiProps.filter((item) => {
+                  if (statusFilter === 'New')
                   {
-                    return search.toLowerCase() === ""?listing:listing.name.toLowerCase().startsWith(search.toLowerCase());
+                    return item.status === 'new';
+                  }
+                  else if (statusFilter==='Sold'){
+                    return item.status === 'sold';
                   }
 
+                  else{
+                    return item.status === 'sold' || item.status === 'new';
+                  }
+                  }
+                )
+      .filter((listing)=>{
+                  // NAME FILTER-----------------------------------------------------------
+
+                  if (filter==="Name")
+                  {
+                    return search.toLowerCase() === ""?listing: listing.name.toLowerCase().startsWith(search.toLowerCase());
+
+                  }
+                  // BEDROOM FILTER-----------------------------------------------------------
                   else if (filter === "BedRooms")
                   {
                   
                     return search === ""?listing:listing.bedRooms.startsWith(search);
                   }
 
+                  // BATHROOM FILTER-----------------------------------------------------------
                   else if (filter === "BathRooms")
                   {
                     return search.toLowerCase() === ""?listing:listing.bathRooms.startsWith(search);
                   }
 
-                  else
+                  // PRICE FILTER --------------------------------------------------------------
+                  else 
                   {
                     var num = listing.price + '';
-                    return search=== ""?listing:num.startsWith(search);
+                    return search === ""?listing: num.startsWith(search);
                   }
                 }).map(listing=>{
                     return(
@@ -218,6 +272,7 @@ const ViewListings =()=>{
                                      bathRooms ={listing.bathRooms}
                                      size={listing.floorRange}
                                      price={listing.price}
+                                     status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
                                      key = {listing.id}/>
@@ -226,29 +281,46 @@ const ViewListings =()=>{
                 })}
       </Tab>
       <Tab eventKey="contact" title={allListing[3]?.project}>
-      {allListing[3]?.indiProps.filter((listing)=>{
-                  if (filter==="Name")
+      {allListing[3]?.indiProps.filter((item) => {
+                  if (statusFilter === 'New')
                   {
-                    return search.toLowerCase() === ""?listing:listing.name.toLowerCase().startsWith(search.toLowerCase());
+                    return item.status === 'new';
+                  }
+                  else if (statusFilter==='Sold'){
+                    return item.status === 'sold';
                   }
 
-                  else if (filter === "BedRooms")
-                  {
-                  
-                    return search === ""?listing:listing.bedRooms.startsWith(search);
+                  else{
+                    return item.status === 'sold' || item.status === 'new';
                   }
-
-                  else if (filter === "BathRooms")
-                  {
-                    return search.toLowerCase() === ""?listing:listing.bathRooms.startsWith(search);
                   }
-
-
-                  else
-                  {
-                    var num = listing.price + '';
-                    return search=== ""?listing:num.startsWith(search);
-                  }
+                )
+      .filter((listing)=>{
+                   // NAME FILTER-----------------------------------------------------------
+                   if (filter==="Name")
+                   {
+                     return search.toLowerCase() === ""?listing: listing.name.toLowerCase().startsWith(search.toLowerCase());
+ 
+                   }
+                   // BEDROOM FILTER-----------------------------------------------------------
+                   else if (filter === "BedRooms")
+                   {
+                   
+                     return search === ""?listing:listing.bedRooms.startsWith(search);
+                   }
+ 
+                   // BATHROOM FILTER-----------------------------------------------------------
+                   else if (filter === "BathRooms")
+                   {
+                     return search.toLowerCase() === ""?listing:listing.bathRooms.startsWith(search);
+                   }
+ 
+                   // PRICE FILTER --------------------------------------------------------------
+                   else 
+                   {
+                     var num = listing.price + '';
+                     return search === ""?listing: num.startsWith(search);
+                   }
                 }).map(listing=>{
                     return(
                         <div>
@@ -260,6 +332,7 @@ const ViewListings =()=>{
                                      bathRooms ={listing.bathRooms}
                                      size={listing.floorRange}
                                      price={listing.price}
+                                     status={listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
                                      key = {listing.id}/>
@@ -269,22 +342,6 @@ const ViewListings =()=>{
       </Tab>
 
     </Tabs>
-
-
-
-
-        
-
-
-
-
-      
-
-
-
-
-
-
 
       <MyFooter/>
         </>

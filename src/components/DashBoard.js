@@ -1,10 +1,11 @@
 import { React}  from 'react';
-
-
+import { useContext } from 'react';
+import { Context } from '../App';
 import MyFooter from './Footer';
+
 const DashBoard =()=>{
 
-
+  const {userName,userType,authUser} = useContext(Context);
 
     return(
         <>
@@ -20,10 +21,10 @@ const DashBoard =()=>{
           <div class="col-md-5 mb-2">
           <div class="h-100 p-5 text-bg-dark rounded-3">
           <h2>Personal Information</h2>
-          <p class="fs-4">Username: Zhi Han</p>
-          <p class="fs-4">E-mail: colin@gmail.com</p>
-          <p class="fs-4">Role: Buyer</p>
-          <button class="btn btn-outline-light" type="button">Edit Your Information</button>
+          <p class="fs-4">Username: {userName}</p>
+          <p class="fs-4">E-mail: {authUser?.email}</p>
+          <p class="fs-4">Role: {userType}</p>
+          {/* <button class="btn btn-outline-light" type="button">Edit Your Information</button> */}
 
         </div>
         

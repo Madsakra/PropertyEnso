@@ -70,6 +70,8 @@ export class Authenticator{
       
     };
 
+    // don't count in uml
+    // shift to admin
     async createUser(email,password)
     {
         try{

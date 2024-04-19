@@ -55,7 +55,9 @@ function Navbar_JS() {
           <Nav className="me-auto">
           
           <Nav.Link as={Link} to='/' exact>Home</Nav.Link>
-          <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>
+      
+          {authUser && 
+          <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>}
           <Nav.Link as={Link} to='/viewlistings' exact>View Listings</Nav.Link>
           </Nav>
 

@@ -489,3 +489,16 @@ input:invalid[focused="true"] ~ .errorMessage
   justify-content: center;
   align-items: center;
 }
+
+.calculator{
+  
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 2rem;
+  border-radius: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import { Context } from '../App';
 
-
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 const HomeHeader = ()=>{
 
@@ -12,6 +12,18 @@ const HomeHeader = ()=>{
             userName,userType} = useContext(Context);
 
 
+    const myWatch = async ()=>{
+        const functions = getFunctions();
+        const myData= httpsCallable(functions,'returnMessage')
+        await myData().then((result)=>{
+            console.log(result);
+        }).catch((error)=>{
+            console.error(error);
+        })
+
+        
+       
+    }
 
 
 
@@ -50,7 +62,7 @@ const HomeHeader = ()=>{
                     <p class="display-4 mt-4 text-center">
                         Buy and Sell Your Property Without Worrying About The Hassle.
                     </p>
-
+                    
                     
                     <div className='d-grid gap-2 d-md-flex justify-content-sm-center'>
                     <Button className="btn btn-lg btn-outline-dark px-4  btn-light" onClick={()=>{setOpenRegister(true);}}>Register Now</Button>
