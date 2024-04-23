@@ -10,49 +10,54 @@ const ListingCard = (props)=>{
     // CONTROL "ADD LISTING" BUTTON
     const [shortList,setShortList] = useState(false);
     
-    // SHORTLISTED ITEM ARRAY
-    const {shortListedData,setShortListedData} = useContext(Context);
     
     // Calculator
     const [calculator,setCalculator] = useState(false);
-
+    
     //----------------------------------------------------
     // ADD SHORTLISTED ITEM INTO THE ARRAY ABOVE
-    function overRideSelect()
+     function overRideSelect()
     {
+        
         // DATA STILL EXIST ON THE BOUNDARY 
         // NOT PASSED INTO CONTROLLER AT THIS STAGE
-        setShortListedData([...shortListedData,props]);
+        props.setShortListedData(props.wholeListing);
+        setShortList(false);
     }
    
-    // REMOVE THE SHORTLISTED ITEM
-    function removeItem(){
-        const updatedItems = shortListedData.filter(item=>item.name!==props.name)
-        setShortListedData(updatedItems);
-    }
+
 
     // make price appear on caluclator as int amount
     const price = props.price;
+
+
 
     useEffect(()=>{
         
         if (shortList)
         {
             overRideSelect();
+            
         }
 
-        else{
-          
-           removeItem();
-        }
     },[shortList])
 
 
     return (
         
         <div>
-            {calculator && <Calculator price= {price}/>}
-        <div className='caro-list-item' onClick={()=>setCalculator(!calculator)}>
+            {calculator && <Calculator setCalculator={setCalculator}
+                                        setShortList={setShortList} 
+                                        shortList={shortList}
+                                        price= {price}
+                                        myProps={props}/>}
+
+        <div className='caro-list-item' onClick={()=> {
+            if (calculator === false)
+            {
+                setCalculator(true)};
+            }
+            }>
         <div className='container-fluid border border-3 p-3 border-dark-subtle rounded-5'>
             <div className='row'>
             <div className='col-md-6'>
@@ -71,15 +76,7 @@ const ListingCard = (props)=>{
                 <p className='display-4'>${props.price}</p>
             </div> 
 
-            <div className='col-md-2 d-flex flex-column justify-content-center text-center '>
-              
-                <p className='display-4 shortlist' 
-                onClick={()=>{setShortList(!shortList);
-                    }}>
-                    {shortList?"🩶":"🤍"}
-                
-                </p>
-                </div>
+
             </div>
         </div>
         

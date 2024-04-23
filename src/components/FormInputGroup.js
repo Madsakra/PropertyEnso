@@ -10,7 +10,7 @@ function FormInputGroup({
   readOnly = false,
 }) {
   return (
-    <div className="input-group-md mb-3 ">
+    <div className="input-group mb-3 ">
       <span className="input-group-text ">
         {text} {icon}
       </span>

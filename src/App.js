@@ -12,6 +12,9 @@ import {UserDataController}  from './controller/UserDataController';
 import {auth} from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import ViewListings from './components/ViewListings';
+import SavedProps from './components/SavedProps';
+import RateAndReviewMain from './components/RateAndReviewMain';
+
 
 export const Context = createContext();
 
@@ -45,8 +48,6 @@ const App =()=>{
    const [userType,setUserType] = useState("");
 
 
-   // LISTING DATA (WILL BE PASSED DOWN TO VIEWLISTING AS CONTEXT)
-   const [shortListedData,setShortListedData] = useState([]);
 
 
 
@@ -94,8 +95,8 @@ const App =()=>{
     // for testing to remove after
     console.log(userName);
     console.log(userType);
-  
-    console.log(shortListedData);
+    
+    
   })
 
 
@@ -119,7 +120,7 @@ const App =()=>{
                                 facedError, email,password,
                                 userName,setUserName, userProfileCreated,
                                 setUserProfileCreated,setCreateUserTrigger, userType,
-                                setUserType, passInfoOver, shortListedData, setShortListedData,
+                                setUserType, passInfoOver, 
                                 setLoading
                           
                                 }}>
@@ -143,7 +144,8 @@ const App =()=>{
             <Route path='/' exact element={ <Home /> } />
             <Route path='/dashboard' exact element={ <DashBoard /> } />
             <Route path='/viewlistings' exact element={ <ViewListings /> } />
-
+            <Route path='/savedprops' exact element={ <SavedProps /> } />
+            <Route path='/rateandreviewmain' exact element={ <RateAndReviewMain/> } />
           </Routes>
         
       </div>

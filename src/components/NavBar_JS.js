@@ -10,11 +10,12 @@ import { useContext } from 'react';
 import { Context } from '../App';
 import { UserAuthenticator } from '../controller/UserAuthenticator';
 
+
 function Navbar_JS() {
 
   
   const {setOpenLogin,setOpenRegister,setCreateUserTrigger, 
-        setAuthUser,setUserProfileCreated,
+        setAuthUser,setUserProfileCreated,userType,
         setEmail,setPassword,openRegister,openLogin,authUser} = useContext(Context);
 
   
@@ -58,7 +59,18 @@ function Navbar_JS() {
       
           {authUser && 
           <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>}
+
+          {/* only buyer can access */}
+          {(userType ==="Buyer" && authUser) && 
+          <>
           <Nav.Link as={Link} to='/viewlistings' exact>View Listings</Nav.Link>
+          <Nav.Link as={Link} to='/savedprops' exact>Saved Properties</Nav.Link>
+          <Nav.Link as={Link} to='/rateandreviewmain' exact>Rate And Review</Nav.Link>
+          </>
+          }
+
+
+          
           </Nav>
 
             <div className='text-end topButtons'>

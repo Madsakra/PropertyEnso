@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { FaDollarSign } from "react-icons/fa";
 import FormInputGroup from "./FormInputGroup";
-
+import bath from '../svg/bath.svg';
+import bed from '../svg/bed.svg';
 
 const Calculator = (props)=>{
 
@@ -41,7 +42,38 @@ const Calculator = (props)=>{
       };
 
       return (
-        <form className="calculator" onSubmit={(e) => e.preventDefault()}>
+        <>
+        
+
+        <form className="calculator"  onSubmit={(e) => e.preventDefault()}>
+            <div className="container-fluid ms-0 ">
+           <div className="row">
+            <div className="col-4">
+              <p className="fs-1">{props.myProps.name} </p>
+              
+              <p className="fs-3">{props.myProps.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img>
+                                  {props.myProps.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img></p>
+              <p className="fs-3">Property Status: {props.myProps.status}</p>
+              <p className='fs-3'>Floor Range: #{props.myProps.floorRange}</p>
+            </div>
+
+            <div className="col-4 mt-3">
+              {/*TO CHANGE WHEN PROPERTY AGENT DATA CONFIRMED */}
+            <img src={props.myProps.image} className="cal-image"></img>
+            </div>
+            <div className="col-4 text-start mt-3">
+            <p className="fs-1">Listed By: {props.myProps.agent.userName}</p>
+            <p className="fs-4">Reviews And Ratings: 4.7 stars</p>
+            {/*if in view listing, show button to save listing */}
+            {!props.myProps.inSaved && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.setShortList(!props.shortList)}}>Shortlist 🤍</button>}
+            
+            {/*otherwise show remove listing */}
+            {props.myProps.inSaved && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.myProps.removeListing(props.myProps.index)}}>Remove Listing ❌</button>}
+
+            </div>
+  
+            </div>
+            </div>
           <FormInputGroup
             text="Home Value "
             icon={<FaDollarSign />}
@@ -82,14 +114,26 @@ const Calculator = (props)=>{
             {parseFloat(monthlyPayment.toFixed(2))}
           </h4>
     
-          <button
-            type="submit"
-            onClick={calculateMonthlyPayment}
-            className="btn btn-dark btn-lg w-100 center "
-          >
-            Calculate
-          </button>
+          <div className="d-flex  justify-content-center">
+           
+          
+          <button className="btn btn-secondary btn-lg w-75 me-5" onClick={()=>props.setCalculator(false)}>Close</button>
+
+      
+            <button
+              type="submit"
+              onClick={calculateMonthlyPayment}
+              className="btn btn-dark btn-lg w-75  center ms-5">
+              Calculate
+            </button>
+    
+          </div>
+
+
+     
+
         </form>
+        </>
       );
 
 }

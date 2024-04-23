@@ -58,10 +58,29 @@ export class UserDataController{
         {
             throw(error);
         }
-       
     }
 
+    async writeSavedProperty(shortListedData)
+    {
+        const userDataObj = new UserData();
+        const response = await userDataObj.sendSavedProperty(shortListedData,this.authUser);
+        return response;
+    }
 
+    async fetchSavedProperty()
+    {
+        const userDataObj = new UserData();
+        let docuID = "";
+        const response = await userDataObj.fetchSavedProperty(this.authUser);
+        return response;
+    }
+
+    async removeSelectedSave(id)
+    {
+        const userDataObj = new UserData();
+        const response = await userDataObj.removeSelectedSave(this.authUser,id);
+        return response;
+    }
 
 
 };

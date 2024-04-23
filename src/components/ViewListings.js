@@ -1,16 +1,13 @@
-import { React,useEffect,useState}  from 'react';
+import { React,useEffect,useState, useContext}  from 'react';
 import MyFooter from './Footer';
-
-
-
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-
+import { UserDataController } from '../controller/UserDataController';
 import ListingCard from './ListingCard';
 import {ListingDataController} from '../controller/ListingDataController';
-
+import { Context } from '../App';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
@@ -25,20 +22,61 @@ const ViewListings =()=>{
    const [statusFilter, setStatusFilter] = useState("Both");
    const [filter,setFilter] = useState("Name");
    
+   const {authUser,
+        setUserProfileCreated, setUserName,setUserType} = useContext(Context);
   
+  const [shortListedData,setShortListedData] = useState({});
+
    
+
+    function collectData(){
+      setShortListedData({});
+      const listingDataController = new ListingDataController();
+      // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
+      listingDataController.getAllListing().then((response)=>{
+       setAllListing([...response])})
+       
+    }
+   
+    async function sendData()
+    {
+      const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
+      const response = await userDataProvider.writeSavedProperty(shortListedData);
+
+      // to check if the user had just accessed this page
+      if (Object.keys(shortListedData).length !==0 && response === false)
+      {
+        alert("You Already Have That Item saved!");
+        
+      }
+
+      else if (Object.keys(shortListedData).length !==0 && response === true){
+        alert("Item Successfully Saved");
+        setShortListedData({});
+        
+      }
+
+    }
+
     useEffect(()=>{
     
-       const listingDataController = new ListingDataController();
-       // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
-       listingDataController.getAllListing().then((response)=>{
-        setAllListing([...response]);
+  
+       collectData();
        
+    },[]);
+   
+    useEffect(()=>{
+      
+    
 
-    });
-    },[])
-
-
+      if (authUser)
+      {
+        sendData();
+      }
+    
+      
+      
+    })
 
 
 
@@ -54,7 +92,7 @@ const ViewListings =()=>{
           </div>
         </div>
         
-        {/* <button onClick={sortByPrice}>Sort By New</button> */}
+      
 
         <InputGroup className="mb-3">
         <Form.Control placeholder='Search for....' className='fs-4'
@@ -147,7 +185,12 @@ const ViewListings =()=>{
                                      status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
-                                     key = {listing.id}/>
+                                     agent={listing.agent}
+                                     key = {listing.id}
+                                     wholeListing = {listing}
+                                     setShortListedData = {setShortListedData}
+                                     shortListedData = {shortListedData}
+                                     />
                      </div>
                     );
                 })}
@@ -215,7 +258,11 @@ const ViewListings =()=>{
                                      status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
-                                     key = {listing.id}/>
+                                     agent={listing.agent}
+                                     key = {listing.id}
+                                     wholeListing = {listing}
+                                     setShortListedData = {setShortListedData}
+                                     shortListedData = {shortListedData}/>
                      </div>
                     );
                 })}
@@ -275,7 +322,11 @@ const ViewListings =()=>{
                                      status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
-                                     key = {listing.id}/>
+                                     agent={listing.agent}
+                                     key = {listing.id}
+                                     wholeListing = {listing}
+                                     setShortListedData = {setShortListedData}
+                                     shortListedData = {shortListedData}/>
                      </div>
                     );
                 })}
@@ -332,10 +383,14 @@ const ViewListings =()=>{
                                      bathRooms ={listing.bathRooms}
                                      size={listing.floorRange}
                                      price={listing.price}
-                                     status={listing.status}
+                                     status = {listing.status}
                                      floorRange={listing.floorRange}
                                      image={listing.image}
-                                     key = {listing.id}/>
+                                     agent={listing.agent}
+                                     key = {listing.id}
+                                     wholeListing = {listing}
+                                     setShortListedData = {setShortListedData}
+                                     shortListedData = {shortListedData}/>
                      </div>
                     );
                 })};
