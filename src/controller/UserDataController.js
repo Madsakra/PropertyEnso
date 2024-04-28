@@ -60,12 +60,6 @@ export class UserDataController{
         }
     }
 
-    async writeSavedProperty(shortListedData)
-    {
-        const userDataObj = new UserData();
-        const response = await userDataObj.sendSavedProperty(shortListedData,this.authUser);
-        return response;
-    }
 
     async fetchSavedProperty()
     {

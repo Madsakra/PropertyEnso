@@ -4,7 +4,7 @@ import google from '../svg/google.svg';
 import { useContext } from 'react';
 import { Context } from '../App';
 import { UserAuthenticator } from '../controller/UserAuthenticator';
-
+import { AdminLoginController} from '../controller/AdminLoginController';
 
 
 
@@ -22,7 +22,7 @@ const Login = () =>{
        
         try{
       
-            const userAuth = new UserAuthenticator();
+            const userAuth = new AdminLoginController();
             const signInSuccess = await userAuth.signInWithGoogleMeth();
             
             signInSuccess.userCred.then((result)=>{

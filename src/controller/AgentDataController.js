@@ -23,18 +23,7 @@ export class AgentDataController
         }
     }
 
-    async sendData(myPackage,targetAgent)
-    {
-        try{
-            var myAgent = new AgentData();
-            const result = await myAgent.sendData(myPackage,targetAgent);
-            return result;
-        }
-        catch(err)
-        {
-            console.error(err);
-        }
-    }
+
 
 
 }

@@ -1,9 +1,6 @@
 
-import {auth,googleProvider} from '../firebase-config';
-import { signInWithPopup } from 'firebase/auth';
-import {signInWithEmailAndPassword, createUserWithEmailAndPassword,
-         signOut} from 'firebase/auth';
-
+import {auth} from '../firebase-config';
+import {signInWithEmailAndPassword} from 'firebase/auth';
 import { onAuthStateChanged } from 'firebase/auth';
 
 export class Authenticator{
@@ -31,23 +28,7 @@ export class Authenticator{
 
     }
 
-    async googleSignIn()
-    {
-        try{
-            
-            await signInWithPopup(auth,googleProvider);
-            const myPromise = this.listener();
-            const result = {toShow:true,
-                            userCred:myPromise};
-            return result;
-        }
-        catch(error)
-        {
-            throw(error);
-        }
 
-        
-    };
 
 
     // SIGN IN NORMALLY, FROM FIREBASE SDK
@@ -72,28 +53,18 @@ export class Authenticator{
 
     // don't count in uml
     // shift to admin
-    async createUser(email,password)
-    {
-        try{
-           await createUserWithEmailAndPassword(auth,email,password);
-           return true;
-        }
-        catch(error)
-        {
-            throw(error);
-        }
-    };
+    // async createUser(email,password)
+    // {
+    //     try{
+    //        await createUserWithEmailAndPassword(auth,email,password);
+    //        return true;
+    //     }
+    //     catch(error)
+    //     {
+    //         throw(error);
+    //     }
+    // };
 
-    async logOff()
-    {
-        try{
-            await signOut(auth);
-            return true;
-        }
-        catch(error)
-        {
-            throw (error);
-        }
-    }
+
 
 }

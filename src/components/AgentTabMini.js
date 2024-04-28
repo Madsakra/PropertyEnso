@@ -7,11 +7,11 @@ const AgentTabMini = (props)=>{
     let rating = ""
 
     // display latest rating if the field is not undefined
-    if (props.agent.ratingsAndReviews != undefined)
+    if (props.agent.ratings != undefined)
     {
         // latest rating
-        const allRatings = props.agent.ratingsAndReviews;
-        rating = allRatings[allRatings.length-1].ratings;
+        const allRatings = props.agent.ratings;
+        rating = allRatings[allRatings.length-1].rating;
     }
     
     return (

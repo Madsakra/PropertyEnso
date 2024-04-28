@@ -2,7 +2,8 @@ import { useEffect, useState,useContext } from "react";
 import AgentTabMini from "./AgentTabMini";
 import { AgentDataController } from "../controller/AgentDataController";
 import { Context } from '../App';
-
+import { RateController } from "../controller/RateController";
+import { ReviewController } from "../controller/ReviewController";
 
 const RateAndReviewMain = ()=>{
 
@@ -21,16 +22,18 @@ const RateAndReviewMain = ()=>{
     }
 
 
-    async function collectDataFromForms(stars,review,index)
+    async function sendRatingAndReview(stars,review,index)
     {
-        const myPackage = {"reviewer":userName,
-                            "email":authUser.email,
-                            "userType":userType,
-                            "ratings":stars,
-                            "reviews":review}
+        // consider passing in UID since accounts can change but not primary key
+        const reviewer = userName;
+        const reviewerEmail = authUser.email;
+        const uniqueID = authUser.uid;
+        const reviewerType = userType;
         let targetAgent = agents[index];
-        let myAgent = new AgentDataController();
-        await myAgent.sendData(myPackage,targetAgent).then((result)=>{
+        let myRate = new RateController();
+        let myReview = new ReviewController();
+        await myRate.sendData(stars,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent);
+        await myReview.sendData(review,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent).then((result)=>{
             if (result)
             {
                 setLoading(true);
@@ -65,7 +68,7 @@ const RateAndReviewMain = ()=>{
                 return <AgentTabMini index={index} 
                                      agent={agent}
                                      
-                                     collectDataFromForms={collectDataFromForms} />
+                                     sendRatingAndReview={sendRatingAndReview} />
             })}
             </div>
         </div>

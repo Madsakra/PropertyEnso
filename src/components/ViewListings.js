@@ -4,13 +4,17 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-import { UserDataController } from '../controller/UserDataController';
+
 import ListingCard from './ListingCard';
 import {ListingDataController} from '../controller/ListingDataController';
 import { Context } from '../App';
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
+
+import { CollectViewsController } from '../controller/CollectViewsController';
+import { ShortListingController } from '../controller/ShortListingController';
+import { UpdateShortListController } from '../controller/UpdateShortListController';
 
 const ViewListings =()=>{
 
@@ -22,8 +26,7 @@ const ViewListings =()=>{
    const [statusFilter, setStatusFilter] = useState("Both");
    const [filter,setFilter] = useState("Name");
    
-   const {authUser,
-        setUserProfileCreated, setUserName,setUserType} = useContext(Context);
+   const {authUser} = useContext(Context);
   
   const [shortListedData,setShortListedData] = useState({});
 
@@ -37,11 +40,23 @@ const ViewListings =()=>{
        setAllListing([...response])})
        
     }
-   
-    async function sendData()
+    
+    async function updateShortListValue(itemName,floorRange)
     {
-      const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
-      const response = await userDataProvider.writeSavedProperty(shortListedData);
+       const updaterControl = new UpdateShortListController();
+       updaterControl.updateShortlistValue(itemName,floorRange);
+    }
+
+
+
+
+
+
+
+    async function shortListProperty()
+    {
+      const shortLister = new ShortListingController(authUser);
+      const response = await shortLister.shortListNow(shortListedData);
 
       // to check if the user had just accessed this page
       if (Object.keys(shortListedData).length !==0 && response === false)
@@ -51,17 +66,30 @@ const ViewListings =()=>{
       }
 
       else if (Object.keys(shortListedData).length !==0 && response === true){
-        alert("Item Successfully Saved");
-        setShortListedData({});
-        
+        await updateShortListValue(shortListedData.name,shortListedData.floorRange).then(()=>{
+          alert("Item Successfully Saved");
+          setShortListedData({}); 
+        })
+      
       }
+    }
 
+
+
+    
+
+    async function updateViews(itemName,floorRange)
+    {
+       const collectControl = new CollectViewsController();
+       await collectControl.sendViews(itemName,floorRange); 
+       // will not return anything since user is not supposed to know about view tracking
     }
 
     useEffect(()=>{
     
   
        collectData();
+   
        
     },[]);
    
@@ -71,7 +99,7 @@ const ViewListings =()=>{
 
       if (authUser)
       {
-        sendData();
+        shortListProperty();
       }
     
       
@@ -176,20 +204,10 @@ const ViewListings =()=>{
                     return(
                         <div>
                         {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                        <ListingCard name={listing.name}
-                                     area={listing.area}
-                                     bedRooms ={listing.bedRooms}
-                                     bathRooms ={listing.bathRooms}
-                                     size={listing.floorRange}
-                                     price={listing.price}
-                                     status = {listing.status}
-                                     floorRange={listing.floorRange}
-                                     image={listing.image}
-                                     agent={listing.agent}
-                                     key = {listing.id}
-                                     wholeListing = {listing}
+                        <ListingCard wholeListing = {listing}
                                      setShortListedData = {setShortListedData}
                                      shortListedData = {shortListedData}
+                                     updateViews = {updateViews}
                                      />
                      </div>
                     );
@@ -249,20 +267,10 @@ const ViewListings =()=>{
                     return(
                         <div>
                         {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                        <ListingCard name={listing.name}
-                                     area={listing.area}
-                                     bedRooms ={listing.bedRooms}
-                                     bathRooms ={listing.bathRooms}
-                                     size={listing.floorRange}
-                                     price={listing.price}
-                                     status = {listing.status}
-                                     floorRange={listing.floorRange}
-                                     image={listing.image}
-                                     agent={listing.agent}
-                                     key = {listing.id}
-                                     wholeListing = {listing}
+                        <ListingCard wholeListing = {listing}
                                      setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}/>
+                                     shortListedData = {shortListedData}
+                                     updateViews = {updateViews}/>
                      </div>
                     );
                 })}
@@ -313,20 +321,10 @@ const ViewListings =()=>{
                     return(
                         <div>
                         {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                        <ListingCard name={listing.name}
-                                     area={listing.area}
-                                     bedRooms ={listing.bedRooms}
-                                     bathRooms ={listing.bathRooms}
-                                     size={listing.floorRange}
-                                     price={listing.price}
-                                     status = {listing.status}
-                                     floorRange={listing.floorRange}
-                                     image={listing.image}
-                                     agent={listing.agent}
-                                     key = {listing.id}
-                                     wholeListing = {listing}
+                        <ListingCard wholeListing = {listing}
                                      setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}/>
+                                     shortListedData = {shortListedData}
+                                     updateViews = {updateViews}/>
                      </div>
                     );
                 })}
@@ -377,20 +375,10 @@ const ViewListings =()=>{
                         <div>
                         
                      
-                        <ListingCard name={listing.name}
-                                     area={listing.area}
-                                     bedRooms ={listing.bedRooms}
-                                     bathRooms ={listing.bathRooms}
-                                     size={listing.floorRange}
-                                     price={listing.price}
-                                     status = {listing.status}
-                                     floorRange={listing.floorRange}
-                                     image={listing.image}
-                                     agent={listing.agent}
-                                     key = {listing.id}
-                                     wholeListing = {listing}
+                        <ListingCard wholeListing = {listing}
                                      setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}/>
+                                     shortListedData = {shortListedData}
+                                     updateViews = {updateViews}/>
                      </div>
                     );
                 })};

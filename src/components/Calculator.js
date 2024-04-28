@@ -6,12 +6,16 @@ import bed from '../svg/bed.svg';
 
 const Calculator = (props)=>{
 
-    const [homeValue, setHomeValue] = useState(props.price);
+    const listingProps = props.prevProps;
+
+    const [homeValue, setHomeValue] = useState(listingProps.price);
     const [downPayment, setDownPayment] = useState("");
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [loanDuration, setLoanDuration] = useState("");
     const [monthlyPayment, setMonthlyPayment] = useState(0);
+
+
 
     function calculateLoanAmount() {
         setLoanAmount(homeValue - downPayment);
@@ -49,26 +53,26 @@ const Calculator = (props)=>{
             <div className="container-fluid ms-0 ">
            <div className="row">
             <div className="col-4">
-              <p className="fs-1">{props.myProps.name} </p>
+              <p className="fs-1">{listingProps.name} </p>
               
-              <p className="fs-3">{props.myProps.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img>
-                                  {props.myProps.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img></p>
-              <p className="fs-3">Property Status: {props.myProps.status}</p>
-              <p className='fs-3'>Floor Range: #{props.myProps.floorRange}</p>
+              <p className="fs-3">{listingProps.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img>
+                                  {listingProps.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img></p>
+              <p className="fs-3">Property Status: {listingProps.status}</p>
+              <p className='fs-3'>Floor Range: #{listingProps.floorRange}</p>
             </div>
 
             <div className="col-4 mt-3">
               {/*TO CHANGE WHEN PROPERTY AGENT DATA CONFIRMED */}
-            <img src={props.myProps.image} className="cal-image"></img>
+            <img src={listingProps.image} className="cal-image"></img>
             </div>
             <div className="col-4 text-start mt-3">
-            <p className="fs-1">Listed By: {props.myProps.agent.userName}</p>
+            <p className="fs-1">Listed By: {listingProps.agent.userName}</p>
             <p className="fs-4">Reviews And Ratings: 4.7 stars</p>
             {/*if in view listing, show button to save listing */}
-            {!props.myProps.inSaved && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.setShortList(!props.shortList)}}>Shortlist 🤍</button>}
+            {!props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.setShortList(!props.shortList)}}>Shortlist 🤍</button>}
             
             {/*otherwise show remove listing */}
-            {props.myProps.inSaved && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.myProps.removeListing(props.myProps.index)}}>Remove Listing ❌</button>}
+            {props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.removeListing(props.propertyIndex)}}>Remove Listing ❌</button>}
 
             </div>
   

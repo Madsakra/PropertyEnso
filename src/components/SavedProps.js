@@ -1,6 +1,7 @@
 import {useContext, useEffect,useState} from "react";
 import { Context } from '../App';
-import { UserDataController } from '../controller/UserDataController';
+import { SavedPropertyController } from "../controller/SavedPropertyController";
+import { UserDataController } from "../controller/UserDataController";
 import ListingCard from './ListingCard';
 
 const SavedProps = ()=>{
@@ -13,8 +14,8 @@ const SavedProps = ()=>{
 
     async function fetchSavedProperty()
     {
-        const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
-        await userDataProvider.fetchSavedProperty().then((result)=>{
+        const saveControl = new SavedPropertyController(authUser)
+        await saveControl.collectSavedProperty().then((result)=>{
             setMySaved([...result]);
             setLoading(false);
         })
@@ -67,17 +68,7 @@ const SavedProps = ()=>{
                  return (
                     <div>
                     {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                    <ListingCard name={listing.name}
-                                 area={listing.area}
-                                 bedRooms ={listing.bedRooms}
-                                 bathRooms ={listing.bathRooms}
-                                 size={listing.floorRange}
-                                 price={listing.price}
-                                 status = {listing.status}
-                                 floorRange={listing.floorRange}
-                                 image={listing.image}
-                                 agent={listing.agent}
-                                 key = {listing.id}
+                    <ListingCard
                                  index = {myIndex}
                                  wholeListing = {listing}
                                  inSaved={inSaved}

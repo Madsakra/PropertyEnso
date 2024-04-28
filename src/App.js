@@ -15,7 +15,6 @@ import ViewListings from './components/ViewListings';
 import SavedProps from './components/SavedProps';
 import RateAndReviewMain from './components/RateAndReviewMain';
 
-
 export const Context = createContext();
 
 const App =()=>{
@@ -79,18 +78,22 @@ const App =()=>{
         setAuthUser(user);
        
       } })
+
+
   },[])
 
 
   useEffect(()=>{
     const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
-    userDataProvider.getAllUserDetails().then(()=>{
-      if (authUser!=null && !userProfileCreated)
-      {
+    userDataProvider.getAllUserDetails()
+    
+    // .then(()=>{
+    //   if (authUser!=null && !userProfileCreated)
+    //   {
         
-        setCreateUserTrigger(true);
-      }
-    });
+    //     setCreateUserTrigger(true);
+    //   }
+    // });
 
     // for testing to remove after
     console.log(userName);

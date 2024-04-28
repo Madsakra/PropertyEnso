@@ -10,25 +10,7 @@ export class UserAuthenticator{
     }
 
 
-     async signInWithGoogleMeth(){
-        
-            //call entity
-            try
-            {
-                var myAuth = new Authenticator();
-                const result = await myAuth.googleSignIn();
-                // set the auth obj to useState in react
-              
-                return result;
-            }
 
-
-            catch(error)
-            {
-                throw (error);
-            };
-        
-     }
 
     async signInNormal(email,password)
     {
@@ -50,39 +32,23 @@ export class UserAuthenticator{
 
 
     // don't count inside uml
-    async createNewUser(email,password)
-    {
-        try{
-            // CALL ENTITY
-            var myAuth = new Authenticator();
-            const result = await myAuth.createUser(email,password) ;
-            // ENTITY RETURN BOOL
-            return result;
+    // async createNewUser(email,password)
+    // {
+    //     try{
+    //         // CALL ENTITY
+    //         var myAuth = new Authenticator();
+    //         const result = await myAuth.createUser(email,password) ;
+    //         // ENTITY RETURN BOOL
+    //         return result;
 
-        }
+    //     }
 
-        catch(error)
-        {
-            throw (error);
-        }
-    }
-
-
+    //     catch(error)
+    //     {
+    //         throw (error);
+    //     }
+    // }
 
 
-
-    async customSignOut()
-    {
-        try{
-            var myAuth = new Authenticator();
-            const result = await myAuth.logOff()
-            return result;
-        }
-        catch(error)
-        {
-            throw (error);
-        }
-    
-    };
     
 };

@@ -3,36 +3,9 @@ import { db } from '../firebase-config';
 
 
 
-export class AgentData{
+export class Review{
 
-
-    constructor(){
-
-    };
-
-
-    async fetchAllAgent()
-    {
-        const querySnapshot = await getDocs(collection(db, "userData"));
-        let savedData = [];
-        querySnapshot.forEach((doc) => {
-            // filter for REA in db
-       
-                if (doc.data().type === "Real Estate Agent")
-                {
-                    savedData.push(doc.data());
-                }
-               
-            
-
-          });
-
-         return savedData;
-          
-    }
-
-
-    async sendData(myPackage,targetAgent)
+    async pushRate(myPackage,targetAgent)
     {
         let agentDocID = "";
       
@@ -53,10 +26,11 @@ export class AgentData{
        const currentUserRef = doc(db, "userData", agentDocID);
        await updateDoc(currentUserRef,{
         
-         "ratingsAndReviews": arrayUnion(myPackage)
+         "reviews": arrayUnion(myPackage)
        })
        return true;
     }
+
 
 
 

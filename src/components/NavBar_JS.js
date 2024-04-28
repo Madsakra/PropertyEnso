@@ -8,13 +8,13 @@ import Button from 'react-bootstrap/Button';
 import Register from './Register';
 import { useContext } from 'react';
 import { Context } from '../App';
-import { UserAuthenticator } from '../controller/UserAuthenticator';
+import { LogOutController } from '../controller/LogOutController';
 
 
 function Navbar_JS() {
 
   
-  const {setOpenLogin,setOpenRegister,setCreateUserTrigger, 
+  const {setOpenLogin,setCreateUserTrigger, 
         setAuthUser,setUserProfileCreated,userType,
         setEmail,setPassword,openRegister,openLogin,authUser} = useContext(Context);
 
@@ -23,8 +23,8 @@ function Navbar_JS() {
 
   const userSignOut = () =>{
           try{
-              const userAuth = new UserAuthenticator();
-              const successSignOut = userAuth.customSignOut();
+              const loggingOut = new LogOutController();
+              const successSignOut = loggingOut.customSignOut();
               if (successSignOut)
               {
                 alert('Sign out successful');
@@ -83,14 +83,13 @@ function Navbar_JS() {
 
             <div>
 
-              <Button className='me-3 buttonColor btn-outline-light'  
+              {/* <Button className='me-3 buttonColor btn-outline-light'  
               onClick={()=>{setOpenRegister(true);
-              setOpenLogin(false);}}>Register</Button> 
+              setOpenLogin(false);}}>Register</Button>  */}
 
 
               <Button className='buttonColor btn-outline-light' 
-              onClick={()=>{setOpenLogin(true);
-              setOpenRegister(false)}}>Login</Button>
+              onClick={()=>{setOpenLogin(true);}}>Login</Button>
 
             </div>
             }
