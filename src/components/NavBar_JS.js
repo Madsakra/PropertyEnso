@@ -77,7 +77,7 @@ function Navbar_JS() {
            (userType === "Seller" && authUser) &&
            <>
            <Nav.Link as={Link} to='/sellerproperties' exact>My Properties</Nav.Link>
-           <Nav.Link as={Link} to='/rateandreviewmain' exact>Rate And Review</Nav.Link>
+           <Nav.Link as={Link} to='/rateandreviewpage' exact>Rate And Review</Nav.Link>
 
            </>
 

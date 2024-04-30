@@ -14,7 +14,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import ViewListingsPage from './components/ViewListings';
 
 import RateAndReviewPage from './components/RateAndReviewPage';
-import SellerProperties from './components/SellerProperties';
+import SellerPropertiesPage from './components/SellerPropertiesPage';
 import FavouritePage from './components/FavouritePage';
 
 export const Context = createContext();
@@ -151,7 +151,7 @@ const App =()=>{
             <Route path='/viewlistings' exact element={ <ViewListingsPage /> } />
             <Route path='/favouritepage' exact element={ <FavouritePage /> } />
             <Route path='/rateandreviewpage' exact element={ <RateAndReviewPage/> } />
-            <Route path='/sellerproperties' exact element={ <SellerProperties/> }/>
+            <Route path='/sellerproperties' exact element={ <SellerPropertiesPage/> }/>
           </Routes>
         
       </div>

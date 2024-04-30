@@ -2,13 +2,13 @@ import { db } from '../firebase-config';
 import { collection } from 'firebase/firestore';
 import { getDocs } from 'firebase/firestore';
 
-export class SellerProperties{
+export class SellerNewProperties{
     constructor()
     {
 
     }
 
-    async getSellerProperties(authUser)
+    async getNewSellerProperties(authUser)
     {
         const userId = authUser?.uid;
         let mySaved = [];
@@ -21,7 +21,7 @@ export class SellerProperties{
                 const street = doc.data().street;
                 const project = doc.data().project;
                 allIndividualProps.forEach((property)=>{
-                    if (property.seller.UID === userId)
+                    if (property.seller.UID === userId && property.status ==="new")
                     {
                        property.address = street;
                        property.project = project;

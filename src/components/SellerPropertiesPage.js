@@ -1,12 +1,14 @@
 import { useState,useContext, useEffect } from "react";
 import { Context } from '../App';
-import { SellerPropertiesController } from "../controller/SellerPropertiesController";
+import { SellerNewPropertiesController } from "../controller/SellerNewPropertiesController";
+import { SellerSoldPropertiesController } from "../controller/SellerSoldProperties";
 import bath from '../svg/bath.svg';
 import bed from '../svg/bed.svg';
 import views from '../svg/views.svg';
+import ReactLoading from "react-loading";
 
 
-const SellerProperties = ()=>{
+const SellerPropertiesPage = ()=>{
 
     const {authUser} = useContext(Context);
 
@@ -14,22 +16,37 @@ const SellerProperties = ()=>{
     const [myProperties,setMyProperties] = useState([]);
 
 
-    async function fetchMyProperties()
+    async function fetchNewProperties()
     {
-        const mySellerFetch =  new SellerPropertiesController(authUser);
-        const myResponse = await mySellerFetch.fetchAllSellerProperties();
+        const mySellerFetch =  new SellerNewPropertiesController(authUser);
+        const myResponse = await mySellerFetch.fetchNewProperties();
         setMyProperties([...myResponse]);
         console.log(myProperties);
         setLoading(false);
+        setTimeout(()=>{
+            setLoading(false)
+        },2000);
+    }
+
+    async function fetchSoldProperties()
+    {
+        const mySellerFetch =  new SellerSoldPropertiesController(authUser);
+        const myResponse = await mySellerFetch.fetchSoldProperties();
+        setMyProperties([...myResponse]);
+        console.log(myProperties);
+        setLoading(false);
+        setTimeout(()=>{
+            setLoading(false)
+        },2000);
     }
 
 
     useEffect(()=>{
 
-        fetchMyProperties();
+        fetchNewProperties();
 
 
-    },[!loading]);
+    },[]);
 
 
     return (
@@ -40,6 +57,20 @@ const SellerProperties = ()=>{
             <p class="fs-2">Review All Your Properties/Transaction</p>
             </div>
         </div>
+
+      <div className='d-flex justify-content-center'>
+        <button className='w-25 btn btn-light shadow lg mb-3 m-2 fw-bold' onClick={fetchNewProperties}>New Properties</button>
+        <button className='w-25 btn btn-dark shadow mb-3 m-2' onClick={fetchSoldProperties}>Sold Properties</button>
+      </div>
+
+      {loading &&  
+      <div className='d-flex align-items-center justify-content-center m-5 p-5'>
+        <h1 className='display-1'>Loading</h1>
+        <ReactLoading type={"bars"} className='ms-3'  color={"black"} />  
+      </div>
+       }
+
+        {(myProperties.length===0 && !loading) && <h1 className="text-center mt-5 p-5 display-1">You do not have any properties in this sections</h1>}
 
         {myProperties.map((property)=>{
             return (
@@ -91,4 +122,4 @@ const SellerProperties = ()=>{
 }
 
 
-export default SellerProperties;
+export default SellerPropertiesPage;
