@@ -11,9 +11,11 @@ import CreateUserProfile from './components/CreateUserProfile';
 import {UserDataController}  from './controller/UserDataController';
 import {auth} from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
-import ViewListings from './components/ViewListings';
-import SavedProps from './components/SavedProps';
-import RateAndReviewMain from './components/RateAndReviewMain';
+import ViewListingsPage from './components/ViewListings';
+
+import RateAndReviewPage from './components/RateAndReviewPage';
+import SellerProperties from './components/SellerProperties';
+import FavouritePage from './components/FavouritePage';
 
 export const Context = createContext();
 
@@ -146,9 +148,10 @@ const App =()=>{
           <Routes>
             <Route path='/' exact element={ <Home /> } />
             <Route path='/dashboard' exact element={ <DashBoard /> } />
-            <Route path='/viewlistings' exact element={ <ViewListings /> } />
-            <Route path='/savedprops' exact element={ <SavedProps /> } />
-            <Route path='/rateandreviewmain' exact element={ <RateAndReviewMain/> } />
+            <Route path='/viewlistings' exact element={ <ViewListingsPage /> } />
+            <Route path='/favouritepage' exact element={ <FavouritePage /> } />
+            <Route path='/rateandreviewpage' exact element={ <RateAndReviewPage/> } />
+            <Route path='/sellerproperties' exact element={ <SellerProperties/> }/>
           </Routes>
         
       </div>

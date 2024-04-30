@@ -1,22 +1,58 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FaDollarSign } from "react-icons/fa";
 import FormInputGroup from "./FormInputGroup";
 import bath from '../svg/bath.svg';
 import bed from '../svg/bed.svg';
+import {ShortListingController} from '../controller/ShortListingController';
+import { Context } from '../App';
+import { UpdateShortListController } from "../controller/UpdateShortListController";
 
-const Calculator = (props)=>{
+const PropertyInfoPage = (props)=>{
 
-    const listingProps = props.prevProps;
+    const currentListing = props.wholeListing;
 
-    const [homeValue, setHomeValue] = useState(listingProps.price);
+    const [homeValue, setHomeValue] = useState(currentListing.price);
     const [downPayment, setDownPayment] = useState("");
     const [loanAmount, setLoanAmount] = useState("");
     const [interestRate, setInterestRate] = useState("");
     const [loanDuration, setLoanDuration] = useState("");
     const [monthlyPayment, setMonthlyPayment] = useState(0);
+    const {authUser} = useContext(Context);
+
+    // BUYER STORY - SHORTLIST PROPERTY
+    async function shortListProperty()
+    {
+      const shortLister = new ShortListingController(authUser);
+      const response = await shortLister.shortListNow(currentListing);
+
+      // to check if the user had just accessed this page
+      if (Object.keys(currentListing).length !==0 && response === false)
+      {
+        alert("You Already Have That Item saved!");
+        
+      }
+
+      else if (Object.keys(currentListing).length !==0 && response === true){
+        await updateShortListValue(currentListing.name,currentListing.floorRange).then(()=>{
+          alert("Item Successfully Saved");
+        })
+      
+      }
+    }
+ 
+    // SELLER STORY - UPDATE SHORTLIST VALUE
+    async function updateShortListValue(itemName,floorRange)
+    {
+       const updaterControl = new UpdateShortListController();
+       updaterControl.updateShortlistValue(itemName,floorRange);
+    }
 
 
 
+ 
+
+
+    // CALCULATOR PORTION
     function calculateLoanAmount() {
         setLoanAmount(homeValue - downPayment);
         return loanAmount;
@@ -53,26 +89,27 @@ const Calculator = (props)=>{
             <div className="container-fluid ms-0 ">
            <div className="row">
             <div className="col-4">
-              <p className="fs-1">{listingProps.name} </p>
+              <p className="fs-1">{currentListing.name} </p>
               
-              <p className="fs-3">{listingProps.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img>
-                                  {listingProps.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img></p>
-              <p className="fs-3">Property Status: {listingProps.status}</p>
-              <p className='fs-3'>Floor Range: #{listingProps.floorRange}</p>
+              <p className="fs-3">{currentListing.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img>
+                                  {currentListing.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img></p>
+              <p className="fs-3">Property Status: {currentListing.status}</p>
+              <p className='fs-3'>Floor Range: #{currentListing.floorRange}</p>
             </div>
 
             <div className="col-4 mt-3">
               {/*TO CHANGE WHEN PROPERTY AGENT DATA CONFIRMED */}
-            <img src={listingProps.image} className="cal-image"></img>
+            <img src={currentListing.image} className="cal-image"></img>
             </div>
             <div className="col-4 text-start mt-3">
-            <p className="fs-1">Listed By: {listingProps.agent.userName}</p>
+            <p className="fs-1">Listed By: Agent {currentListing.agent.userName}</p>
             <p className="fs-4">Reviews And Ratings: 4.7 stars</p>
             {/*if in view listing, show button to save listing */}
-            {!props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.setShortList(!props.shortList)}}>Shortlist 🤍</button>}
+            {!props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={shortListProperty}>Shortlist 🤍</button>}
             
             {/*otherwise show remove listing */}
-            {props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.removeListing(props.propertyIndex)}}>Remove Listing ❌</button>}
+            {/*To be scrapped*/}
+            {/* {props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.removeListing(props.propertyIndex)}}>Remove Listing ❌</button>} */}
 
             </div>
   
@@ -142,5 +179,5 @@ const Calculator = (props)=>{
 
 }
 
-export default Calculator;
+export default PropertyInfoPage;
 

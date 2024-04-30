@@ -4,35 +4,36 @@ import { AgentDataController } from "../controller/AgentDataController";
 import { Context } from '../App';
 import { RateController } from "../controller/RateController";
 import { ReviewController } from "../controller/ReviewController";
+import ReactLoading from "react-loading";
 
-const RateAndReviewMain = ()=>{
+const RateAndReviewPage = ()=>{
 
 
     const [loading,setLoading] = useState(true);
     const [agents,setAgents] = useState([]);
     const {authUser,userName,userType} = useContext(Context);
 
+
+    
     async function fetchAllAgent()
     {
         let myAgent = new AgentDataController();
         await myAgent.fetchAllAgent().then((result)=>{
             setAgents([...result]);
         });
-        setLoading(false);
+        setTimeout(()=>setLoading(false),1000);
     }
 
 
-    async function sendRatingAndReview(stars,review,index)
+    async function sendReview(review,index)
     {
         // consider passing in UID since accounts can change but not primary key
         const reviewer = userName;
         const reviewerEmail = authUser.email;
         const uniqueID = authUser.uid;
         const reviewerType = userType;
-        let targetAgent = agents[index];
-        let myRate = new RateController();
+        let targetAgent = agents[index];     
         let myReview = new ReviewController();
-        await myRate.sendData(stars,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent);
         await myReview.sendData(review,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent).then((result)=>{
             if (result)
             {
@@ -43,12 +44,32 @@ const RateAndReviewMain = ()=>{
         
     }
 
+
+    async function sendRating(stars,index)
+    {
+        const reviewer = userName;
+        const reviewerEmail = authUser.email;
+        const uniqueID = authUser.uid;
+        const reviewerType = userType;
+        let targetAgent = agents[index];
+        let myRate = new RateController();
+        await myRate.sendData(stars,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent).then((result)=>{
+            if (result)
+            {
+                alert("Your Rating has been recorded, Thank You");
+            }
+        })
+    }
+
+ 
+   
     useEffect(()=>{
 
         fetchAllAgent();
 
     },[!loading])
 
+  
 
 
     return (
@@ -59,17 +80,26 @@ const RateAndReviewMain = ()=>{
             <p class="fs-2">Your Ratings And Review Helps Us Go The Long Way</p>
             </div>
         </div>
+            {loading &&  
+        <div className='d-flex align-items-center justify-content-center m-5 p-5'>
+            <h1 className='display-1'>Loading</h1>
+            <ReactLoading type={"bars"} className='ms-3'  color={"black"} />  
+        </div>
+        }
         
         {!loading &&
         <div className="container-fluid">
            <div className="row">
-            
+          
+           
             {agents.map((agent,index)=>{
                 return <AgentTabMini index={index} 
                                      agent={agent}
-                                     
-                                     sendRatingAndReview={sendRatingAndReview} />
+                                     sendRating = {sendRating}
+                                     sendReview={sendReview} />
             })}
+
+            
             </div>
         </div>
         }
@@ -82,4 +112,4 @@ const RateAndReviewMain = ()=>{
 
 }
 
-export default RateAndReviewMain;
+export default RateAndReviewPage;

@@ -3,20 +3,22 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import mainLogo from '../svg/mainLogo.svg';
-import Login from './Login';
+import LoginPage from './LoginPage';
 import Button from 'react-bootstrap/Button';
-import Register from './Register';
+
 import { useContext } from 'react';
 import { Context } from '../App';
 import { LogOutController } from '../controller/LogOutController';
-
+import { useNavigate } from 'react-router-dom';
 
 function Navbar_JS() {
 
   
   const {setOpenLogin,setCreateUserTrigger, 
         setAuthUser,setUserProfileCreated,userType,
-        setEmail,setPassword,openRegister,openLogin,authUser} = useContext(Context);
+        setEmail,setPassword,openLogin,authUser} = useContext(Context);
+
+  const navigate = useNavigate();
 
   
 
@@ -33,6 +35,7 @@ function Navbar_JS() {
                 setUserProfileCreated(false);
                 setEmail("");
                 setPassword("");
+                navigate('/');
               }
             }
             catch(error)
@@ -57,19 +60,28 @@ function Navbar_JS() {
           
           <Nav.Link as={Link} to='/' exact>Home</Nav.Link>
       
-          {authUser && 
-          <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>}
+          {/* {authUser && 
+          <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>} */}
 
-          {/* only buyer can access */}
+          {/* only BUYER can access */}
           {(userType ==="Buyer" && authUser) && 
           <>
           <Nav.Link as={Link} to='/viewlistings' exact>View Listings</Nav.Link>
-          <Nav.Link as={Link} to='/savedprops' exact>Saved Properties</Nav.Link>
-          <Nav.Link as={Link} to='/rateandreviewmain' exact>Rate And Review</Nav.Link>
+          <Nav.Link as={Link} to='/favouritepage' exact>Favourite Page</Nav.Link>
+          <Nav.Link as={Link} to='/rateandreviewpage' exact>Rate And Review</Nav.Link>
           </>
           }
 
+          {/* only SELLER can access */}
+         {
+           (userType === "Seller" && authUser) &&
+           <>
+           <Nav.Link as={Link} to='/sellerproperties' exact>My Properties</Nav.Link>
+           <Nav.Link as={Link} to='/rateandreviewmain' exact>Rate And Review</Nav.Link>
 
+           </>
+
+         }
           
           </Nav>
 
@@ -101,9 +113,12 @@ function Navbar_JS() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    
+    {/*To remove*/}
+    {/* {openRegister && <Register/>} */}
 
-    {openRegister && <Register/>}
-    {openLogin && <Login/>}
+
+    {openLogin && <LoginPage/>}
 
     </div>
   );

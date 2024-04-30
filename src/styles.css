@@ -458,7 +458,11 @@ input:invalid[focused="true"] ~ .errorMessage
   height: 30vh;
 }
 
-
+.caro-outer-card{
+  border-radius: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: white;
+}
 
 .caro-list-item{
  
@@ -591,3 +595,17 @@ input[type=radio]
 .star{
   cursor: pointer;
 }
+
+.seller-box{
+  border-radius: 2rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 10px 10px 10px 13px;
+
+}
+
+.seller-property-info{
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.25) 10px 10px 10px 13px;
+  background-color: white;
+
+}
+

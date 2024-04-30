@@ -12,9 +12,13 @@ const Rate = (props)=>{
 
     async function passAndExit()
     {
-       await props.agentProps.sendRatingAndReview(rating,message,index).then(props.setOpenForm(false));
+       await props.agentProps.sendReview(message,index).then(props.setOpenForm(false));
     }
 
+    async function passRating()
+    {
+        await props.agentProps.sendRating(rating,index).then(setProceed(true));
+    }
 
     return (
         <>
@@ -51,7 +55,7 @@ const Rate = (props)=>{
                 </div>
 
                 <div className="col-6">
-                <button className="btn btn-warning btn-lg" onClick={()=>setProceed(true)}>Next</button>
+                <button className="btn btn-warning btn-lg" onClick={passRating}>Next</button>
                 </div>
                 </div>
                 </div> }
@@ -63,7 +67,7 @@ const Rate = (props)=>{
                       <div className="d-flex flex-row justify-content-center mt-5">
                       <button className="btn btn-dark btn-lg  w-25" onClick={()=>props.setOpenForm(false)}>Close</button>
                       <button className="btn btn-warning btn-lg ms-5 w-25" 
-                                        onClick={()=>{passAndExit()}}>Submit</button>
+                                        onClick={passAndExit}>Submit</button>
                       </div>
                     </Form.Group>
                 }

@@ -3,7 +3,7 @@ import { db } from '../firebase-config';
 
 
 
-export class SavedProperty{
+export class SavedSoldProperty{
 
     constructor()
     {
@@ -11,7 +11,7 @@ export class SavedProperty{
     }
 
 
-    async fetchSavedProperty(authUser)
+    async fetchSoldProperty(authUser)
     {
         const querySnapshot = await getDocs(collection(db, "userData"));
         let result = [];
@@ -23,8 +23,13 @@ export class SavedProperty{
                 // check if user has any saved fields, then send back data
                 if (doc.data().saved !==undefined)
                 {
-                    result = doc.data().saved;
-                           
+                    let tempArray = doc.data().saved;
+                    tempArray.forEach((property)=>{
+                        if (property.status === "sold")
+                        {
+                            result.push(property);
+                        }
+                    })
                 }
                 
             }

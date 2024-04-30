@@ -11,6 +11,7 @@ export class Authenticator{
 
     };
 
+    // INSIDE OF NORMAL SIGN IN
     listener()
     {
         return new Promise((resolve,reject)=>{

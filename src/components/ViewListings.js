@@ -1,114 +1,72 @@
-import { React,useEffect,useState, useContext}  from 'react';
+import { React,useEffect,useState}  from 'react';
 import MyFooter from './Footer';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-
+import ReactLoading from "react-loading";
 
 import ListingCard from './ListingCard';
-import {ListingDataController} from '../controller/ListingDataController';
-import { Context } from '../App';
+import {ViewNewListingsController} from '../controller/ViewNewListingsController';
+import { ViewSoldListingsController } from '../controller/ViewSoldListingController';
+
 
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 
-import { CollectViewsController } from '../controller/CollectViewsController';
-import { ShortListingController } from '../controller/ShortListingController';
-import { UpdateShortListController } from '../controller/UpdateShortListController';
 
-const ViewListings =()=>{
+
+const ViewListingsPage =()=>{
 
    const [search,setSearch] = useState("");
   
-   // listing data from db
+   // listing data, WILL BE CHANGED WHEN DB FETCH BACK DATA
    const [allListing,setAllListing] = useState([]);
- 
-   const [statusFilter, setStatusFilter] = useState("Both");
    const [filter,setFilter] = useState("Name");
-   
-   const {authUser} = useContext(Context);
-  
-  const [shortListedData,setShortListedData] = useState({});
+   const [loading,setLoading] = useState(true);
 
    
-
-    function collectData(){
-      setShortListedData({});
-      const listingDataController = new ListingDataController();
+    // BUYER STORY- FETCH NEW DATA
+    function fetchNewListings(){
+      setLoading(true);
+    
+      const newListingsController = new ViewNewListingsController();
       // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
-      listingDataController.getAllListing().then((response)=>{
+      newListingsController.getNewListings().then((response)=>{
        setAllListing([...response])})
+       setTimeout(()=>{
+        setLoading(false);
+       },1000)
        
     }
-    
-    async function updateShortListValue(itemName,floorRange)
+
+
+    //FETCH SOLD LISTING
+    function fetchSoldListings()
     {
-       const updaterControl = new UpdateShortListController();
-       updaterControl.updateShortlistValue(itemName,floorRange);
-    }
+      setLoading(true);
 
-
-
-
-
-
-
-    async function shortListProperty()
-    {
-      const shortLister = new ShortListingController(authUser);
-      const response = await shortLister.shortListNow(shortListedData);
-
-      // to check if the user had just accessed this page
-      if (Object.keys(shortListedData).length !==0 && response === false)
-      {
-        alert("You Already Have That Item saved!");
+      const newListingsController = new ViewSoldListingsController();
+      // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
+      newListingsController.getSoldListings().then((response)=>{
+       setAllListing([...response])})
+       setTimeout(()=>{
+        setLoading(false);
+       },1000)
+       
         
       }
-
-      else if (Object.keys(shortListedData).length !==0 && response === true){
-        await updateShortListValue(shortListedData.name,shortListedData.floorRange).then(()=>{
-          alert("Item Successfully Saved");
-          setShortListedData({}); 
-        })
-      
-      }
-    }
-
-
-
     
 
-    async function updateViews(itemName,floorRange)
-    {
-       const collectControl = new CollectViewsController();
-       await collectControl.sendViews(itemName,floorRange); 
-       // will not return anything since user is not supposed to know about view tracking
-    }
 
     useEffect(()=>{
     
-  
-       collectData();
-   
+
+          fetchNewListings();
        
     },[]);
    
-    useEffect(()=>{
-      
-    
-
-      if (authUser)
-      {
-        shortListProperty();
-      }
-    
-      
-      
-    })
 
 
-
-   
 
     return (
         <>
@@ -129,7 +87,7 @@ const ViewListings =()=>{
 
 
     <Dropdown onSelect={(e,eventKey)=>{setFilter(e)}}>
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+      <Dropdown.Toggle variant="dark" id="dropdown-basic">
        {filter}
       </Dropdown.Toggle>
 
@@ -144,32 +102,27 @@ const ViewListings =()=>{
       
       </InputGroup>
 
-      <Form.Select onChange={(e)=>{setStatusFilter(e.currentTarget.value)}} className='mb-5'>
-      <option value="Both">Both</option>
-      <option value="Sold">Sold</option>
-      <option value="New">New</option>
-      </Form.Select>
+      <div className='d-flex justify-content-center'>
+        <button className='w-25 btn btn-light shadow lg mb-3 m-2 fw-bold' onClick={fetchNewListings}>New Properties</button>
+        <button className='w-25 btn btn-dark shadow mb-3 m-2'onClick={fetchSoldListings}>Sold Properties</button>
+      </div>
+    
+
+      {loading &&  
+      <div className='d-flex align-items-center justify-content-center m-5 p-5'>
+        <h1 className='display-1'>Loading</h1>
+        <ReactLoading type={"bars"} className='ms-3'  color={"black"} />  
+      </div>
+       }
 
 
-        
-        <Tabs  id="fill-tab-example" className="mb-3 fs-1 tabs" fill>
+      {!loading && <Tabs  id="fill-tab-example" className="mb-3 fs-1 tabs bg-dark" fill>
         <Tab eventKey="home"  title={allListing[0]?.project}>
           <div>
-                {/* carry on editing tmr below*/}
-                {allListing[0]?.indiProps.filter((item) => {
-                  if (statusFilter === 'New')
-                  {
-                    return item.status === 'new';
-                  }
-                  else if (statusFilter==='Sold'){
-                    return item.status === 'sold';
-                  }
+              
+                
 
-                  else{
-                    return item.status === 'sold' || item.status === 'new';
-                  }
-                  }
-                )
+                {allListing[0]?.indiProps
                 .filter((listing)=>{
                   
                   // NAME FILTER-----------------------------------------------------------
@@ -204,11 +157,7 @@ const ViewListings =()=>{
                     return(
                         <div>
                         {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                        <ListingCard wholeListing = {listing}
-                                     setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}
-                                     updateViews = {updateViews}
-                                     />
+                        <ListingCard wholeListing = {listing}/>
                      </div>
                     );
                 })}
@@ -217,21 +166,7 @@ const ViewListings =()=>{
 
 
       <Tab eventKey="profile" title={allListing[1]?.project}>
-      {allListing[1]?.indiProps.filter((item) => {
-                  if (statusFilter === 'New')
-                  {
-                    return item.status === 'new';
-                  }
-                  else if (statusFilter==='Sold'){
-                    return item.status === 'sold';
-                  }
-
-                  else{
-                    return item.status === 'sold' || item.status === 'new';
-                  }
-                  }
-                )
-      
+      {allListing[1]?.indiProps
       .filter((listing)=>{
         
                   // NAME FILTER-----------------------------------------------------------
@@ -267,29 +202,13 @@ const ViewListings =()=>{
                     return(
                         <div>
                         {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                        <ListingCard wholeListing = {listing}
-                                     setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}
-                                     updateViews = {updateViews}/>
+                        <ListingCard wholeListing = {listing}/>
                      </div>
                     );
                 })}
       </Tab>
       <Tab eventKey="longer-tab" title={allListing[2]?.project}>
-      {allListing[2]?.indiProps.filter((item) => {
-                  if (statusFilter === 'New')
-                  {
-                    return item.status === 'new';
-                  }
-                  else if (statusFilter==='Sold'){
-                    return item.status === 'sold';
-                  }
-
-                  else{
-                    return item.status === 'sold' || item.status === 'new';
-                  }
-                  }
-                )
+      {allListing[2]?.indiProps
       .filter((listing)=>{
                   // NAME FILTER-----------------------------------------------------------
 
@@ -321,29 +240,13 @@ const ViewListings =()=>{
                     return(
                         <div>
                         {/* // INDIVIDUAL CARD WITH ITS OWN DATA */}
-                        <ListingCard wholeListing = {listing}
-                                     setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}
-                                     updateViews = {updateViews}/>
+                        <ListingCard wholeListing = {listing}/>
                      </div>
                     );
                 })}
       </Tab>
       <Tab eventKey="contact" title={allListing[3]?.project}>
-      {allListing[3]?.indiProps.filter((item) => {
-                  if (statusFilter === 'New')
-                  {
-                    return item.status === 'new';
-                  }
-                  else if (statusFilter==='Sold'){
-                    return item.status === 'sold';
-                  }
-
-                  else{
-                    return item.status === 'sold' || item.status === 'new';
-                  }
-                  }
-                )
+      {allListing[3]?.indiProps
       .filter((listing)=>{
                    // NAME FILTER-----------------------------------------------------------
                    if (filter==="Name")
@@ -375,17 +278,14 @@ const ViewListings =()=>{
                         <div>
                         
                      
-                        <ListingCard wholeListing = {listing}
-                                     setShortListedData = {setShortListedData}
-                                     shortListedData = {shortListedData}
-                                     updateViews = {updateViews}/>
+                        <ListingCard wholeListing = {listing}/>
                      </div>
                     );
                 })};
       </Tab>
 
     </Tabs>
-
+  }
       <MyFooter/>
         </>
     )
@@ -394,4 +294,4 @@ const ViewListings =()=>{
 }
 
 
-export default ViewListings;
+export default ViewListingsPage;

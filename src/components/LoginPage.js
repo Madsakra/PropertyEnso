@@ -8,7 +8,7 @@ import { AdminLoginController} from '../controller/AdminLoginController';
 
 
 
-const Login = () =>{
+const LoginPage = () =>{
 
     
     const {setOpenLogin,userProfileCreated,setCreateUserTrigger, 
@@ -121,5 +121,5 @@ const Login = () =>{
     )
 }
 
-export default Login;
+export default LoginPage;
 

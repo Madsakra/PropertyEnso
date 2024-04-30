@@ -1,10 +1,14 @@
 import {useContext, useEffect,useState} from "react";
 import { Context } from '../App';
-import { SavedPropertyController } from "../controller/SavedPropertyController";
+import { SavedNewPropertyController } from "../controller/SavedNewPropertyController";
+import { SavedSoldPropertyController } from "../controller/SavedSoldPropertyController";
 import { UserDataController } from "../controller/UserDataController";
 import ListingCard from './ListingCard';
+import ReactLoading from "react-loading";
 
-const SavedProps = ()=>{
+
+
+const FavouritePage = ()=>{
 
     
     const {authUser,setUserProfileCreated, setUserName,setUserType} = useContext(Context);
@@ -12,15 +16,30 @@ const SavedProps = ()=>{
     const [loading,setLoading] = useState(true);
     const inSaved = true;
 
-    async function fetchSavedProperty()
+    async function fetchNewSavedProperty()
     {
-        const saveControl = new SavedPropertyController(authUser)
-        await saveControl.collectSavedProperty().then((result)=>{
-            setMySaved([...result]);
+        setLoading(true);
+        const saveControl = new SavedNewPropertyController(authUser)
+        
+     
+        const myResult = await saveControl.collectSavedProperty();
+        setMySaved([...myResult])
+        setTimeout(()=>{
             setLoading(false);
-        })
-        
-        
+           },1000)  
+    }
+
+
+    async function fetchSoldListing()
+    {
+        setLoading(true);
+        const saveControl = new SavedSoldPropertyController(authUser)
+        await saveControl.collectSoldProperty().then((result)=>{
+            setMySaved([...result])})
+            setTimeout(()=>{
+                setLoading(false);
+               },1000)
+       
     }
 
     async function removeListing(id)
@@ -39,13 +58,11 @@ const SavedProps = ()=>{
 
     }
 
+
     useEffect(()=>{
-        // firebase needs 2 seconds to load, so setTimeOut
-    
-            fetchSavedProperty();
-  
-        
-    },[!loading]);
+
+        fetchNewSavedProperty();
+    },[]);
 
 
   
@@ -58,7 +75,18 @@ const SavedProps = ()=>{
             </div>
         </div>
 
-        
+        <div className='d-flex justify-content-center'>
+        <button className='w-25 btn btn-light shadow lg mb-3 m-2 fw-bold' onClick={fetchNewSavedProperty}>Saved Properties (new)</button>
+        <button className='w-25 btn btn-dark shadow mb-3 m-2'onClick={fetchSoldListing}>Sold Properties</button>
+      </div>
+    
+
+      {loading &&  
+      <div className='d-flex align-items-center justify-content-center m-5 p-5'>
+        <h1 className='display-1'>Loading</h1>
+        <ReactLoading type={"bars"} className='ms-3'  color={"black"} />  
+      </div>
+       }
 
         {!loading &&
                 <div className="saved-head">
@@ -100,4 +128,4 @@ const SavedProps = ()=>{
 
 
 
-export default SavedProps;
+export default FavouritePage;

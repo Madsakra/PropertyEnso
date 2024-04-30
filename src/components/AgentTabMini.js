@@ -3,6 +3,9 @@ import { useState } from 'react';
 import Rate from './Rate';
 const AgentTabMini = (props)=>{
 
+
+
+    // SMALL BOXES THAT THE USER SEE ON MAIN PAGE
     const [openForm,setOpenForm] = useState(false);
     let rating = ""
 

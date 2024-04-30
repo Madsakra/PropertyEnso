@@ -1,7 +1,8 @@
-import { React, useEffect, useState,useContext}  from 'react';
-import Calculator from '../components/Calculator';
+import { React, useState}  from 'react';
+import PropertyInfoPage from './PropertyInfoPage';
 import bath from '../svg/bath.svg';
 import bed from '../svg/bed.svg';
+import { CollectViewsController } from '../controller/CollectViewsController';
 
 
 const ListingCard = (props)=>{
@@ -11,59 +12,47 @@ const ListingCard = (props)=>{
     const listingProps =  props.wholeListing;
     const inSavedGallery = props.inSaved;
     const removeListing = props.removeListing;
-    const propertyIndex =props.index;
+    const propertyIndex = props.index;
 
     // Calculator
-    const [calculator,setCalculator] = useState(false);
+    const [propertyInfo,setPropertyInfo] = useState(false);
     
-    //----------------------------------------------------
-    // ADD SHORTLISTED ITEM INTO THE ARRAY ABOVE
-     function overRideSelect()
+    // SELLER-STORY UPDATE NUMBER OF VIEWS FOR PROPERTY
+    async function updateViews(itemName,floorRange)
     {
-        
-        // DATA STILL EXIST ON THE BOUNDARY 
-        // NOT PASSED INTO CONTROLLER AT THIS STAGE
-        props.setShortListedData(props.wholeListing);
-        setShortList(false);
+       const collectControl = new CollectViewsController();
+       await collectControl.sendViews(itemName,floorRange); 
+       // will not return anything since user is not supposed to know about view tracking
     }
-   
 
-
-
-
-    useEffect(()=>{
-        
-        // the moment the shortlist bool becomes true, trigger override select,set shortlist
-        if (shortList)
-        {
-            overRideSelect();
-            
-        }
-
-    },[shortList])
 
 
     return (
         
         <div>
-            {calculator && <Calculator setCalculator={setCalculator}
+            {propertyInfo && <PropertyInfoPage 
+                                        setCalculator={setPropertyInfo}
                                         setShortList={setShortList} 
                                         shortList={shortList}
-                                        prevProps={listingProps}
+                                        wholeListing={listingProps}
                                         inSavedGallery={inSavedGallery}
                                         removeListing={removeListing}
                                         propertyIndex = {propertyIndex}/>}
 
         <div className='caro-list-item' onClick={()=> {
+                // WILL UPDATE VIEWS WHEN USER CLICK ON LISTING CARD
+                // SINCE THIS SCREEN WILL APPEAR ON BOTH SAVED GALLERY AND VIEW LISTING
+                // WILL NOT UPDATE VIEWS IN SAVED GALLERY
                 if (!inSavedGallery)
                 {
-                    props.updateViews(listingProps.name, listingProps.floorRange);
+                    
+                    updateViews(listingProps.name, listingProps.floorRange);
                 }
            
-                setCalculator(true);
+                setPropertyInfo(true);
             }
             }>
-        <div className='container-fluid border border-3 p-3 border-dark-subtle rounded-5'>
+        <div className='container-fluid caro-outer-card border border-3 p-3'>
             <div className='row'>
             <div className='col-md-6'>
             <img className='big-card'
