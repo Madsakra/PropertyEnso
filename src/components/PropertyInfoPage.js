@@ -3,9 +3,11 @@ import { FaDollarSign } from "react-icons/fa";
 import FormInputGroup from "./FormInputGroup";
 import bath from '../svg/bath.svg';
 import bed from '../svg/bed.svg';
-import {ShortListingController} from '../controller/ShortListingController';
+
 import { Context } from '../App';
 import { UpdateShortListController } from "../controller/UpdateShortListController";
+import { ShortlistNewController } from "../controller/ShortListNewController";
+import { ShortlistSoldController } from "../controller/ShortListSoldController";
 
 const PropertyInfoPage = (props)=>{
 
@@ -19,11 +21,11 @@ const PropertyInfoPage = (props)=>{
     const [monthlyPayment, setMonthlyPayment] = useState(0);
     const {authUser} = useContext(Context);
 
-    // BUYER STORY - SHORTLIST PROPERTY
-    async function shortListProperty()
+    // BUYER STORY - SHORTLIST NEW PROPERTY
+    async function shortlistNewProperty()
     {
-      const shortLister = new ShortListingController(authUser);
-      const response = await shortLister.shortListNow(currentListing);
+      const shortLister = new ShortlistNewController(authUser);
+      const response = await shortLister.shortListNew(currentListing);
 
       // to check if the user had just accessed this page
       if (Object.keys(currentListing).length !==0 && response === false)
@@ -39,6 +41,32 @@ const PropertyInfoPage = (props)=>{
       
       }
     }
+
+    // BUYER STORY - SHORTLIST PROPERTY IF SOLD
+    async function shortlistSoldProperty()
+    {
+      const shortLister = new ShortlistSoldController(authUser);
+      const response = await shortLister.shortListSold(currentListing);
+
+      // to check if the user had just accessed this page
+      if (Object.keys(currentListing).length !==0 && response === false)
+      {
+        alert("You Already Have That Item saved!");
+        
+      }
+
+      else if (Object.keys(currentListing).length !==0 && response === true){
+        await updateShortListValue(currentListing.name,currentListing.floorRange).then(()=>{
+          alert("Item Successfully Saved");
+        })
+      
+      }
+    }
+
+
+
+
+
  
     // SELLER STORY - UPDATE SHORTLIST VALUE
     async function updateShortListValue(itemName,floorRange)
@@ -49,7 +77,7 @@ const PropertyInfoPage = (props)=>{
 
 
 
- 
+    
 
 
     // CALCULATOR PORTION
@@ -104,12 +132,15 @@ const PropertyInfoPage = (props)=>{
             <div className="col-4 text-start mt-3">
             <p className="fs-1">Listed By: Agent {currentListing.agent.userName}</p>
             <p className="fs-4">Reviews And Ratings: 4.7 stars</p>
-            {/*if in view listing, show button to save listing */}
-            {!props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={shortListProperty}>Shortlist 🤍</button>}
+
+            {/*new listing will show white heart button */}
+            {(!props.inSavedGallery && currentListing.status==="new") && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={shortlistNewProperty}>Shortlist 🤍</button>}
             
-            {/*otherwise show remove listing */}
-            {/*To be scrapped*/}
-            {/* {props.inSavedGallery && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={()=>{props.removeListing(props.propertyIndex)}}>Remove Listing ❌</button>} */}
+            {/*sold listing will show yellow heart button*/}
+            {(!props.inSavedGallery && currentListing.status==="sold") && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={shortlistSoldProperty}>Shortlist 💛</button>}
+
+     
+        
 
             </div>
   

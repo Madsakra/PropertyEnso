@@ -3,7 +3,7 @@ import { Rate } from "../entity/Rate";
 
 export class RateController{
 
-
+    // change to rating
     async sendData(stars,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent)
     {
 

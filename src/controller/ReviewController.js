@@ -17,7 +17,7 @@ export class ReviewController{
 
         try{
             var myReview = new Review();
-            const result = await myReview.pushRate(myPackage,targetAgent);
+            const result = await myReview.pushReview(myPackage,targetAgent);
             return result;
         }
         catch(err)

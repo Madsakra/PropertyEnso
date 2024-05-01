@@ -5,7 +5,7 @@ import { db } from '../firebase-config';
 
 export class Review{
 
-    async pushRate(myPackage,targetAgent)
+    async pushReview(myPackage,targetAgent)
     {
         let agentDocID = "";
       

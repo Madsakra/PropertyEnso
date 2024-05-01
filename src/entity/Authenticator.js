@@ -12,22 +12,7 @@ export class Authenticator{
     };
 
     // INSIDE OF NORMAL SIGN IN
-    listener()
-    {
-        return new Promise((resolve,reject)=>{
-            onAuthStateChanged(auth,(user)=>{
-                if (user)
-                {
-                    resolve(user);
-                }
-                else{
-                    reject("User not logged in");
-                }
-            })
-        })
 
-
-    }
 
 
 
@@ -37,9 +22,26 @@ export class Authenticator{
     // When Email Enumeration Protection is enabled, this method fails with "auth/invalid-credential" in case of an invalid email/password.
     async normalSignIn(email,password)
     {
+        function listener()
+        {
+            return new Promise((resolve,reject)=>{
+                onAuthStateChanged(auth,(user)=>{
+                    if (user)
+                    {
+                        resolve(user);
+                    }
+                    else{
+                        reject("User not logged in");
+                    }
+                })
+            })
+        }
+
+
+
         try{
             await signInWithEmailAndPassword(auth,email,password);
-            const myPromise = this.listener()
+            const myPromise = listener()
             const result = {toShow:true,
                             userCred:myPromise};
             return result;
@@ -51,20 +53,6 @@ export class Authenticator{
         }
       
     };
-
-    // don't count in uml
-    // shift to admin
-    // async createUser(email,password)
-    // {
-    //     try{
-    //        await createUserWithEmailAndPassword(auth,email,password);
-    //        return true;
-    //     }
-    //     catch(error)
-    //     {
-    //         throw(error);
-    //     }
-    // };
 
 
 

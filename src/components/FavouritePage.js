@@ -19,9 +19,7 @@ const FavouritePage = ()=>{
     async function fetchNewSavedProperty()
     {
         setLoading(true);
-        const saveControl = new SavedNewPropertyController(authUser)
-        
-     
+        const saveControl = new SavedNewPropertyController(authUser);
         const myResult = await saveControl.collectSavedProperty();
         setMySaved([...myResult])
         setTimeout(()=>{
@@ -42,6 +40,11 @@ const FavouritePage = ()=>{
        
     }
 
+
+
+
+
+    
     async function removeListing(id)
     {
         // button inside calculator will bring back the position of the item to be removed

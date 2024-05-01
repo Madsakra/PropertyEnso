@@ -2,7 +2,7 @@ import { getDocs,updateDoc, collection,doc } from 'firebase/firestore';
 import { db } from '../firebase-config';
 
 
-export class Shortlister{
+export class ShortlistSoldProperty{
 
 
     constructor()
@@ -11,25 +11,11 @@ export class Shortlister{
     }
 
     
-    // SHALL NOT BE INCLUDED INSIDE THE BCE DIAGRAM SINCE IT IS JUST PROTOTYPING
-    filterShortlisted(savedData,shortListedData)
-    {
-        
-        let pushIn = true;
-        if (savedData)
-        
-        savedData.forEach((savedProperty)=>{
-        if (shortListedData.name === savedProperty.name)
-        {
-            pushIn = false;
-            return pushIn;
-        }})
-           
-        return pushIn;
-    }
+
+
 
     
-    async sendSavedProperty(shortListedData,authUser)
+    async sendSoldProperty(shortListedData,authUser)
     {
         // get all data first,put in array   
         const querySnapshot = await getDocs(collection(db, "userData"));
@@ -49,10 +35,28 @@ export class Shortlister{
 
           });
 
+          
+          function filterData(savedData,shortListedData)
+          {
+            let pushIn = true;
+            if (savedData)
+        
+            savedData.forEach((savedProperty)=>{
+            if (shortListedData.name === savedProperty.name)
+            {
+                pushIn = false;
+                return pushIn;
+            }})
+           
+            return pushIn;
+          }
+
+
+
         // compare between the saved property and the shortlisted ones on page currently
         // if there are any difference, do not push out to filtered
-        // combine this with the function above
-        const filterShortlisted = this.filterShortlisted(savedData,shortListedData);
+
+        const filterShortlisted = filterData(savedData,shortListedData);
 
 
         if (filterShortlisted === true && Object.keys(shortListedData).length !==0)
