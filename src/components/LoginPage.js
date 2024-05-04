@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { Context } from '../App';
 import { UserAuthenticator } from '../controller/UserAuthenticator';
 import { AdminLoginController} from '../controller/AdminLoginController';
-
+import Form from 'react-bootstrap/Form';
 
 
 const LoginPage = () =>{
@@ -17,7 +17,7 @@ const LoginPage = () =>{
 
    
    
-    // sign in with google
+    // ADMIN sign in with google
     const signInWithGoogle = async () =>{
        
         try{
@@ -88,15 +88,9 @@ const LoginPage = () =>{
 
                        {facedError && <p class="errorMessage">Please Enter the Correct Email/Password</p>}
 
-                        <input type="email" class="form-control" placeholder='Enter Your Email' 
-                        value={email}
-                        onChange={(e)=>setEmail(e.target.value)}>
-                        </input>
+                       <Form.Control size="lg" type="email" onChange={e=>setEmail(e.target.value)} placeholder="Email" />
 
-                        <input type="password" class="form-control" placeholder='Enter Your Password' 
-                        value={password}
-                        onChange={(e)=>setPassword(e.target.value)}>
-                        </input>
+                       <Form.Control size="lg" type="password" onChange={e=>setPassword(e.target.value)} placeholder="Password" />
                     
                         <div className='d-flex flex-row justify-content-center mt-5'>
                         <span class=" btn btn-lg buttonColor btn-outline-light me-3" 

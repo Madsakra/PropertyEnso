@@ -1,41 +1,33 @@
-import { getDocs,addDoc,collection } from 'firebase/firestore';
+import {addDoc,collection } from 'firebase/firestore';
 import { db } from '../firebase-config';
 
+export class CreateProfile{
 
-
-export class UserData{
 
     constructor()
     {
 
-    };
-
-    async retreiveData()
-    {
-        const userDataCollection = collection(db, "userData");
-        return await getDocs(userDataCollection);
     }
 
-    async sendData(newEmail,newType,newUserName)
+    async createNewProfile(newEmail,newType,newUserName,uid)
     {
         const userDataCollection = collection(db, "userData");
         try{
             await addDoc(userDataCollection,{
+                UID: uid,
                 email:newEmail,
                 type:newType,
-                userName:newUserName
+                userName:newUserName,
+                status:"active"
             })
+
+            return true;
         }
         catch(error)
         {
             throw(error)
         }   
     }
-
-
-
-
-
 
 
 }

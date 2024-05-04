@@ -61,21 +61,7 @@ const App =()=>{
 
  
 
-  const passInfoOver = async () =>{
-    // pass all info from the states to database
-    // 1. close the create user profile page
-    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
-    setUserProfileCreated(true);
-    try{
-      
-       await userDataProvider.writeNewAccount(authUser.email,userType,userName);
-       alert("Profile succesfully created.");
-    }
-    catch(error)
-    {
-      alert("Failed to Create profile");
-    }
-  }
+
 
   // if user refresh page, at least keep the auth
   useEffect(()=>{
@@ -89,23 +75,22 @@ const App =()=>{
 
   },[])
 
+  // fetch user profile
+  async function fetchData()
+  {
+    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType,setProfileID);
+    await userDataProvider.getAllUserDetails();
+    if (authUser!=null && !userProfileCreated)
+    {
+      setCreateUserTrigger(true);
+    }
+
+  }
 
   useEffect(()=>{
-    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType,setProfileID);
-    userDataProvider.getAllUserDetails()
-    
-    // .then(()=>{
-    //   if (authUser!=null && !userProfileCreated)
-    //   {
-        
-    //     setCreateUserTrigger(true);
-    //   }
-    // });
 
-    // for testing to remove after
-    console.log(profileID);
-  
-  
+
+    fetchData();
     
   })
 
@@ -130,7 +115,7 @@ const App =()=>{
                                 facedError, email,password,
                                 userName,setUserName, userProfileCreated,
                                 setUserProfileCreated,setCreateUserTrigger, userType,
-                                setUserType, passInfoOver, profileID,
+                                setUserType,  profileID,
                                 setLoading
                           
                                 }}>

@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import mainLogo from '../svg/mainLogo.svg';
 import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage';
 import Button from 'react-bootstrap/Button';
 
 import { useContext } from 'react';
@@ -11,10 +12,10 @@ import { Context } from '../App';
 import { LogOutController } from '../controller/LogOutController';
 import { useNavigate } from 'react-router-dom';
 
-function Navbar_JS() {
+const Navbar_JS = ()=> {
 
   
-  const {setOpenLogin,setCreateUserTrigger, 
+  const {setOpenLogin,setCreateUserTrigger, setOpenRegister, openRegister,
         setAuthUser,setUserProfileCreated,userType,
         setEmail,setPassword,openLogin,authUser} = useContext(Context);
 
@@ -60,9 +61,7 @@ function Navbar_JS() {
           
           <Nav.Link as={Link} to='/' exact>Home</Nav.Link>
       
-          {/* {authUser && 
-          <Nav.Link as={Link} to='/dashboard' exact>Dashboard</Nav.Link>} */}
-
+   
           {/* only BUYER can access */}
           {(userType ==="Buyer" && authUser) && 
           <>
@@ -84,17 +83,13 @@ function Navbar_JS() {
          }
 
          {
-
-      
-            (userType=== "Real Estate Agent" && authUser) &&
-            <>
-                
+          (userType=== "Real Estate Agent" && authUser) &&
+            <>   
                 <Nav.Link as={Link} to='/createproperty' exact>Create Property</Nav.Link>
                 <Nav.Link as={Link} to='/viewlistings' exact>View Listings</Nav.Link>
                 <Nav.Link as={Link} to='/agentproperties' exact>Client's Properties</Nav.Link>
                 <Nav.Link as={Link} to='/agentratingandreview' exact>My Rating And Reviews</Nav.Link>
             </>
-
          }
           
           </Nav>
@@ -111,9 +106,9 @@ function Navbar_JS() {
 
             <div>
 
-              {/* <Button className='me-3 buttonColor btn-outline-light'  
+              <Button className='me-3 buttonColor btn-outline-light'  
               onClick={()=>{setOpenRegister(true);
-              setOpenLogin(false);}}>Register</Button>  */}
+              setOpenLogin(false);}}>Register</Button> 
 
 
               <Button className='buttonColor btn-outline-light' 
@@ -130,8 +125,8 @@ function Navbar_JS() {
       </Container>
     </Navbar>
     
-    {/*To remove*/}
-    {/* {openRegister && <Register/>} */}
+    
+    {openRegister && <RegisterPage/> }
 
 
     {openLogin && <LoginPage/>}

@@ -1,4 +1,4 @@
-import { getDocs,addDoc } from 'firebase/firestore';
+
 import { UserData } from '../entity/UserData';
 
 export class UserDataController{
@@ -60,20 +60,6 @@ export class UserDataController{
     }
 
 
-    async fetchSavedProperty()
-    {
-        const userDataObj = new UserData();
-        let docuID = "";
-        const response = await userDataObj.fetchSavedProperty(this.authUser);
-        return response;
-    }
-
-    async removeSelectedSave(id)
-    {
-        const userDataObj = new UserData();
-        const response = await userDataObj.removeSelectedSave(this.authUser,id);
-        return response;
-    }
 
 
 };

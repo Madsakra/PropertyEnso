@@ -1,23 +1,48 @@
-import {useEffect, useContext,useState} from 'react';
+import {useContext,useState} from 'react';
 import {Context} from '../App';
 import buyer from '../svg/buyer.svg';
 import seller from '../svg/seller.svg';
 import propertyAgent from '../svg/propertyAgent.svg';
 
+import { CreateProfileController } from '../controller/CreateProfileController';
 
 const CreateUserProfile = ()=>{
  
-    const {setUserName,setUserType, passInfoOver} = useContext(Context);
+    const {setUserName,setUserType, userType,userName,
+           authUser,setUserProfileCreated} = useContext(Context);
 
         const [openUserNameSelection,setOpenUserSelection] = useState(true);
         const [openTypeSelection,setTypeSelection] = useState(false);
        
-
+        // function to proceed
         const nextSelection = (event)=>{
             event.preventDefault();
             setOpenUserSelection(false);
             setTypeSelection(true);
         }
+
+        async function createProfile(){
+            // pass all info from the states to database
+            // 1. close the create user profile page
+            const profileCreator = new CreateProfileController();
+            try{
+           
+               const result = await profileCreator.writeNewProfile(authUser.email,userType,userName,authUser.uid)
+
+               if (result)
+                {
+                    alert("Profile succesfully created.");
+                    setUserProfileCreated(true);
+                }
+            }
+            catch(error)
+            {
+              alert("Failed to Create profile...please contact admin for help");
+              setUserProfileCreated(false);
+            }
+          }
+
+
 
 
         return (
@@ -49,7 +74,7 @@ const CreateUserProfile = ()=>{
                     openTypeSelection && 
                     <div class="d-flex flex-column flex-md-row p-4 gap-4 py-md-5 align-items-center justify-content-center">
                     <div class="list-group list-group-checkable d-grid gap-2 border-0">
-                    <form onSubmit={passInfoOver}>
+                    <form onSubmit={createProfile}>
                     <input class="list-group-item-check pe-none " 
                     type="radio" name="listGroupCheckableRadios"
                      id="listGroupCheckableRadios2" value="Buyer"

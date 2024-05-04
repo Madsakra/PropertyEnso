@@ -31,23 +31,23 @@ export class UserAuthenticator{
     }
 
 
-    // don't count inside uml
-    // async createNewUser(email,password)
-    // {
-    //     try{
-    //         // CALL ENTITY
-    //         var myAuth = new Authenticator();
-    //         const result = await myAuth.createUser(email,password) ;
-    //         // ENTITY RETURN BOOL
-    //         return result;
+  
+    async createNewUser(email,password)
+    {
+        try{
+            // CALL ENTITY
+            var myAuth = new Authenticator();
+            const result = await myAuth.createUser(email,password) ;
+            // ENTITY RETURN BOOL
+            return result;
 
-    //     }
+        }
 
-    //     catch(error)
-    //     {
-    //         throw (error);
-    //     }
-    // }
+        catch(error)
+        {
+            throw (error);
+        }
+    }
 
 
     
