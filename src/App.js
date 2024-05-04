@@ -18,6 +18,9 @@ import SellerPropertiesPage from './components/SellerPropertiesPage';
 import FavouritePage from './components/FavouritePage';
 import CreatePropertyPage from './components/CreatePropertyPage';
 import AgentPropertiesPage from './components/AgentPropertiesPage';
+import AgentRatingAndReviewPage from './components/AgentRatingAndReviewPage';
+
+
 
 export const Context = createContext();
 
@@ -156,6 +159,7 @@ const App =()=>{
             <Route path='/sellerproperties' exact element={ <SellerPropertiesPage/> }/>
             <Route path='/createproperty' exact element={ <CreatePropertyPage/> }/>
             <Route path='/agentproperties' exact element={ <AgentPropertiesPage/> }/>
+            <Route path='/agentratingandreview' exact element={<AgentRatingAndReviewPage/>}/>
           </Routes>
         
       </div>

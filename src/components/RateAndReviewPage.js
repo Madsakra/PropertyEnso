@@ -91,7 +91,6 @@ const RateAndReviewPage = ()=>{
         <div className="container-fluid">
            <div className="row">
           
-           
             {agents.map((agent,index)=>{
                 return <AgentTabMini index={index} 
                                      agent={agent}
