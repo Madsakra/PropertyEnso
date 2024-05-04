@@ -16,6 +16,8 @@ import ViewListingsPage from './components/ViewListings';
 import RateAndReviewPage from './components/RateAndReviewPage';
 import SellerPropertiesPage from './components/SellerPropertiesPage';
 import FavouritePage from './components/FavouritePage';
+import CreatePropertyPage from './components/CreatePropertyPage';
+import AgentPropertiesPage from './components/AgentPropertiesPage';
 
 export const Context = createContext();
 
@@ -50,7 +52,7 @@ const App =()=>{
 
 
 
-
+    const [profileID, setProfileID] = useState("");
 
   
 
@@ -86,7 +88,7 @@ const App =()=>{
 
 
   useEffect(()=>{
-    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
+    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType,setProfileID);
     userDataProvider.getAllUserDetails()
     
     // .then(()=>{
@@ -98,9 +100,9 @@ const App =()=>{
     // });
 
     // for testing to remove after
-    console.log(userName);
-    console.log(userType);
-    
+    console.log(profileID);
+  
+  
     
   })
 
@@ -125,7 +127,7 @@ const App =()=>{
                                 facedError, email,password,
                                 userName,setUserName, userProfileCreated,
                                 setUserProfileCreated,setCreateUserTrigger, userType,
-                                setUserType, passInfoOver, 
+                                setUserType, passInfoOver, profileID,
                                 setLoading
                           
                                 }}>
@@ -152,6 +154,8 @@ const App =()=>{
             <Route path='/favouritepage' exact element={ <FavouritePage /> } />
             <Route path='/rateandreviewpage' exact element={ <RateAndReviewPage/> } />
             <Route path='/sellerproperties' exact element={ <SellerPropertiesPage/> }/>
+            <Route path='/createproperty' exact element={ <CreatePropertyPage/> }/>
+            <Route path='/agentproperties' exact element={ <AgentPropertiesPage/> }/>
           </Routes>
         
       </div>

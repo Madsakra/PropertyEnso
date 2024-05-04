@@ -2,12 +2,13 @@ import { getDocs,addDoc } from 'firebase/firestore';
 import { UserData } from '../entity/UserData';
 
 export class UserDataController{
-    constructor(authUser,setUserProfileCreated, setUserName,setUserType) {
+    constructor(authUser,setUserProfileCreated, setUserName,setUserType,setProfileID) {
    
         this.authUser = authUser;
         this.setUserProfileCreated = setUserProfileCreated;
         this.setUserName = setUserName;
         this.setUserType = setUserType;
+        this.setProfileID = setProfileID;
     }
 
     async getAllUserDetails() {
@@ -17,17 +18,16 @@ export class UserDataController{
             const data = await userDataObj.retreiveData();
 
             // DATA COMES BACK
-            // TRANSFER TO TEMPORARY VARIABLE SINCE THE ABOVE RETURNS A PROMISE
-            const filteredData = data.docs.map((doc) => ({ ...doc.data() }));
+            data.docs.map((doc)=>{
+                const docID = doc.id;
+                const docData = doc.data();
 
-
-            // CHECK IF USER PROFILE EXIST
-            filteredData.forEach((item)=>{
-                if (item?.email === this.authUser.email) {
+                if (docData?.email === this.authUser.email) {
                     // USER PROFILE EXIST
                     this.setUserProfileCreated(true);
-                    this.setUserName(item.userName);
-                    this.setUserType(item.type);
+                    this.setUserName(docData.userName);
+                    this.setUserType(docData.type);
+                    this.setProfileID(docID);
                     return true;
                 }
                 else{
@@ -35,9 +35,8 @@ export class UserDataController{
                     // USER PROFILE DON'T EXIST, LEAVE ALL THE STATES IN DEFAULT CONDITION
                     return false;
                 }
-
-            }) 
-                  
+            })
+     
         } 
         catch (err) {
             console.error(err);

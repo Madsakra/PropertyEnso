@@ -1,7 +1,7 @@
 import { useState,useContext, useEffect } from "react";
 import { Context } from '../App';
 import { SellerNewPropertiesController } from "../controller/SellerNewPropertiesController";
-import { SellerSoldPropertiesController } from "../controller/SellerSoldProperties";
+import { SellerSoldPropertiesController } from "../controller/SellerSoldPropertiesController";
 import bath from '../svg/bath.svg';
 import bed from '../svg/bed.svg';
 import views from '../svg/views.svg';
@@ -93,14 +93,17 @@ const SellerPropertiesPage = ()=>{
                 </p> 
                 <p className="fs-3 mt-3">Price: ${property.price}</p>
                 <p className="fs-3">Status: {property.status}</p>
-                <p className='fs-3'>{property.views? property.views : 0} <img src={views} class="me-4 ms-1" width="35vw" alt="img"></img>
-                                         {property.numberOfShortList? property.numberOfShortList:0} 🩶
+                {property.status === "new" && <p className='fs-3'>{property.views? property.views : 0} <img src={views} class="me-4 ms-1" width="35vw" alt="img"></img>     
+                                                {property.numberOfShortList? property.numberOfShortList:0} 🩶
                 </p>
+                }
+                {property.status ==="sold" &&
+                <p className="fs-3">{property.numberOfShortList? property.numberOfShortList:0} 💛 </p>}
              
             </div>
             <div className="col-md-6 seller-property-info d-flex flex-column justify-content-center text-center p-3">
-                <p className="display-3">Property Agent: {property.agent.userName}</p>
-                <p className="fs-3">Agent ID: {property.agent.UID}</p>
+                <p className="display-3">Property Agent Information:</p>
+                <p className="fs-3">UID: {property.agent.UID}</p>
                 <p className="fs-3">Email: {property.agent.email}</p>
             </div>
 

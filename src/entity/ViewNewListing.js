@@ -29,6 +29,8 @@ export class ViewNewListing{
                 mainContainer.push(currentDoc);
                 })
             
+            console.log(mainContainer)
+            
             return mainContainer;
         }
         catch(err)

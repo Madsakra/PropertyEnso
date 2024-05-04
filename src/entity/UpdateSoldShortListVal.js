@@ -1,7 +1,7 @@
 import { db } from '../firebase-config';
 import { getDocs, updateDoc, collection,doc} from 'firebase/firestore';
 
-export class UpdateShortList{
+export class UpdateSoldShortListVal{
 
     constructor()
     {

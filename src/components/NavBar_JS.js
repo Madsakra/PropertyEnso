@@ -82,6 +82,18 @@ function Navbar_JS() {
            </>
 
          }
+
+         {
+
+      
+            (userType=== "Real Estate Agent" && authUser) &&
+            <>
+                <Nav.Link as={Link} to='/createproperty' exact>Create Property</Nav.Link>
+                <Nav.Link as={Link} to='/viewlistings' exact>View Listings</Nav.Link>
+                <Nav.Link as={Link} to='/agentproperties' exact>Client's Properties</Nav.Link>
+            </>
+
+         }
           
           </Nav>
 

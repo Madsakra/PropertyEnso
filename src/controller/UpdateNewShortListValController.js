@@ -1,6 +1,6 @@
-import { UpdateShortList } from "../entity/UpdateShortList";
+import { UpdateNewShortListVal } from "../entity/UpdateNewShortListVal";
 
-export class UpdateShortListController{
+export class UpdateNewShortListValController{
 
 
     constructor()
@@ -12,7 +12,7 @@ export class UpdateShortListController{
     async updateShortlistValue(itemName,floorRange)
     {
         try{
-            let updater = new UpdateShortList;
+            let updater = new UpdateNewShortListVal;
             await updater.sendViewsIntoDB(itemName,floorRange);
             // will not return anything since user is not supposed to know about view tracking
         }
