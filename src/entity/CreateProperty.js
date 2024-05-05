@@ -48,7 +48,7 @@ export class CreateProperty{
                
                 
                     const currentUserRef = doc(db, "propertyData", docuID);
-                    const updateAccordingly =async ()=>{
+                    const updateAccordingly = async ()=>{
                         await updateDoc(currentUserRef,{
                     
                         "indiProps": copyOfData

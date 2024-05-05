@@ -89,8 +89,7 @@ const CreatePropertyPage = ()=>{
                                 price:priceInput,
 
                                 seller:{UID:sellerUID,
-                                        email:sellerEmail
-                                }
+                                        email:sellerEmail}
                               }
             
             const myCreatorControl = new CreatePropertyController();

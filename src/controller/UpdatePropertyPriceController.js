@@ -15,7 +15,7 @@ export class UpdatePropertyPriceController
     async pushUpdates(property,newPrice)
     {
         const updater = new UpdatePropertyPrice();
-        const result = await updater.updatePrice(property,newPrice);
+        const result = await updater.updatePriceInDB(property,newPrice);
 
         return result;
     }

@@ -8,7 +8,7 @@ export class SellerSoldPropertiesController
         this.authUser = authUser;
     }
 
-    async fetchSoldProperties()
+    async pushFetch()
     {
         const mySellerProps = new SellerSoldProperties();
         return await mySellerProps.getSoldSellerProperties(this.authUser);

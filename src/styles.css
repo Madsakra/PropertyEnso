@@ -519,17 +519,20 @@ input:invalid[focused="true"] ~ .errorMessage
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   
-
 
 }
 
 .cal-image{
   border-radius: 1rem;
-  height: 27vh;
-  width: 28vw;
+  height: 20vh;
+  width: 70vw;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  margin-bottom: 40px;
 }
+
+
 
 
 .saved-heading{
@@ -663,3 +666,27 @@ input[type=radio]
   align-items: center;
 
 }
+
+.search-head{
+  margin-top: 6vh;
+  background-image: url('images/desert.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  height: 30vh;
+  
+}
+
+
+.agent-search-container
+{
+  background: linear-gradient(to right, #434343 0%, black 100%);
+  padding: 100px;
+  color: white;
+  border-radius: 1rem;
+  margin-top: 110px;
+  margin-bottom: 100px;
+}
+
+
+

@@ -2,15 +2,22 @@ import { db } from '../firebase-config';
 import { collection } from 'firebase/firestore';
 import { getDocs } from 'firebase/firestore';
 
-export class AgentNewProperties{
+
+
+
+
+
+
+export class AgentSearch{
+
     constructor()
     {
 
     }
 
-    async getNewAgentProperties(authUser)
+
+    async findSearchProperty(searchInput)
     {
-        const userId = authUser?.uid;
         let mySaved = [];
         const listingDataCollection = collection(db, "propertyData");
         const data = await getDocs(listingDataCollection);
@@ -21,7 +28,9 @@ export class AgentNewProperties{
                 const street = doc.data().street;
                 const project = doc.data().project;
                 allIndividualProps.forEach((property)=>{
-                    if (property.agent.UID === userId && property.status ==="new")
+                    let propertyName = property.name.toLowerCase();
+                    // might need to include sold/new property due to scaling issue
+                    if (propertyName.startsWith(searchInput))
                     {
                        property.address = street;
                        property.project = project;
@@ -31,15 +40,20 @@ export class AgentNewProperties{
             })
         
             return mySaved;
+
         }
         catch(err)
         {
-            console.error(err);
+            console.log(err);
         }
-    
-        
+
 
     }
 
 
+
+
+
 }
+
+

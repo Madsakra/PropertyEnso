@@ -19,7 +19,7 @@ import FavouritePage from './components/FavouritePage';
 import CreatePropertyPage from './components/CreatePropertyPage';
 import AgentPropertiesPage from './components/AgentPropertiesPage';
 import AgentRatingAndReviewPage from './components/AgentRatingAndReviewPage';
-
+import AgentSearchPage from './components/AgentSearchPage';
 
 
 export const Context = createContext();
@@ -145,6 +145,7 @@ const App =()=>{
             <Route path='/createproperty' exact element={ <CreatePropertyPage/> }/>
             <Route path='/agentproperties' exact element={ <AgentPropertiesPage/> }/>
             <Route path='/agentratingandreview' exact element={<AgentRatingAndReviewPage/>}/>
+            <Route path='/agentsearch' exact element={<AgentSearchPage/>}/>
           </Routes>
         
       </div>

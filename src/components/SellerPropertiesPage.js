@@ -31,7 +31,7 @@ const SellerPropertiesPage = ()=>{
     async function fetchSoldProperties()
     {
         const mySellerFetch =  new SellerSoldPropertiesController(authUser);
-        const myResponse = await mySellerFetch.fetchSoldProperties();
+        const myResponse = await mySellerFetch.pushFetch();
         setMyProperties([...myResponse]);
         console.log(myProperties);
         setLoading(false);
@@ -78,7 +78,7 @@ const SellerPropertiesPage = ()=>{
 
             <div className="container-fluid mb-5 pt-5 seller-box pb-5">
             <div className="row">
-                    <img className="rounded shadow-lg" src={property.image} width="70vw" height="350vh"  ></img>
+                    <img className="rounded shadow-lg" src={property.image} width="70vw" height="350vh"></img>
             </div>
 
 

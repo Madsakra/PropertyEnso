@@ -1,9 +1,8 @@
-import {AgentNewPropertiesController} from '../controller/AgentNewPropertiesController';
+import {ClientNewPropertiesController} from '../controller/ClientNewPropertiesController';
 import {AgentSoldPropertiesController} from '../controller/AgentSoldPropertiesController';
 import {Context} from '../App'
 import { useContext, useEffect , useState} from 'react';
-import bath from '../svg/bath.svg';
-import bed from '../svg/bed.svg';
+
 import AgentListingCards from './AgentListingCards';
 import ReactLoading from "react-loading";
 
@@ -19,8 +18,8 @@ const AgentPropertiesPage = ()=>{
     async function fetchNewProperties()
     {
         setLoading(true);
-        const myFetcher = new AgentNewPropertiesController(authUser);
-        const newProperties = await myFetcher.fetchNewProperties();
+        const myFetcher = new ClientNewPropertiesController(authUser);
+        const newProperties = await myFetcher.pushFetch();
         setMyProperties([...newProperties]);
         setLoading(false);
         setTimeout(()=>{

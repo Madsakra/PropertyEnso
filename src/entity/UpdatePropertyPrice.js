@@ -14,7 +14,7 @@ export class UpdatePropertyPrice{
     }
 
 
-    async updatePrice(property,newPrice)
+    async updatePriceInDB(property,newPrice)
     {
         const listingDataCollection = collection(db, "propertyData");
         const data = await getDocs(listingDataCollection);

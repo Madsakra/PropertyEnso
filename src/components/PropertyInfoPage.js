@@ -124,98 +124,107 @@ const PropertyInfoPage = (props)=>{
         
 
         <form className="calculator"  onSubmit={(e) => e.preventDefault()}>
-            <div className="container-fluid ms-0 ">
-           <div className="row">
-            <div className="col-4">
-              <p className="fs-1">{currentListing.name} </p>
+        <img src={currentListing.image} className="cal-image"></img>
+         Posted By (Agent ID): {currentListing.agent.UID} 
+          <div className="container d-flex mt-3 align-items-start">
+   
+              <div className="col-md-6 mt-5">
+
+              <p className="fs-2">
+              {currentListing.name}
+              <br/>
+              {currentListing.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img> 
+              {currentListing.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img> 
+              <br/>
+              Floor Range: #{currentListing.floorRange}<br/>
+              Property Status: {currentListing.status}<br/>
+
+            
+              </p>
               
-              <p className="fs-3">{currentListing.bedRooms} <img src={bed} class="me-4" width="25vw" alt="img"></img>
-                                  {currentListing.bathRooms} <img src={bath} class="me-2" width="25vw" alt="img"></img></p>
-              <p className="fs-3">Property Status: {currentListing.status}</p>
-              <p className='fs-3'>Floor Range: #{currentListing.floorRange}</p>
-            </div>
-
-            <div className="col-4 mt-3">
-              {/*TO CHANGE WHEN PROPERTY AGENT DATA CONFIRMED */}
-            <img src={currentListing.image} className="cal-image"></img>
-            </div>
-            <div className="col-4 text-start mt-3">
-            <p className="fs-2">Listed By: Agent UID -- {currentListing.agent.UID}</p>
-        
-         
-
             {/*new listing will show white heart button */}
-            {(!props.inSavedGallery && userType=== "Buyer" && currentListing.status==="new") && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={shortlistNewProperty}>Shortlist 🤍</button>}
+            {(!props.inSavedGallery && userType=== "Buyer" && currentListing.status==="new") && <button className="btn btn-lg btn-dark btn-md mt-2 w-75 mb-3" onClick={shortlistNewProperty}>Shortlist 🤍</button>}
             
             {/*sold listing will show yellow heart button*/}
-            {(!props.inSavedGallery && userType=== "Buyer" && currentListing.status==="sold") && <button className="btn btn-dark btn-md mt-2 mb-3" onClick={shortlistSoldProperty}>Shortlist 💛</button>}
+            {(!props.inSavedGallery && userType=== "Buyer" && currentListing.status==="sold") && <button className="btn btn-lg btn-dark btn-md w-75 mt-2 mb-3" onClick={shortlistSoldProperty}>Shortlist 💛</button>}
 
-     
-        
+              <button className="btn btn-secondary btn-lg w-75 me-5" onClick={()=>props.setCalculator(false)}>Close</button>
 
-            </div>
+              </div>
+       
+              
   
+              <div className="col-md-6">
+                
+                <div className="inner-cal">
+                  <FormInputGroup
+                    text="Home Value "
+                    icon={<FaDollarSign />}
+                    placeholder={"Enter the value of the home"}
+                    value={homeValue}
+                    onInput={(e) => setHomeValue(e.target.value)}
+                    onkeyup={calculateLoanAmount}
+                    readOnly={true}
+                  />
+                  <FormInputGroup
+                    text="Down payment"
+                    icon={<FaDollarSign />}
+                    placeholder={"Enter your funds"}
+                    value={downPayment}
+                    onInput={(e) => setDownPayment(e.target.value)}
+                    onkeyup={calculateLoanAmount}
+                  />
+                  <FormInputGroup
+                    text="Loan amount"
+                    icon={<FaDollarSign />}
+                    placeholder={"Enter your funds"}
+                    value={loanAmount}
+                  />
+                  <FormInputGroup
+                    text="Interest Rate %"
+                    placeholder={"Enter your interest rate"}
+                    value={interestRate}
+                    onInput={(e) => setInterestRate(e.target.value)}
+                  />
+                  <FormInputGroup
+                    text="Loan Duration (years)"
+                    placeholder={"Enter the duration of your loan"}
+                    value={loanDuration}
+                    onInput={(e) => setLoanDuration(e.target.value)}
+                  />
+                  <h4 className="alert alert-dark fw-bold">
+                    Monthly payment: <FaDollarSign />
+                    {parseFloat(monthlyPayment.toFixed(2))}
+                  </h4>
+
+
+                    <button
+                    type="submit"
+                    onClick={calculateMonthlyPayment}
+                    className="btn btn-dark btn-lg w-100 ">
+                    Calculate
+                  </button>
+
+                </div>
+
+
+              </div>
+
+
+
+
+
+
+
+
             </div>
-            </div>
+
+
+
+
         
 
-        <div>
-          <FormInputGroup
-            text="Home Value "
-            icon={<FaDollarSign />}
-            placeholder={"Enter the value of the home"}
-            value={homeValue}
-            onInput={(e) => setHomeValue(e.target.value)}
-            onkeyup={calculateLoanAmount}
-            readOnly={true}
-          />
-          <FormInputGroup
-            text="Down payment"
-            icon={<FaDollarSign />}
-            placeholder={"Enter your funds"}
-            value={downPayment}
-            onInput={(e) => setDownPayment(e.target.value)}
-            onkeyup={calculateLoanAmount}
-          />
-          <FormInputGroup
-            text="Loan amount"
-            icon={<FaDollarSign />}
-            placeholder={"Enter your funds"}
-            value={loanAmount}
-          />
-          <FormInputGroup
-            text="Interest Rate %"
-            placeholder={"Enter your interest rate"}
-            value={interestRate}
-            onInput={(e) => setInterestRate(e.target.value)}
-          />
-          <FormInputGroup
-            text="Loan Duration (years)"
-            placeholder={"Enter the duration of your loan"}
-            value={loanDuration}
-            onInput={(e) => setLoanDuration(e.target.value)}
-          />
-          <h4 className="alert alert-dark fw-bold">
-            Monthly payment: <FaDollarSign />
-            {parseFloat(monthlyPayment.toFixed(2))}
-          </h4>
-    
-          <div className="d-flex  justify-content-center">
-           
-          
-          <button className="btn btn-secondary btn-lg w-75 me-5" onClick={()=>props.setCalculator(false)}>Close</button>
 
-      
-            <button
-              type="submit"
-              onClick={calculateMonthlyPayment}
-              className="btn btn-dark btn-lg w-75  center ms-5">
-              Calculate
-            </button>
-    
-          </div>
-
-        </div>
      
 
         </form>
