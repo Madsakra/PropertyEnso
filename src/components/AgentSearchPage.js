@@ -1,12 +1,12 @@
 import Form from 'react-bootstrap/Form';
 import magni from '../svg/magnify.svg'
-import { useState } from 'react';
+import { useState,useRef, useEffect } from 'react';
 import { AgentSearchController } from '../controller/AgentSearchController';
 import ReactLoading from "react-loading";
-import bath from '../svg/bath.svg';
-import bed from '../svg/bed.svg';
+
 
 import AgentSearchResult from './AgentSearchResult';
+
 
 const AgentSearchPage = ()=>{
 
@@ -17,22 +17,61 @@ const AgentSearchPage = ()=>{
     const [loading,setLoading] = useState(false);
  
 
+
+   
+    const [haveMore,setHaveMore] = useState(true);
+
+    
+    const [stoppedDocIndex,setStoppedDocIndex ]= useState(0);
+    const [stoppedPropIndex,setStoppedPropIndex] = useState(0)
+
     const [finishSearch,setFinishSearch] = useState(false);
 
     async function searchForProperty()
     {
-        setLoading(true);
-        const searchController = new AgentSearchController();
-        const result = await searchController.pushSearch(searchInput);
-        setSearchResults([...result]);
-        // LOAD THEN DISPLAY DATA
-        setTimeout(()=>{
-            setFinishSearch(true);
-            setLoading(false);
-        },1000)
+        
+
+       
+                const searchController = new AgentSearchController();
+              
+               
+                const result = await searchController.pushSearch(searchInput,stoppedDocIndex,stoppedPropIndex);
+                
+                if (!result)
+                {
+                    alert("no more results left")
+                    setHaveMore(false);
+                }
+
+                else{
+                    setSearchResults(fullArray=>fullArray.concat(result.mySaved));
+                    setStoppedDocIndex(result.stoppedDocIndex);
+                }
+
+
+                
+                // LOAD THEN DISPLAY DATA
+                setTimeout(()=>{
+                    setFinishSearch(true);
+                    setLoading(false);
+                    
+                },1000)
 
     }
 
+
+    function restart(){
+        setFinishSearch(false);
+        setSearchResults([]);
+        setHaveMore(true);
+        setStoppedDocIndex(0);
+        setStoppedPropIndex(0);
+
+    }
+
+    useEffect(()=>{
+        console.log(stoppedDocIndex)
+    })
 
 
     return(
@@ -70,23 +109,33 @@ const AgentSearchPage = ()=>{
       </div>
        }
 
+
+
        {(!loading && finishSearch) && 
-       searchResults.map((result)=>{
-        return (
-            
-            <AgentSearchResult result={result}/>
-        )})
+            <div>
+
+                {searchResults.map((result)=>{
+                    return (
+                       
+                        <AgentSearchResult result={result}/>
+                    
+                        
+                    )})}
+                    
+            {haveMore && <div className='container w-50'><button className='btn btn-warning btn-lg w-100 mb-5' onClick={searchForProperty}>More Results</button></div>}
+
+            {!haveMore && <div className='container w-50'> <button className='btn btn-dark btn-lg w-100 mb-5' onClick={restart}>Go Back To Search For More</button> </div> }
+
+            </div>
+        
        }
 
-       {(!loading && finishSearch && searchResults.length !==0) &&
-       <div className='d-flex justify-content-end'>
-       <button className='btn btn-dark mb-5' onClick={()=>setFinishSearch(false)}>Go Back To Search For More</button>
-       </div> }
+
 
         {(!loading && finishSearch && searchResults.length === 0) && 
         <div className='d-flex flex-column align-items-center'>
         <h1 className='text-center display-4 mt-5'>Sorry, but there is no property with that name</h1>
-        <button className='btn btn-dark mt-3' onClick={()=>setFinishSearch(false)}>Go Back To Search For More</button>
+        <button className='btn btn-dark mt-3' onClick={restart}>Go Back To Search For More</button>
         </div>
        }
 

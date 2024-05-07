@@ -14,12 +14,15 @@ export class AgentSearchController{
     }
 
 
-    async pushSearch(searchInput)
+    async pushSearch(searchInput,docStart)
     {
 
         const mySearcher = new AgentSearch();
-        const result = await mySearcher.findSearchProperty(searchInput);
+        const result = await mySearcher.findSearchProperty(searchInput,docStart);
+
         return result;
+
+        
     }
 
 }

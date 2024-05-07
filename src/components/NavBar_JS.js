@@ -91,10 +91,20 @@ const Navbar_JS = ()=> {
                 <Nav.Link as={Link} to='/agentratingandreview' exact>My Rating And Reviews</Nav.Link>
             </>
          }
+
+
+
+         {
+          (userType==="Admin" && authUser)&&
+          <>
+          
+            <Nav.Link as={Link} to='/viewaccounts' exact>View Accounts</Nav.Link>
+            <Nav.Link as={Link} to='/admincreateAc' exact>Create Account</Nav.Link>
+          
+          </>
+         }
           
           </Nav>
-
-
             {/* if logged in, signOut button will appear */}
             <div className='text-end topButtons'>
             {authUser? 
@@ -117,10 +127,6 @@ const Navbar_JS = ()=> {
             </div>
             }
             </div>
-
-            
-          
-      
         </Navbar.Collapse>
       </Container>
     </Navbar>

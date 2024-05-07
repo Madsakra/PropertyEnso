@@ -8,20 +8,50 @@ const logger = require("firebase-functions/logger");
 
 const { getAuth } = require("firebase-admin/auth");
 
+
 const app = initializeApp();
 const users = getAuth(app);
 
 
-exports.helloWorld = onRequest(async (request, response) => {
-
-  const data = await users.listUsers();
-  logger.info("Hello logs!", {structuredData: true});
-  
-  response.send(JSON.stringify(data));
-});
-
-
-exports.returnMessage = functions.https.onCall(async (data,context)=>{
+exports.viewAccounts = functions.https.onCall(async ()=>{
     const myData = await users.listUsers();
     return myData;
+})
+
+exports.createAccount = functions.https.onCall(async(data,context)=>{
+
+  try{
+   
+          const user = await users.createUser({
+            email:data.email,
+            password:data.password
+          })
+          // Return USER ID
+          const userID = user.uid;
+          return userID;
+  }
+
+  catch(error)
+  {
+    console.log(error);
+  }
+})
+
+
+exports.resetPassword = functions.https.onCall(async(data,context)=>{
+
+  try{
+
+    await users.updateUser(data.uid,{
+      password:"test12345"
+    })
+
+    console.log("password changed for "+data.uid);
+
+  }
+  catch(err)
+  {
+    console.log(err)
+  }
+
 })

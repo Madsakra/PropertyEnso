@@ -3,7 +3,7 @@ import './styles.css';
 
 // COMPONENTS
 import Home from './components/Home_JS';
-import DashBoard from './components/DashBoard';
+
 import {React, useState,createContext,useEffect} from 'react';
 import {HashRouter as Router,  Route, Routes} from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
@@ -20,6 +20,9 @@ import CreatePropertyPage from './components/CreatePropertyPage';
 import AgentPropertiesPage from './components/AgentPropertiesPage';
 import AgentRatingAndReviewPage from './components/AgentRatingAndReviewPage';
 import AgentSearchPage from './components/AgentSearchPage';
+import ViewAccountsPage from './components/ViewAccountsPage';
+import AdminCreateAccPage from './components/AdminCreateAccPage';
+
 
 
 export const Context = createContext();
@@ -137,7 +140,6 @@ const App =()=>{
        
           <Routes>
             <Route path='/' exact element={ <Home /> } />
-            <Route path='/dashboard' exact element={ <DashBoard /> } />
             <Route path='/viewlistings' exact element={ <ViewListingsPage /> } />
             <Route path='/favouritepage' exact element={ <FavouritePage /> } />
             <Route path='/rateandreviewpage' exact element={ <RateAndReviewPage/> } />
@@ -146,6 +148,12 @@ const App =()=>{
             <Route path='/agentproperties' exact element={ <AgentPropertiesPage/> }/>
             <Route path='/agentratingandreview' exact element={<AgentRatingAndReviewPage/>}/>
             <Route path='/agentsearch' exact element={<AgentSearchPage/>}/>
+            <Route path='/viewaccounts' exact element={<ViewAccountsPage/>}/>
+            <Route path='/admincreateAc' exact element={<AdminCreateAccPage/>}/>
+
+
+
+
           </Routes>
         
       </div>

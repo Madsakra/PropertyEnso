@@ -130,6 +130,7 @@ input:invalid[focused="true"] ~ .errorMessage
 
 
 
+
 }
 
 .list-group-item-check
@@ -449,6 +450,18 @@ input:invalid[focused="true"] ~ .errorMessage
   height: 200px;
 }
 
+.accounts-head{
+  margin-top: 6vh;
+  background-image: url('images/agent-3.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  color: rgb(247, 235, 235);
+  height: 30vh;
+  
+
+}
+
 .listings-head{
   margin-top: 6vh;
   background-image: url('images/sentosa.jpg');
@@ -690,3 +703,31 @@ input[type=radio]
 
 
 
+.admin-create-head{
+  margin-top: 6vh;
+  background-image: url('images/agent.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  color: rgb(247, 235, 235);
+  height: 30vh; 
+}
+
+.create-form{
+  background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
+  padding: 80px;
+  margin: 80px;
+  border-radius: 2rem;
+  color: whitesmoke;
+}
+
+.button-1{
+  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+  color: white;
+}
+
+.button-2{
+  background-color: #E4E4E1;
+  background-image: radial-gradient(at top center, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.03) 100%), linear-gradient(to top, rgba(255,255,255,0.1) 0%, rgba(143,152,157,0.60) 100%);
+  background-blend-mode: normal, multiply;
+}
