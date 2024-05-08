@@ -11,30 +11,32 @@ export class SavedNewProperty{
     }
 
 
-    async fetchNewSavedProperty(authUser)
+    async fetchNewSavedProperty(uid,profileID)
     {
-        const querySnapshot = await getDocs(collection(db, "userData"));
+
+        const allBuyerSavedRef = collection(db,"BuyerSavedListings")
+        const allBuyerSavedListings = await getDocs(allBuyerSavedRef);
+    
         let result = [];
-        querySnapshot.forEach((doc) => {
-            // doc.data() is never undefined for query doc snapshots
-            if (authUser?.email === doc.data().email)
+
+        allBuyerSavedListings.forEach((record)=>{
+
+            const listingData = record.data();
+            const recordProfileID = listingData.buyerProfileID;
+            const recordUID = listingData.buyerUID;
+            const savedListing = listingData.savedListing;
+
+            if (recordUID===uid && recordProfileID===profileID && savedListing.status==="new")
             {
-     
-                // check if user has any saved fields, then send back data
-                if (doc.data().saved !==undefined)
-                {
-                    let tempArray = doc.data().saved;
-                    tempArray.forEach((property)=>{
-                        if (property.status === "new")
-                        {
-                            result.push(property);
-                        }
-                    })
-                }
-                
+                result.push(savedListing);
             }
-         
-          });
+            
+
+        })
+
+
+
+
           return result;
         }
 

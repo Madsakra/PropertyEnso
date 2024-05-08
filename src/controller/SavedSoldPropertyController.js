@@ -3,16 +3,16 @@ import { SavedSoldProperty } from "../entity/SavedSoldProperty";
 
 export class SavedSoldPropertyController{
 
-    constructor(authUser)
+    constructor()
     {
-        this.authUser = authUser;
+     
     }
 
 
-    async collectSoldProperty()
+    async collectSoldProperty(uid,profileID)
     {
         const mySave = new SavedSoldProperty();
-        const response = await mySave.fetchSoldProperty(this.authUser);
+        const response = await mySave.fetchSoldProperty(uid,profileID);
         return response;
     }
 

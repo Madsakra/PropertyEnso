@@ -34,6 +34,7 @@ const ViewAccountsPage = ()=>{
 
     async function resetPassword(accountID,profileID)
     {
+      
        const myResetControl = new ResetPasswordController();
        const result = await myResetControl.pushReset(accountID,profileID);
        console.log(result);
@@ -79,6 +80,7 @@ const ViewAccountsPage = ()=>{
           <th>UID (Account ID)</th>
           <th>Profile ID</th>
           <th>Phone Number</th>
+          <th>Status</th>
           <th className="text-center">Update Account</th>
         </tr>
       </thead>
@@ -91,6 +93,7 @@ const ViewAccountsPage = ()=>{
             <td>{item.UID}</td>
             <td>{item.profileID?item.profileID:<></>}</td>
             <td>{item.phoneNumber}</td>
+            <td>{item.status}</td>
             <td className="text-center">     
                 <Dropdown>
                     <Dropdown.Toggle variant="light" id="dropdown">

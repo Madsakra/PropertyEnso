@@ -38,7 +38,7 @@ exports.createAccount = functions.https.onCall(async(data,context)=>{
 })
 
 
-exports.resetPassword = functions.https.onCall(async(data,context)=>{
+exports.resetPassword = functions.https.onCall( async(data,context)=>{
 
   try{
 

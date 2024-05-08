@@ -15,8 +15,12 @@ export class AdminCreateAcController{
         return result;
     }
 
-
-
+    // to delete
+    async makeChange()
+    {
+        const mychange = new AdminCreateAC();
+        await mychange.makeChanges();
+    }
 
 
 }

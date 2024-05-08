@@ -43,6 +43,11 @@ const AdminCreateAccPage = ()=>{
     }
 
 
+    async function makeChange()
+    {
+        const myCreatorControl = new AdminCreateAcController();
+        await myCreatorControl.makeChange();
+    }
 
     return (
         <>
@@ -54,7 +59,7 @@ const AdminCreateAccPage = ()=>{
           </div>
         </div>
 
-
+        <button className="btn btn-primary btn-lg w-100" onClick={makeChange}>Changer</button>
 
         <div className="create-form">
 

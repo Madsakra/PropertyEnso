@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 const LoginPage = () =>{
 
     
-    const {setOpenLogin,userProfileCreated,setCreateUserTrigger, 
+    const {setOpenLogin, setUserName, setAccountDetails, profileID,
         email,password,setFacedError,setAuthUser,
         setEmail,setPassword,facedError} = useContext(Context);
 
@@ -25,18 +25,24 @@ const LoginPage = () =>{
             const userAuth = new AdminLoginController();
             const signInSuccess = await userAuth.signInWithGoogleMeth();
             
-            signInSuccess.userCred.then((result)=>{
-                setAuthUser(result);
-                alert("login successful");
-                setOpenLogin(false);
-                
-                if (!userProfileCreated)
+            if (signInSuccess.toShow === true)
                 {
-                    setCreateUserTrigger(true);
-                }
-            })
-            
 
+                    const result = signInSuccess.userCred;
+                    setAuthUser(result);
+                    setAccountDetails(signInSuccess.userAccount);
+                    setUserName(signInSuccess.userAccount.userName);
+                    profileID.current = signInSuccess.userAccount.profileID
+                    alert("login successful");
+                    setFacedError(false);
+                    setOpenLogin(false);
+                }
+        
+                else{
+                    alert("account suspended, please contact admin!")
+                    setAuthUser(null);
+                    setFacedError(false);
+                }
         }
         catch(err)
         {
@@ -52,20 +58,32 @@ const LoginPage = () =>{
         event.preventDefault();
         
         const userAuth = new UserAuthenticator();
+        // const signInSuccess = await userAuth.signInNormal(email,password);
+        // test case for DDD testing
         const signInSuccess = await userAuth.signInNormal(email,password);
+        
+    
 
-        signInSuccess.userCred.then((result)=>{
+        if (signInSuccess.toShow === true)
+        {
+
+            const result = signInSuccess.userCred;
             setAuthUser(result);
+            setAccountDetails(signInSuccess.userAccount);
+            setUserName(signInSuccess.userAccount.userName);
             alert("login successful");
             setFacedError(false);
             setOpenLogin(false);
-            if (!userProfileCreated)
-            {
-                setCreateUserTrigger(true);
-            }
-        })
 
-        
+        }
+
+
+        else{
+      
+            alert("account suspended, please contact admin!")
+            setAuthUser(null);
+            setFacedError(false);
+        }
 
 
         

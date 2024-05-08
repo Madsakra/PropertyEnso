@@ -21,13 +21,13 @@ const PropertyInfoPage = (props)=>{
     const [interestRate, setInterestRate] = useState("");
     const [loanDuration, setLoanDuration] = useState("");
     const [monthlyPayment, setMonthlyPayment] = useState(0);
-    const {authUser,userType} = useContext(Context);
+    const {uid,profileID,userType} = useContext(Context);
 
     // BUYER STORY - SHORTLIST BUTTON ----- NEW PROPERTY
     async function shortlistNewProperty()
     {
-      const shortLister = new ShortlistNewController(authUser);
-      const response = await shortLister.shortListNew(currentListing);
+      const shortLister = new ShortlistNewController();
+      const response = await shortLister.shortListNew(currentListing,uid,profileID.current);
 
       // to check if the user had just accessed this page
       if (Object.keys(currentListing).length !==0 && response === false)
@@ -38,7 +38,14 @@ const PropertyInfoPage = (props)=>{
 
       else if (Object.keys(currentListing).length !==0 && response === true){
         await updateNewShortListValue(currentListing.name,currentListing.floorRange).then(()=>{
-          alert("Item Successfully Saved");
+          if (response===true)
+            {
+              alert("Shortlisted Successfully")
+            }
+
+            else{
+              alert("You already have that item saved!")
+            }
         })
       
       }
@@ -47,8 +54,8 @@ const PropertyInfoPage = (props)=>{
   // BUYER STORY - SHORTLIST BUTTON ----- SOLD PROPERTY
     async function shortlistSoldProperty()
     {
-      const shortLister = new ShortlistSoldController(authUser);
-      const response = await shortLister.shortListSold(currentListing);
+      const shortLister = new ShortlistSoldController();
+      const response = await shortLister.shortListSold(currentListing,uid,profileID.current);
 
       // to check if the user had just accessed this page
       if (Object.keys(currentListing).length !==0 && response === false)
@@ -59,7 +66,14 @@ const PropertyInfoPage = (props)=>{
 
       else if (Object.keys(currentListing).length !==0 && response === true){
         await updateSoldShortListValue(currentListing.name,currentListing.floorRange).then(()=>{
-          alert("Item Successfully Saved");
+          if (response===true)
+            {
+              alert("Shortlisted Successfully")
+            }
+
+            else{
+              alert("You already have that item saved!")
+            }
         })
       
       }

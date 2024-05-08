@@ -3,15 +3,15 @@ import { ShortlistSoldProperty } from "../entity/ShortListSoldProperty";
 
 export class ShortlistSoldController{
     
-    constructor(authUser)
+    constructor()
     {
-        this.authUser = authUser;
+       
     }
 
-    async shortListSold(shortListedData)
+    async shortListSold(shortListedData,uid,profileID)
     {
         const shortLister = new ShortlistSoldProperty();
-        const response = await shortLister.sendSoldProperty(shortListedData,this.authUser);
+        const response = await shortLister.sendSoldProperty(shortListedData,uid,profileID);
         return response;
     }
 

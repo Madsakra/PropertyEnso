@@ -2,7 +2,6 @@ import {useContext, useEffect,useState} from "react";
 import { Context } from '../App';
 import { SavedNewPropertyController } from "../controller/SavedNewPropertyController";
 import { SavedSoldPropertyController } from "../controller/SavedSoldPropertyController";
-import { UserDataController } from "../controller/UserDataController";
 import ListingCard from './ListingCard';
 import ReactLoading from "react-loading";
 
@@ -11,7 +10,7 @@ import ReactLoading from "react-loading";
 const FavouritePage = ()=>{
 
     
-    const {authUser,setUserProfileCreated, setUserName,setUserType} = useContext(Context);
+    const {uid,profileID} = useContext(Context);
     const [mySaved,setMySaved] = useState([]);
     const [loading,setLoading] = useState(true);
     const inSaved = true;
@@ -19,8 +18,8 @@ const FavouritePage = ()=>{
     async function fetchNewSavedProperty()
     {
         setLoading(true);
-        const saveControl = new SavedNewPropertyController(authUser);
-        const myResult = await saveControl.collectSavedProperty();
+        const saveControl = new SavedNewPropertyController();
+        const myResult = await saveControl.collectSavedProperty(uid,profileID.current);
         setMySaved([...myResult])
         setTimeout(()=>{
             setLoading(false);
@@ -31,8 +30,8 @@ const FavouritePage = ()=>{
     async function fetchSoldListing()
     {
         setLoading(true);
-        const saveControl = new SavedSoldPropertyController(authUser)
-        await saveControl.collectSoldProperty().then((result)=>{
+        const saveControl = new SavedSoldPropertyController()
+        await saveControl.collectSoldProperty(uid,profileID.current).then((result)=>{
             setMySaved([...result])})
             setTimeout(()=>{
                 setLoading(false);
@@ -45,21 +44,7 @@ const FavouritePage = ()=>{
 
 
     
-    async function removeListing(id)
-    {
-        // button inside calculator will bring back the position of the item to be removed
-        // after that call on the UserDataController
-        const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType);
-        await userDataProvider.removeSelectedSave(id).then((result)=>{
-            if (result)
-            {
-                alert("Item Removed successfully");
-                setLoading(true);
-            }
-        })
 
-
-    }
 
 
     useEffect(()=>{
@@ -103,7 +88,7 @@ const FavouritePage = ()=>{
                                  index = {myIndex}
                                  wholeListing = {listing}
                                  inSaved={inSaved}
-                                 removeListing={removeListing}
+  
                                  />
                  </div>
                  )

@@ -39,8 +39,8 @@ const HomeHeader = ()=>{
                            
                 </Col>
                 <Col sm={5} className='d-flex flex-column msg-across'>
-                <h1 class='fw-bolder text-center mt-5'>Welcome {userName}</h1>
-                <p class="display-4 mt-4 text-center">
+                <h1 class='fw-bolder display-1 text-center mt-5'>Welcome {userName}</h1>
+                <p class="display-3 mt-4 text-center">
                 Your Are {userType} in the Database
             
                 </p>

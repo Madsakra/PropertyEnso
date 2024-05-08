@@ -1,4 +1,4 @@
-import { getDocs,updateDoc, collection,doc } from 'firebase/firestore';
+import { getDocs,updateDoc, collection,doc, addDoc} from 'firebase/firestore';
 import { db } from '../firebase-config';
 
 
@@ -15,66 +15,48 @@ export class ShortlistNewProperty{
 
 
     
-    async sendNewProperty(shortListedData,authUser)
+    async sendNewProperty(shortListedData,uid,profileID)
     {
-        // get all data first,put in array   
-        const querySnapshot = await getDocs(collection(db, "userData"));
-        let docID = "";
-        let savedData = [];
-        querySnapshot.forEach((doc) => {
-            // filter for user data in db
-            if (authUser.email === doc.data().email)
-            {
-                docID = doc.id;
-                if (doc.data().saved !==undefined)
-                {
-                    savedData = doc.data().saved;
-                }
-               
-            }
-
-          });
-
-
-          function filterData(savedData,shortListedData)
-          {
-            let pushIn = true;
-            if (savedData)
+        const allBuyerSavedRef = collection(db,"BuyerSavedListings")
+        const allBuyerSavedListings = await getDocs(allBuyerSavedRef);
         
-            savedData.forEach((savedProperty)=>{
-            if (shortListedData.name === savedProperty.name)
-            {
-                pushIn = false;
-                return pushIn;
-            }})
-           
-            return pushIn;
-          }
 
-        // compare between the saved property and the shortlisted ones on page currently
-        // if there are any difference, do not push out to filtered
+        async function ensureNoDuplicates(shortListedData, profileID, uid, querySnapshot) {
+            // convert the snapshot into an array for iteration
+            const allBuyerSavedListings = await querySnapshot.docs.map(doc => doc.data());
 
-        const filterShortlisted = filterData(savedData,shortListedData);
+            for (let savedListing of allBuyerSavedListings) {;
+                const buyerProfileID = savedListing.buyerProfileID;
+                const buyerUID = savedListing.buyerUID;
+                const saved = savedListing.savedListing.name;
+        
+                if (saved === shortListedData.name && buyerProfileID === profileID && buyerUID === uid) {
+                    console.log(saved);
+                    return false; // If duplicate found, return false
+                }
+            }
+            return true; // If no duplicate found, return true
+        }
 
-
-        if (filterShortlisted === true && Object.keys(shortListedData).length !==0)
+        const filterResults = await ensureNoDuplicates(shortListedData,profileID,uid,allBuyerSavedListings);
+ 
+        
+        if (filterResults)
         {
-            savedData.push(shortListedData);
-            const currentUserRef = doc(db, "userData", docID );
-            await updateDoc(currentUserRef,{
-              "saved":savedData
-            })
-            return true;
+            await addDoc(collection(db,"BuyerSavedListings"),{
+                buyerUID: uid,
+                buyerProfileID: profileID,
+                savedListing:shortListedData
+           })
+
+           return true;
         }
 
         else{
-
             return false;
-        
         }
+
+   
     }
-
-
-
 
 }

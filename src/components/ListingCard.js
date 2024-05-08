@@ -36,7 +36,7 @@ const ListingCard = (props)=>{
                                         shortList={shortList}
                                         wholeListing={listingProps}
                                         inSavedGallery={inSavedGallery}
-                                        removeListing={removeListing}
+             
                                         propertyIndex = {propertyIndex}/>}
 
         <div className='caro-list-item' onClick={()=> {

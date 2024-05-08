@@ -4,11 +4,11 @@ import './styles.css';
 // COMPONENTS
 import Home from './components/Home_JS';
 
-import {React, useState,createContext,useEffect} from 'react';
+import {React, useState,createContext,useEffect,useRef} from 'react';
 import {HashRouter as Router,  Route, Routes} from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
 import CreateUserProfile from './components/CreateUserProfile';
-import {UserDataController}  from './controller/UserDataController';
+import {UserProfileController}  from './controller/UserProfileController';
 import {auth} from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import ViewListingsPage from './components/ViewListings';
@@ -29,7 +29,7 @@ export const Context = createContext();
 
 const App =()=>{
 
-
+    
     // states to trigger the login and register buttons
    const [openLogin,setOpenLogin] = useState(false);
    const [openRegister,setOpenRegister] = useState(false);
@@ -41,7 +41,7 @@ const App =()=>{
    
    const [email,setEmail] = useState("");
    const [password,setPassword] = useState("");
-
+    const [uid,setUID] = useState("");
 
    // state for authentication
    const [authUser,setAuthUser] = useState(null);
@@ -55,12 +55,12 @@ const App =()=>{
    // take current user name from db and store here
    const [userName,setUserName] = useState("");
    const [userType,setUserType] = useState("");
+   const [accountDetails,setAccountDetails] = useState({});
 
 
+    
 
-    const [profileID, setProfileID] = useState("");
-
-  
+    const profileID = useRef("");
 
  
 
@@ -72,28 +72,31 @@ const App =()=>{
       if (user) {
         
         setAuthUser(user);
-       
+        setUID(user.uid);
+        
       } })
 
 
   },[])
 
   // fetch user profile
-  async function fetchData()
+  async function fetchProfile()
   {
-    const userDataProvider = new UserDataController(authUser,setUserProfileCreated, setUserName,setUserType,setProfileID);
-    await userDataProvider.getAllUserDetails();
-    if (authUser!=null && !userProfileCreated)
+    const userProfileProvider = new UserProfileController();
+    if (uid)
     {
-      setCreateUserTrigger(true);
+      const result = await userProfileProvider.getProfileDetails(uid);
+      setUserType(result.type);
+      profileID.current = result.profileID;
     }
-
   }
 
+
+  // IF USER REFRESH, AT LEAST THE PROFILE ID AND PROFILE WILL BE BACK 
   useEffect(()=>{
 
 
-    fetchData();
+    fetchProfile();
     
   })
 
@@ -113,13 +116,12 @@ const App =()=>{
     <Router>
       <ScrollToTop/>
       <Context.Provider value={{  openLogin,setOpenLogin,openRegister,setOpenRegister,
-                                authUser, setAuthUser,setEmail, setPassword,
-                                setFacedError,
-                                facedError, email,password,
+                                authUser, setAuthUser,setEmail, setPassword, profileID,
+                                setFacedError, setUserName, setAccountDetails, uid,
+                                facedError, email,password, 
                                 userName,setUserName, userProfileCreated,
                                 setUserProfileCreated,setCreateUserTrigger, userType,
-                                setUserType,  profileID,
-                                setLoading
+                                setUserType,setLoading
                           
                                 }}>
       
