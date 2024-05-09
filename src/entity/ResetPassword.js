@@ -17,7 +17,7 @@ export class ResetPassword{
     async resetPasswordNow(accountID,profileID)
     {
         // 1. check if account is admin 
-        const profileDocuRef = doc(db,"userData", profileID)
+        const profileDocuRef = doc(db,"userProfile", profileID)
         const profile = await getDoc(profileDocuRef);
 
         const profileType = profile.data().type;

@@ -11,31 +11,23 @@ export class AgentReviews{
         }
 
 
-        async getReviews(authUser)
+        async getReviews(uid,currentProfileID)
         {
 
-            try{
-
-                const querySnapshot = await getDocs(collection(db, "userData"));
-                let myReviews = [];
-                querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    if (authUser?.uid === doc.data().UID)
-                    {
-                        myReviews = doc.data().reviews;                         
-                    }
-                 
-                  });
+            const querySnapshot = await getDocs(collection(db, "Reviews"));
+            let myReviews = [];
+            querySnapshot.forEach((doc) => {
                 
-                  return myReviews;
-            }
+                const reviewData = doc.data();
+                if (reviewData.agentProfile.UID === uid && reviewData.agentProfile.profileID === currentProfileID)
+                {
+                    myReviews.push(reviewData);
+                }
+             
+              });
+            
+              return myReviews;
 
-            catch(err)
-            {
-
-                console.log(err);
-            }
 
         }
-
 }

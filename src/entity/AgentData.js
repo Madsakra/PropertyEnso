@@ -13,14 +13,30 @@ export class AgentData{
 
     async fetchAllAgent()
     {
-        const querySnapshot = await getDocs(collection(db, "userData"));
+        const querySnapshot = await getDocs(collection(db, "userProfile"));
+        const accountSnapShot = await getDocs(collection(db, "allAccounts"));
+        // const ratingsSnap = await getDocs(collection(db, "Ratings"));
         let savedData = [];
         querySnapshot.forEach((doc) => {
-            // filter for REA in db
-       
+            // filter for REA in profile
+            // go through profile, pick up UID
+
+                const profileUID = doc.data().UID;
+
+                // IF AGENT IS REA, LOOP THROUGH ACCOUNTS AND RETRIEVE DETAILS
                 if (doc.data().type === "Real Estate Agent")
                 {
-                    savedData.push(doc.data());
+                    accountSnapShot.forEach((account)=>{
+                        
+                        const accountData = account.data();
+
+                        if (accountData.UID===profileUID)
+                        {
+                            savedData.push(accountData);
+                        }
+
+                    })
+                    
                 }
                
             
@@ -32,31 +48,6 @@ export class AgentData{
     }
 
 
-    async sendData(myPackage,targetAgent)
-    {
-        let agentDocID = "";
-      
-        const querySnapshot = await getDocs(collection(db, "userData"));
-      
-        querySnapshot.forEach((doc) => {
-            // filter for REA in db
-       
-                if (doc.data().email === targetAgent.email)
-                {
-                    agentDocID = doc.id;
-                }
-          });
-          console.log(targetAgent.email);
-          console.log(agentDocID);
-        
-        // PUSH INTO DB
-       const currentUserRef = doc(db, "userData", agentDocID);
-       await updateDoc(currentUserRef,{
-        
-         "ratingsAndReviews": arrayUnion(myPackage)
-       })
-       return true;
-    }
 
 
 

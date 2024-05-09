@@ -12,10 +12,10 @@ export class AgentRatingsController{
 
 
 
-    async pushFetchProcess(authUser)
+    async pushFetchProcess(uid,currentProfileID)
     {
         const myFetcher = new AgentRatings();
-        const result = await myFetcher.getRatings(authUser);
+        const result = await myFetcher.getRatings(uid,currentProfileID);
         return result;
 
     }

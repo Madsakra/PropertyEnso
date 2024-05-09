@@ -12,15 +12,16 @@ const AgentRatingAndReviewPage = ()=>{
     const [loading,setLoading] = useState(true);
     const [myRatings,setMyRatings] = useState([]);
     const [myReviews,setMyReviews] = useState([]);
-    const {authUser} = useContext(Context);
+    const {uid,profileID} = useContext(Context);
 
+    const currentProfileID = profileID.current;
     const [currentPanel,setCurrentPanel] = useState("ratings");
 
     async function fetchMyRatings()
     {
         setLoading(true);
         const fetchRatingsControl = new AgentRatingsController();
-        const result = await fetchRatingsControl.pushFetchProcess(authUser);
+        const result = await fetchRatingsControl.pushFetchProcess(uid,currentProfileID);
         setMyRatings([...result]);
         setTimeout(()=>setLoading(false),1000);
     }
@@ -29,7 +30,7 @@ const AgentRatingAndReviewPage = ()=>{
     {
         setLoading(true);
         const fetchReviewsControl = new AgentReviewsController();
-        const result = await fetchReviewsControl.pushFetchProcess(authUser);
+        const result = await fetchReviewsControl.pushFetchProcess(uid,currentProfileID);
         setMyReviews([...result]);
         setTimeout(()=>setLoading(false),1000);
     }
@@ -92,8 +93,10 @@ const AgentRatingAndReviewPage = ()=>{
                             <img src={avatar} className='img-fluid' width="400vh"></img>
 
                             {/*USERNAME AND EMAIL NOT DISPLAYED AS IT WILL BE SUBJECT TO CHANGES, TO BE DISCUSSED*/}
-                            <p className="fs-4">Customer UID: {customer.UID}</p>
-                            <p className='fs-4'>Rated: {customer.rating} </p>
+                            <p className="fs-2">Rater: {customer.ratingDetails.rater}</p>
+                            <p className="fs-4">Rater Role: {customer.ratingDetails.userType}</p>
+                            <p className="fs-5">Customer UID: {customer.ratingDetails.UID}</p>
+                            <p className='fs-4'>Rated: {customer.ratingDetails.rating} </p>
                         </div>
                     </div>
                     
@@ -120,8 +123,10 @@ const AgentRatingAndReviewPage = ()=>{
                             <img src={avatar} className='img-fluid' width="400vh"></img>
 
                             {/*USERNAME AND EMAIL NOT DISPLAYED AS IT WILL BE SUBJECT TO CHANGES, TO BE DISCUSSED*/}
-                            <p className="fs-4">Customer UID: {customer.UID}</p>
-                            <p className='fs-4'>Review: {customer.review} </p>
+                            <p className="fs-2">Rater: {customer.reviewDetails.reviwer}</p>
+                            <p className="fs-4">Rater Role: {customer.reviewDetails.userType}</p>
+                            <p className="fs-5">Customer UID: {customer.reviewDetails.UID}</p>
+                            <p className='fs-4'>Rated: {customer.reviewDetails.review} </p>
                         </div>
                     </div>
                 )

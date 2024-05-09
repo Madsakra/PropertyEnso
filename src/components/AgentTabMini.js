@@ -1,6 +1,6 @@
 import avatar from '../images/avatar.png';
 import { useState } from 'react';
-import Rate from './Rate';
+import RateAndReviewComponent from './RateAndReviewComponent';
 const AgentTabMini = (props)=>{
 
 
@@ -24,11 +24,11 @@ const AgentTabMini = (props)=>{
                     <img src={avatar} className='img-fluid' width="400vh"></img>
                     <p className='display-4'>{props.agent.userName}</p>
                     <p className='fs-3'>{props.agent.email}</p>
-                    <p className='fs-4'>Current Rating: {rating} </p>
+       
                     <button className='w-50 btn btn-rounded btn-dark'
                             onClick={()=>{setOpenForm(!openForm)}}> Rate And Review </button>
                 </div>
-                {openForm && <Rate agentProps={props} setOpenForm={setOpenForm}/>}
+                {openForm && <RateAndReviewComponent agentProps={props} setOpenForm={setOpenForm}/>}
 
             </div>
 

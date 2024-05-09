@@ -713,12 +713,33 @@ input[type=radio]
   height: 30vh; 
 }
 
+.profile-create-head{
+  margin-top: 6vh;
+  background-image: url('images/agent-4.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  color: rgb(167, 214, 223);
+  height: 30vh; 
+}
+
 .create-form{
   background: radial-gradient(circle at 24.1% 68.8%, rgb(50, 50, 50) 0%, rgb(0, 0, 0) 99.4%);
   padding: 80px;
   margin: 80px;
   border-radius: 2rem;
   color: whitesmoke;
+  box-shadow: rgba(0, 0, 0, 0.25) 10px 10px 5px;
+}
+
+.create-profile-form
+{
+  color: white;
+  padding: 80px;
+  margin: 80px;
+  border-radius: 2rem;
+  background-image: linear-gradient(to right, #868f96 0%, #596164 100%);
+  box-shadow: rgba(0, 0, 0, 0.25) 10px 10px 5px;
 }
 
 .button-1{
@@ -731,3 +752,12 @@ input[type=radio]
   background-image: radial-gradient(at top center, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.03) 100%), linear-gradient(to top, rgba(255,255,255,0.1) 0%, rgba(143,152,157,0.60) 100%);
   background-blend-mode: normal, multiply;
 }
+
+
+ .search-bar .form-control::placeholder { 
+    color: lightcyan;
+    opacity: 1;
+
+
+ }
+

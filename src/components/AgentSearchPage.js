@@ -111,7 +111,7 @@ const AgentSearchPage = ()=>{
 
 
 
-       {(!loading && finishSearch) && 
+       {(!loading && finishSearch ) && 
             <div>
 
                 {searchResults.map((result)=>{
@@ -122,9 +122,9 @@ const AgentSearchPage = ()=>{
                         
                     )})}
                     
-            {haveMore && <div className='container w-50'><button className='btn btn-warning btn-lg w-100 mb-5' onClick={searchForProperty}>More Results</button></div>}
+            {(haveMore && searchResults.length !== 0) && <div className='container w-50'><button className='btn btn-warning btn-lg w-100 mb-5' onClick={searchForProperty}>More Results</button></div>}
 
-            {!haveMore && <div className='container w-50'> <button className='btn btn-dark btn-lg w-100 mb-5' onClick={restart}>Go Back To Search For More</button> </div> }
+            {(!haveMore && searchResults.length !== 0) && <div className='container w-50'> <button className='btn btn-dark btn-lg w-100 mb-5' onClick={restart}>Go Back To Search For More</button> </div> }
 
             </div>
         

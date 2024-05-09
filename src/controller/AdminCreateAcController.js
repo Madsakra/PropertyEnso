@@ -7,10 +7,10 @@ export class AdminCreateAcController{
 
     }
 
-    async pushCreate(email,password,phoneNumber)
+    async pushCreate(email,password,userName)
     {
         const myCreator = new AdminCreateAC();
-        const result = await myCreator.createAccount(email,password,phoneNumber);
+        const result = await myCreator.createAccount(email,password,userName);
     
         return result;
     }

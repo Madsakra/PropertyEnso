@@ -7,7 +7,7 @@ export class RateController{
     async sendData(stars,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent)
     {
 
-        const myPackage = {"reviewer": reviewer,
+        const myPackage = {"rater": reviewer,
                             "UID": uniqueID,  
                             "email": reviewerEmail,
                             "userType":reviewerType,

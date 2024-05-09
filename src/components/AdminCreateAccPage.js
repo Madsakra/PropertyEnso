@@ -1,18 +1,18 @@
 import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 import { AdminCreateAcController } from "../controller/AdminCreateAcController";
-
+import ReactLoading from "react-loading";
 
 const AdminCreateAccPage = ()=>{
 
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState("");
-    const [phoneNumber,setPhoneNumber] = useState("");
+    const [userName,setUserName] = useState("");
 
     const [emailError,setEmailError] = useState(false);
     const [passwordError,setPasswordError] = useState(false);
-    const [phoneError,setPhoneError] = useState(false);
-
+    const [userNameError,setUserNameError] = useState(false);
+    const [loading,setLoading] = useState(false);
 
 
     async function createAccount()
@@ -27,31 +27,31 @@ const AdminCreateAccPage = ()=>{
             setPasswordError(true);
         }
 
-        else if (phoneNumber==="")
+        else if (userName==="")
         {
-            setPhoneError(true);
+            setUserNameError(true);
         }
 
         else{
+            setLoading(true);
             const myCreatorControl = new AdminCreateAcController();
-            const result = await myCreatorControl.pushCreate(email,password,phoneNumber);
+            const result = await myCreatorControl.pushCreate(email,password,userName);
             if (result)
             {
                alert("Account Created!");
             }
+            setLoading(false);
         }
     }
 
 
-    async function makeChange()
-    {
-        const myCreatorControl = new AdminCreateAcController();
-        await myCreatorControl.makeChange();
-    }
 
     return (
         <>
 
+
+ 
+        <div>
         <div class="p-5 mb-4 admin-create-head bg-body-tertiary rounded-3">
           <div class="container-fluid py-5  text-center">
           <h1 class="display-4 fw-bold">Create Account</h1>
@@ -59,8 +59,8 @@ const AdminCreateAccPage = ()=>{
           </div>
         </div>
 
-        <button className="btn btn-primary btn-lg w-100" onClick={makeChange}>Changer</button>
-
+       
+        {!loading && 
         <div className="create-form">
 
             <div className="container">
@@ -73,14 +73,24 @@ const AdminCreateAccPage = ()=>{
                 <Form.Control size="lg" type="password" onChange={e=>setPassword(e.target.value)} placeholder="Password" />
                 {passwordError && <p className="text-danger">Please Enter A Password</p>}
 
-                <Form.Control size="lg" type="number" onChange={e=>setPhoneNumber(e.target.value)} placeholder="Phone Number" />
-                {phoneError && <p className="text-danger">Please Enter Your Phone Number</p>}
+                <Form.Control size="lg" type="text" onChange={e=>setUserName(e.target.value)} placeholder="User Name" />
+                {userNameError&& <p className="text-danger">Please Enter Your UserName</p>}
 
-                <button className="btn btn-light w-100 btn-lg mt-3" onClick={createAccount}>Create User</button>  
-           
+                <button className="btn btn-light w-100 btn-lg mt-3" onClick={createAccount}>Create User</button>     
             </div>
-            
-    
+        </div>
+        }
+        
+        {loading &&  
+      <div className='d-flex align-items-center justify-content-center m-5 p-5'>
+        <h1 className='display-1'>Creating Account...Hang On</h1>
+        <ReactLoading type={"bars"} className='ms-3'  color={"black"} />  
+      </div>
+       }
+
+
+
+
         </div>
 
 

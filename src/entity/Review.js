@@ -1,4 +1,4 @@
-import { getDocs, updateDoc, collection,doc, arrayUnion } from 'firebase/firestore';
+import {collection,addDoc} from 'firebase/firestore';
 import { db } from '../firebase-config';
 
 
@@ -7,27 +7,11 @@ export class Review{
 
     async pushReview(myPackage,targetAgent)
     {
-        let agentDocID = "";
-      
-        const querySnapshot = await getDocs(collection(db, "userData"));
-      
-        querySnapshot.forEach((doc) => {
-            // filter for REA in db
-       
-                if (doc.data().email === targetAgent.email)
-                {
-                    agentDocID = doc.id;
-                }
+        await addDoc(collection(db, "Reviews"), {
+            agentProfile:targetAgent,
+            reviewDetails:myPackage,
+            
           });
-          console.log(targetAgent.email);
-          console.log(agentDocID);
-        
-        // PUSH INTO DB
-       const currentUserRef = doc(db, "userData", agentDocID);
-       await updateDoc(currentUserRef,{
-        
-         "reviews": arrayUnion(myPackage)
-       })
        return true;
     }
 

@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 import mainLogo from '../svg/mainLogo.svg';
 import LoginPage from './LoginPage';
-import RegisterPage from './RegisterPage';
+
 import Button from 'react-bootstrap/Button';
 
 import { useContext } from 'react';
@@ -31,9 +31,7 @@ const Navbar_JS = ()=> {
               if (successSignOut)
               {
                 alert('Sign out successful');
-                setCreateUserTrigger(false);
                 setAuthUser(null);
-                setUserProfileCreated(false);
                 setEmail("");
                 setPassword("");
                 navigate('/');
@@ -42,6 +40,7 @@ const Navbar_JS = ()=> {
             catch(error)
             {
               alert("Sign Out Failed")
+              console.log(error);
             }
           };
           
@@ -97,10 +96,10 @@ const Navbar_JS = ()=> {
          {
           (userType==="Admin" && authUser)&&
           <>
-          
+            
             <Nav.Link as={Link} to='/viewaccounts' exact>View Accounts</Nav.Link>
             <Nav.Link as={Link} to='/admincreateAc' exact>Create Account</Nav.Link>
-          
+            <Nav.Link as={Link} to='/admincreateProfile' exact>Create Profile</Nav.Link>
           </>
          }
           
@@ -116,10 +115,6 @@ const Navbar_JS = ()=> {
 
             <div>
 
-              <Button className='me-3 buttonColor btn-outline-light'  
-              onClick={()=>{setOpenRegister(true);
-              setOpenLogin(false);}}>Register</Button> 
-
 
               <Button className='buttonColor btn-outline-light' 
               onClick={()=>{setOpenLogin(true);}}>Login</Button>
@@ -132,7 +127,7 @@ const Navbar_JS = ()=> {
     </Navbar>
     
     
-    {openRegister && <RegisterPage/> }
+
 
 
     {openLogin && <LoginPage/>}

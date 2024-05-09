@@ -12,10 +12,10 @@ export class AgentReviewsController{
 
 
 
-    async pushFetchProcess(authUser)
+    async pushFetchProcess(uid,currentProfileID)
     {
         const myFetcher = new AgentReviews();
-        const result = await myFetcher.getReviews(authUser);
+        const result = await myFetcher.getReviews(uid,currentProfileID);
         return result;
 
     }

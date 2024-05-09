@@ -2,7 +2,7 @@ import { useState } from "react";
 import {FaStar} from 'react-icons/fa'
 import Form from 'react-bootstrap/Form';
 
-const Rate = (props)=>{
+const RateAndReviewComponent = (props)=>{
 
     const [rating,setRating] = useState(null);
     const [hover,setHover] = useState(null);
@@ -83,4 +83,4 @@ const Rate = (props)=>{
 }
 
 
-export default Rate;
+export default RateAndReviewComponent;

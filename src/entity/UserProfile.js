@@ -12,7 +12,7 @@ export class UserProfile{
 
     async retreiveData(userUID)
     {
-
+        console.log(userUID);
         const userDataCollection = collection(db, "userProfile");
         const result = await getDocs(userDataCollection).then((result)=>{
 
@@ -20,10 +20,13 @@ export class UserProfile{
             result.forEach((profile)=>{
                 const profileInfo = profile.data();
                 const profileID = profile.id;
+                
+
                 if (profileInfo.UID === userUID)
                 {
                    myProfile = profileInfo
                    myProfile.profileID = profileID; 
+               
                 }
     
             })

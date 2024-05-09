@@ -11,20 +11,21 @@ export class AgentRatings{
         }
 
 
-        async getRatings(authUser)
+        async getRatings(uid,currentProfileID)
         {
 
             try{
 
 
 
-                const querySnapshot = await getDocs(collection(db, "userData"));
+                const querySnapshot = await getDocs(collection(db, "Ratings"));
                 let myRatings = [];
                 querySnapshot.forEach((doc) => {
-                    // doc.data() is never undefined for query doc snapshots
-                    if (authUser?.uid === doc.data().UID)
+                    
+                    const ratingsData = doc.data();
+                    if (ratingsData.agentProfile.UID === uid && ratingsData.agentProfile.profileID === currentProfileID)
                     {
-                        myRatings = doc.data().ratings;                         
+                        myRatings.push(ratingsData);
                     }
                  
                   });

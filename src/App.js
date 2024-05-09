@@ -7,7 +7,7 @@ import Home from './components/Home_JS';
 import {React, useState,createContext,useEffect,useRef} from 'react';
 import {HashRouter as Router,  Route, Routes} from 'react-router-dom';
 import ScrollToTop from './components/ScrollToTop';
-import CreateUserProfile from './components/CreateUserProfile';
+
 import {UserProfileController}  from './controller/UserProfileController';
 import {auth} from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -22,7 +22,7 @@ import AgentRatingAndReviewPage from './components/AgentRatingAndReviewPage';
 import AgentSearchPage from './components/AgentSearchPage';
 import ViewAccountsPage from './components/ViewAccountsPage';
 import AdminCreateAccPage from './components/AdminCreateAccPage';
-
+import AdminCreateProfilePage from './components/AdminCreateProfilePage';
 
 
 export const Context = createContext();
@@ -47,10 +47,6 @@ const App =()=>{
    const [authUser,setAuthUser] = useState(null);
    const[loading,setLoading] = useState(false);
 
-   // state to check if user exist in database
-   const [userProfileCreated, setUserProfileCreated] = useState(false);
-   // trigger create user if they haven't done so 
-   const [createUserTrigger,setCreateUserTrigger] = useState(false);
    
    // take current user name from db and store here
    const [userName,setUserName] = useState("");
@@ -73,6 +69,7 @@ const App =()=>{
         
         setAuthUser(user);
         setUID(user.uid);
+        console.log(user.uid);
         
       } })
 
@@ -119,8 +116,7 @@ const App =()=>{
                                 authUser, setAuthUser,setEmail, setPassword, profileID,
                                 setFacedError, setUserName, setAccountDetails, uid,
                                 facedError, email,password, 
-                                userName,setUserName, userProfileCreated,
-                                setUserProfileCreated,setCreateUserTrigger, userType,
+                                userName,setUserName, userType,
                                 setUserType,setLoading
                           
                                 }}>
@@ -131,9 +127,7 @@ const App =()=>{
 
     
 
-      {(createUserTrigger && !userProfileCreated ) &&
-        <CreateUserProfile/>}
-        
+
       {loading && 
       <div className='loading-cont display-1'>
         LOADING......
@@ -152,7 +146,7 @@ const App =()=>{
             <Route path='/agentsearch' exact element={<AgentSearchPage/>}/>
             <Route path='/viewaccounts' exact element={<ViewAccountsPage/>}/>
             <Route path='/admincreateAc' exact element={<AdminCreateAccPage/>}/>
-
+            <Route path='/admincreateProfile' exact element={<AdminCreateProfilePage/>}/>
 
 
 
