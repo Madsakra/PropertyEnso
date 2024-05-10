@@ -209,12 +209,12 @@ const ViewAccountsPage = ()=>{
                 <div className="d-grid gap-2">
                 {endVal.current===50 && <Button variant="outline-light" className="button-1 fw-bold" size="lg" onClick={()=>{
                     startVal.current +=51;
-                    endVal.current +=42;
+                    endVal.current +=51;
                     getAllAccounts();
                 }}>View More</Button>}
 
 
-                {endVal.current===92 && <Button variant="light" className="button-2 fw-bold" size="lg" 
+                {endVal.current===101 && <Button variant="light" className="button-2 fw-bold" size="lg" 
                 
                 onClick={()=>{
                     startVal.current = 0;

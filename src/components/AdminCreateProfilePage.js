@@ -44,12 +44,10 @@ const AdminCreateProfilePage = ()=>{
 
 
 
-
     return (
         <>
 
-
- 
+    
         <div>
         <div class="p-5 mb-4 profile-create-head bg-body-tertiary rounded-3">
           <div class="container-fluid py-5  text-center">
@@ -58,7 +56,9 @@ const AdminCreateProfilePage = ()=>{
           </div>
         </div>
 
-       
+
+ 
+
         {!loading && 
         <div className="create-profile-form">
 

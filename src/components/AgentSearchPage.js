@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import magni from '../svg/magnify.svg'
-import { useState,useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AgentSearchController } from '../controller/AgentSearchController';
 import ReactLoading from "react-loading";
 
@@ -29,12 +29,7 @@ const AgentSearchPage = ()=>{
 
     async function searchForProperty()
     {
-        
-
-       
-                const searchController = new AgentSearchController();
-              
-               
+                const searchController = new AgentSearchController();    
                 const result = await searchController.pushSearch(searchInput,stoppedDocIndex,stoppedPropIndex);
                 
                 if (!result)

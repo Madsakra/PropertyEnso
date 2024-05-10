@@ -4,7 +4,7 @@ import { db } from "../firebase-config";
 
 
 
-export class ViewAccounts{
+export class ViewProfiles{
 
 
     constructor()
@@ -12,52 +12,32 @@ export class ViewAccounts{
 
     }
 
-
-
-
-
-    async fetchAllAccounts(startingVal,endingVal)
+    async fetchAllProfiles(startingVal,endingVal)
     {
         let myresult = [];
         let filteredData = [];
-        const allAccountsCollection = collection(db, "allAccounts");
-        const allDocuments = await getDocs(allAccountsCollection);
+        const allProfileCollection = collection(db, "userProfile");
+        const allDocuments = await getDocs(allProfileCollection);
 
         allDocuments.forEach((doc)=>{
             const data = doc.data();
-            data.accountRef = doc.id;
+            data.profileID = doc.id;
                 myresult.push(data);
-            
         })
 
-
-
+        // for pagination, so only take half of the data
         for (let i=startingVal;i<endingVal;i++)
         {
                 filteredData.push(myresult[i]);
-        }
+        }  
+
+      
 
         return filteredData;
     }
 
-
-
-
-
-
-
-
 }
     
-
-
-
-
-
-
-
-
-
 
 
 

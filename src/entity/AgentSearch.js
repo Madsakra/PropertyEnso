@@ -64,10 +64,6 @@ export class AgentSearch{
                 
        
 
-
- 
-
-
             const myPackage ={
                 mySaved:mySaved,
                 stoppedDocIndex:stoppedDocRecord,

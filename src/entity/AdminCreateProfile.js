@@ -13,6 +13,8 @@ export class AdminCreateProfile{
 
 
 
+
+
     async createProfileInDB(email,role,description)
     {
         // 1. check if email exist
@@ -38,6 +40,7 @@ export class AdminCreateProfile{
                         UID:account.UID,
                         description:description,
                         type:role,
+                        accountDocRef:account.accountID,
                       });
 
                     // UPDATE ACCOUNT SIDE ALSO, ACCOUNT WILL HAVE PROFILE ID

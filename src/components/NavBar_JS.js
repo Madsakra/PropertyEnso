@@ -98,6 +98,7 @@ const Navbar_JS = ()=> {
           <>
             
             <Nav.Link as={Link} to='/viewaccounts' exact>View Accounts</Nav.Link>
+            <Nav.Link as={Link} to='/viewprofiles' exact>View Profiles</Nav.Link>
             <Nav.Link as={Link} to='/admincreateAc' exact>Create Account</Nav.Link>
             <Nav.Link as={Link} to='/admincreateProfile' exact>Create Profile</Nav.Link>
           </>

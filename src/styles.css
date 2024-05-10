@@ -455,11 +455,18 @@ input:invalid[focused="true"] ~ .errorMessage
   background-image: url('images/agent-3.png');
   background-repeat: no-repeat;
   background-size: cover;
-
   color: rgb(247, 235, 235);
   height: 30vh;
-  
+}
 
+
+.profiles-head{
+  margin-top: 6vh;
+  background-image: url('images/agent-int.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: rgb(255, 255, 255);
+  height: 30vh;
 }
 
 .listings-head{
@@ -761,3 +768,9 @@ input[type=radio]
 
  }
 
+ .mass-suspend{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+ }

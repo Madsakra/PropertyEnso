@@ -56,7 +56,7 @@ export class SuspendAccount{
             }
 
             else{
-              return validationResults;
+              return false;
             }
 
           }

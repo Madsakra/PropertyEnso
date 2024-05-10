@@ -23,7 +23,7 @@ import AgentSearchPage from './components/AgentSearchPage';
 import ViewAccountsPage from './components/ViewAccountsPage';
 import AdminCreateAccPage from './components/AdminCreateAccPage';
 import AdminCreateProfilePage from './components/AdminCreateProfilePage';
-
+import ViewProfilesPage from './components/ViewProfilesPage';
 
 export const Context = createContext();
 
@@ -147,7 +147,7 @@ const App =()=>{
             <Route path='/viewaccounts' exact element={<ViewAccountsPage/>}/>
             <Route path='/admincreateAc' exact element={<AdminCreateAccPage/>}/>
             <Route path='/admincreateProfile' exact element={<AdminCreateProfilePage/>}/>
-
+            <Route path='/viewprofiles' exact element={<ViewProfilesPage/>}/>
 
 
           </Routes>
