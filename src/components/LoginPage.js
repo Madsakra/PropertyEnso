@@ -33,6 +33,11 @@ const LoginPage = () =>{
                     setAccountDetails(signInSuccess.userAccount);
                     setUserName(signInSuccess.userAccount.userName);
                     profileID.current = signInSuccess.userAccount.profileID
+
+                    // TDD TEST CASE RESULT
+                    console.log("Login successful - UserName: "+signInSuccess.userAccount.userName+ " Account ID (UID): " + 
+                    signInSuccess.userAccount.UID +" Role:Admin")
+
                     alert("login successful");
                     setFacedError(false);
                     setOpenLogin(false);
@@ -52,25 +57,30 @@ const LoginPage = () =>{
     }
 
 
+
     // sign in with email
     const signIn = async (event)=> {
     try{
         event.preventDefault();
         
         const userAuth = new UserAuthenticator();
-        // const signInSuccess = await userAuth.signInNormal(email,password);
-        // test case for DDD testing
-        const signInSuccess = await userAuth.signInNormal(email,password);
-        
-    
 
+        // TDD TEST CASE 
+        // BUYER
+        const signInSuccess = await userAuth.signInNormal(email,password);
+     
+        
         if (signInSuccess.toShow === true)
         {
-
-            const result = signInSuccess.userCred;
+           const result = signInSuccess.userCred;
             setAuthUser(result);
             setAccountDetails(signInSuccess.userAccount);
             setUserName(signInSuccess.userAccount.userName);
+            
+            // TDD TEST RESULT:
+            console.log("Login successful - UserName: "+signInSuccess.userAccount.userName+ " Account ID (UID): " + 
+            signInSuccess.userAccount.UID +" ROLE: Buyer")
+
             alert("login successful");
             setFacedError(false);
             setOpenLogin(false);
