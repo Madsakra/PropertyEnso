@@ -153,7 +153,7 @@ const ViewProfilesPage = ()=>{
           <th>#</th>
           <th>Profile ID</th>
           <th>UID (Account ID)</th>
-          <th>Account Document Ref No.</th>
+
           <th>Description</th>
           <th>Role</th>
           <th className="text-center">Update Profile</th>
@@ -167,7 +167,7 @@ const ViewProfilesPage = ()=>{
             <td key={index}>{index+1}</td>
             <td>{item.profileID}</td>
             <td>{item.UID}</td>
-            <td>{item.accountDocRef}</td>
+       
             <td>{item.description}</td>
             <td>{item.type}</td>
             <td className="text-center">     
