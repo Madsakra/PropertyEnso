@@ -142,7 +142,7 @@ const ViewProfilesPage = ()=>{
 
     {!loading && <div className="container-fluid p-5">
        <InputGroup className="mb-3 search-bar" >
-        <Form.Control placeholder='Search for....' className='fs-4 bg-dark text-light '
+        <Form.Control placeholder='Search for Profile ID....' className='fs-4 bg-dark text-light '
                       onChange={(e)=>setSearch(e.target.value)}/>
       </InputGroup>
 
@@ -161,7 +161,7 @@ const ViewProfilesPage = ()=>{
       </thead>
       <tbody>
             {profileList.filter((profile)=>{
-               return search.toLowerCase() === ""? profile: profile.userName.toLowerCase().startsWith(search.toLowerCase());
+               return search.toLowerCase() === ""? profile: profile.profileID.toLowerCase().startsWith(search.toLowerCase());
             }).map((item, index) => (
             <tr>
             <td key={index}>{index+1}</td>

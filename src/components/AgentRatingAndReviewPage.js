@@ -123,8 +123,8 @@ const AgentRatingAndReviewPage = ()=>{
                             <img src={avatar} className='img-fluid' width="400vh"></img>
 
                             {/*USERNAME AND EMAIL NOT DISPLAYED AS IT WILL BE SUBJECT TO CHANGES, TO BE DISCUSSED*/}
-                            <p className="fs-2">Rater: {customer.reviewDetails.reviwer}</p>
-                            <p className="fs-4">Rater Role: {customer.reviewDetails.userType}</p>
+                            <p className="fs-2">Reviewer: {customer.reviewDetails.reviewer}</p>
+                            <p className="fs-4">Reviewer Role: {customer.reviewDetails.userType}</p>
                             <p className="fs-5">Customer UID: {customer.reviewDetails.UID}</p>
                             <p className='fs-4'>Rated: {customer.reviewDetails.review} </p>
                         </div>
