@@ -67,7 +67,7 @@ export class Authenticator{
                     }
                 });
 
-                // RETURN 3 THINGS - 1. USER STATUS (WHETHER SUSPENDED OR NOT)
+                // RETURN 3 THINGS - 1. USER STATUS - toShow (WHETHER SUSPENDED OR NOT)
                                 //   2. USER ACCOUNT DETAILS
                                 //   3. USER CREDENTIALS (AUTH DETAILS)
 

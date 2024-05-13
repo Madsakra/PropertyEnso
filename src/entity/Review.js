@@ -8,7 +8,7 @@ export class Review{
     async pushReview(myPackage,targetAgent)
     {
         await addDoc(collection(db, "Reviews"), {
-            agentProfile:targetAgent,
+            agentInformation:targetAgent,
             reviewDetails:myPackage,
             
           });

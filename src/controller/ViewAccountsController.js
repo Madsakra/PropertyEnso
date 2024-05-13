@@ -18,12 +18,6 @@ export class ViewAccountsController{
         return result;
     }
 
-    // async pushWrite(myArray)
-    // {
-    //     const myWriter = new ViewAccounts();
-    //     const result  = await myWriter.WriteData(myArray);
-
-    // }
 
 
 

@@ -9,7 +9,7 @@ export class Rate{
     {
         
         await addDoc(collection(db, "Ratings"), {
-            agentProfile:targetAgent,
+            agentInformation:targetAgent,
             ratingDetails:myPackage,
             
           });

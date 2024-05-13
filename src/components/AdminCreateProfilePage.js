@@ -74,6 +74,7 @@ const AdminCreateProfilePage = ()=>{
                     <option value="Buyer">Buyer</option>
                     <option value="Seller">Seller</option>
                     <option value="Real Estate Agent">Real Estate Agent</option>
+                    <option value="Real Estate Agent">Admin</option>
                 </Form.Select>
 
                 <p className="fs-4">Description of profile:</p>

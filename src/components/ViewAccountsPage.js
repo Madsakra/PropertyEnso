@@ -33,7 +33,6 @@ const ViewAccountsPage = ()=>{
     async function getAllAccounts()
     {
         setLoading(true);
-
         const myViewerController = new ViewAccountsController();
         const result = await myViewerController.pushFetch(startVal.current,endVal.current);
         setAccountList([...result]);

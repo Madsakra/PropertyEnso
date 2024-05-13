@@ -28,6 +28,7 @@ const ViewProfilesPage = ()=>{
     const [userDescription,setUserDescription] = useState("");
     const [userDesError,setUserDesError] = useState(false);
     
+    // USER STORY: VIEW ALL PROFILES
     async function getAllProfiles()
     {
         setLoading(true);
@@ -43,6 +44,7 @@ const ViewProfilesPage = ()=>{
     }
 
 
+    // USER STORY: UPDATE USER PROFILE
     async function updateUserDescription()
     {
         if (userDescription==="")
@@ -67,7 +69,7 @@ const ViewProfilesPage = ()=>{
         }
     }
 
-    async function suspendProfiles()
+    async function suspendAllProfiles()
     {
 
         const confirmation = window.confirm("Are You Sure You want to suspend profiles with this role?")
@@ -136,7 +138,7 @@ const ViewProfilesPage = ()=>{
             <option value="Seller">Seller</option>
             <option value="Real Estate Agent">Real Estate Agent</option>
           </Form.Select>
-          <Button variant="danger mt-4" onClick={()=>suspendProfiles()}>Suspend Profiles</Button>
+          <Button variant="danger mt-4" onClick={()=>suspendAllProfiles()}>Suspend Profiles</Button>
       </div>}
 
 

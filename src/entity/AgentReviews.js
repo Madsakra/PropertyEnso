@@ -19,7 +19,7 @@ export class AgentReviews{
             querySnapshot.forEach((doc) => {
                 
                 const reviewData = doc.data();
-                if (reviewData.agentProfile.UID === uid && reviewData.agentProfile.profileID === currentProfileID)
+                if (reviewData.agentInformation.UID === uid && reviewData.agentInformation.profileID === currentProfileID)
                 {
                     myReviews.push(reviewData);
                 }
