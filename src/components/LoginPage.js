@@ -35,6 +35,7 @@ const LoginPage = () =>{
                     profileID.current = signInSuccess.userAccount.profileID
 
                     // TDD TEST CASE RESULT
+                    console.log("GOOGLE SIGN IN SUCCESSFUL");
                     console.log("Login successful - UserName: "+signInSuccess.userAccount.userName+ " Account ID (UID): " + 
                     signInSuccess.userAccount.UID +" Role:Admin")
 

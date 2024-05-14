@@ -32,6 +32,14 @@ const ViewListingsPage =()=>{
       const newListingsController = new ViewNewListingsController();
       // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
       newListingsController.getNewListings().then((response)=>{
+
+        // TDD RESULT
+        response.forEach((property)=>{
+          console.log("NEW LISTINGS RETRIEVED - IN STREET - " + property.street);
+          console.log(property.indiProps);
+          
+        })
+
        setAllListing([...response])})
        setTimeout(()=>{
         setLoading(false);
@@ -48,6 +56,16 @@ const ViewListingsPage =()=>{
       const newListingsController = new ViewSoldListingsController();
       // ASK CONTROLLER TO FETCH ALL THE PROPERTY DATA FROM DB
       newListingsController.getSoldListings().then((response)=>{
+
+
+      // TDD RESULT
+      response.forEach((property)=>{
+        console.log("NEW LISTINGS RETRIEVED - IN STREET - " + property.street);
+        console.log(property.indiProps);
+        
+      })
+
+
        setAllListing([...response])})
        setTimeout(()=>{
         setLoading(false);
