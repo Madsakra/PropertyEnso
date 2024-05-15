@@ -4,13 +4,13 @@ import { Rate } from "../entity/Rate";
 export class RateController{
 
     // change to rating
-    async sendData(stars,reviewer,uniqueID,reviewerEmail,reviewerType,targetAgent)
+    async sendData(stars,rater,uniqueID,raterEmail,raterType,targetAgent)
     {
 
-        const myPackage = {"rater": reviewer,
+        const myPackage = {"rater": rater,
                             "UID": uniqueID,  
-                            "email": reviewerEmail,
-                            "userType":reviewerType,
+                            "email": raterEmail,
+                            "userType":raterType,
                             "rating":stars
                             }
 

@@ -47,9 +47,10 @@ export class AgentSearch{
                         let propertyName = property.name.toLowerCase();
                         property.address = street;
                         property.project = project;
-                        
-                        if (propertyName.startsWith(searchInput))
+                      
+                        if (propertyName.startsWith(searchInput.toLowerCase()))
                         {
+                            console.log(propertyName);
                             mySaved.push(property);
                         }
 
