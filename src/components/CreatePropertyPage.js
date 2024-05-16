@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import { CheckSellerExistController } from "../controller/CheckSellerExistController";
+
 import { Context } from "../App";
 import { CreatePropertyController } from "../controller/CreatePropertyController";
 
@@ -12,11 +12,10 @@ const CreatePropertyPage = ()=>{
     
 
      const {authUser} = useContext(Context);
-     // PART 1 STATES ------ ONLY AFTER PASSING THIS ROUND OF CHECK 
-     // THE PROPERTY AGENT CAN CONTINUE TO LIST PROPERTY
-     const [emailExist,setEmailExist] = useState(false);
+
+   
      const [sellerEmail,setSellerEmail] = useState("");
-     const [sellerUID,setSellerUID] = useState("");
+ 
      //------------------------------------------------------------
 
      // PART 2 STATES--------- COLLECTING PROPERTY INFORMATION FROM USER
@@ -30,39 +29,21 @@ const CreatePropertyPage = ()=>{
     const [priceInput,setPriceInput] = useState("");
     const [imageContainer,setImageContainer] = useState(null);
     const [imageContainerError,setImageContainerError] = useState(false);
- 
+    const [emailError,setEmailError] = useState(false);
 
-    // ROUND 1 CHECK---------------------------------------------
-    async function CheckExist(){
-        const myCheckControl = new CheckSellerExistController();
-        const result = await myCheckControl.pushEmailForCheck(sellerEmail);
-        
-        if (result.accountExist === true)
-        {
-            setSellerUID(result.UID);
-            setEmailExist(true);
-        
-        }
 
-        else{
-            setSellerEmail("error");
-        }
-        
-    }
-    //------------------------------------------------------------------
-
-    // ROUND 2 CHECK ------------------------------------------------
     function CheckAllFields()
     {
         let check = false;
         if (propertyNameInput !== "" && areaInput !== "" && districtInput !== "" && floorRangeInput!==""
-            && bedRoomsInput !== "" && bathRoomsInput !== "" && priceInput !== "" && imageContainer !==null)
+            && bedRoomsInput !== "" && bathRoomsInput !== "" && priceInput !== "" && imageContainer !==null
+            && sellerEmail !== "")
         {
             check = true;
         }
 
         // check for errors --- if errors, flip the boolean 
-        if (floorRangeInput === "error" && imageContainerError === true)
+        if (floorRangeInput === "error" && imageContainerError === true && emailError === true)
         {
             check = false;
         }
@@ -88,17 +69,18 @@ const CreatePropertyPage = ()=>{
                                 name:propertyNameInput,
                                 price:priceInput,
 
-                                seller:{UID:sellerUID,
-                                        email:sellerEmail}
                               }
             
             const myCreatorControl = new CreatePropertyController();
-            const result = await myCreatorControl.pushCreation(myPackage,imageContainer,streetNameInput)
+            const result = await myCreatorControl.pushCreation(myPackage,imageContainer,streetNameInput,sellerEmail)
             if (result===true)
             {
                 alert("property created");
-                setEmailExist(!emailExist);
+       
 
+            }
+            else{
+                alert("wrong user email, please try again!")
             }
 
         }
@@ -127,21 +109,6 @@ const CreatePropertyPage = ()=>{
         <div className="container creation-form">
             <Form>
             
-            {!emailExist && 
-            <div className="m-4 p-5">
-                <h1 className="display-1">Seller's Information</h1>
-                <p className="fs-3">Please Enter The Email Of Your Client For Checking</p>
-                {sellerEmail==="error" && <h3 className="text-danger">Your Email Is Invalid, Please Try Again</h3>}
-                <Form.Group as={Col} controlId="formGridEmail">
-                <Form.Label className="fs-4">Seller's Email</Form.Label>
-                <Form.Control type="email" className="mb-4"  onChange={(e)=>{setSellerEmail(e.target.value)}} placeholder="example@gmail.com"/>
-                </Form.Group>    
-                <Button variant="light" className="w-100" type="button" onClick={CheckExist}>Submit</Button>
-            </div>}
-            
-         
-
-            {emailExist &&
             <div>
             <h1 className="pt-4">Property Information</h1>            
             <Row className="mb-3 ">
@@ -227,6 +194,7 @@ const CreatePropertyPage = ()=>{
                         if (currentFile.type === "image/jpeg" || currentFile.type === "image/jpg" || currentFile.type === "image/png" )
                         {
                             setImageContainer(e.target.files[0])
+                            console.log(currentFile);
                             setImageContainerError(false);
                         }
                         
@@ -250,12 +218,21 @@ const CreatePropertyPage = ()=>{
 
             <Form.Group as={Col} controlId="formGridEmail">
                 <Form.Label>Seller's Email</Form.Label>
-                <Form.Control value={sellerEmail} disabled/>
-            </Form.Group>
-
-            <Form.Group as={Col} controlId="formGridUID">
-                <Form.Label>Seller's UID</Form.Label>
-                <Form.Control value={sellerUID} disabled/>
+                <Form.Control type="email" onChange={(e)=>
+                
+                    {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (emailRegex.test(e.target.value))
+                    {
+                      
+                        setSellerEmail(e.target.value);
+                        setEmailError(false);
+                    }
+                    else{
+                        setEmailError(true); 
+                    }
+                    }}/>
+                {emailError===true && <p className="text-danger fw-bold">Please Enter an email here</p>}
             </Form.Group>
 
             </Row>
@@ -267,7 +244,7 @@ const CreatePropertyPage = ()=>{
             Submit
             </Button>
             </div>
-            }
+            
 
 
         </Form>

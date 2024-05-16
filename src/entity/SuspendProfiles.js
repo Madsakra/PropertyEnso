@@ -27,7 +27,7 @@ export class SuspendProfiles{
                 {
                     const docRef = doc(db, 'allAccounts', accountDocRef);
                     await updateDoc(docRef,{
-                        status:"suspended"
+                        status:"active"
                     })
                 }
             })

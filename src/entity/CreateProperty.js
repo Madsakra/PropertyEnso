@@ -4,7 +4,7 @@ import { v4 } from 'uuid';
 
 import { db } from '../firebase-config';
 
-import { getDocs, updateDoc, collection,doc} from 'firebase/firestore';
+import { getDocs, updateDoc, collection,doc,getDoc} from 'firebase/firestore';
 
 
 
@@ -14,7 +14,7 @@ export class CreateProperty{
 
     }
 
-    async createNewProperty(myPackage,image,street)
+    async createNewProperty(myPackage,image,street,sellerEmail)
     {
 
         // 1. upload image to firebase first to get image ref
@@ -28,46 +28,93 @@ export class CreateProperty{
         myPackage.image = imageUrl;
         myPackage.status = "new";
 
-        
-  
-        
-        const listingDataCollection = collection(db, "propertyData");
-        const data = await getDocs(listingDataCollection);
-        try{
+        const userAccountsRef= collection(db, "allAccounts");
+        const accounts = await getDocs(userAccountsRef);
+    
 
-            data.docs.map((myDoc)=>{
-                let currentDocData =  myDoc.data().indiProps; 
-                const dataStreet = myDoc.data().street;
-                let copyOfData = [...currentDocData];
-
-                
-            const docuID = myDoc.id;
-            if (street === dataStreet)
+        const accountExist = async ()=>{
+            for (let i=0;i<accounts.docs.length;i++)
             {
-                    copyOfData.push(myPackage);
-               
-                
-                    const currentUserRef = doc(db, "propertyData", docuID);
-                    const updateAccordingly = async ()=>{
-                        await updateDoc(currentUserRef,{
-                    
-                        "indiProps": copyOfData
+            const accountData = accounts.docs[i].data();
 
-                    })
-                }                  
+            // check if email exist first
+            // if exist, then check for profile type
+            if (accountData.email === sellerEmail)
+            {
+                // account exist, but need to check for user's role
+                const secondProfileRef = doc(db, "userProfile", accountData.profileID);
 
-                updateAccordingly();
-
+                    const secondProfile = await getDoc(secondProfileRef);
+                    const secondProfileData = secondProfile.data();
+                    if (secondProfileData.type === "Seller")
+                    {
+                        myPackage.seller = {UID:accountData.UID, email: sellerEmail}
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 
             }
-            })
+
+            }
+            return false;
+        }
+
+        const validationResult = await accountExist();
         
-            return true;
-        }
-        catch(err)
+        if (!validationResult)
         {
-            console.error(err);
+            return false;
         }
+
+        else{
+
+
+            const listingDataCollection = collection(db, "propertyData");
+            const data = await getDocs(listingDataCollection);
+            try{
+    
+                data.docs.map((myDoc)=>{
+                    let currentDocData =  myDoc.data().indiProps; 
+                    const dataStreet = myDoc.data().street;
+                    let copyOfData = [...currentDocData];
+    
+                    
+                const docuID = myDoc.id;
+                if (street === dataStreet)
+                {
+                        copyOfData.push(myPackage);
+                   
+                    
+                        const currentUserRef = doc(db, "propertyData", docuID);
+                        const updateAccordingly = async ()=>{
+                            await updateDoc(currentUserRef,{
+                        
+                            "indiProps": copyOfData
+    
+                        })
+                    }                  
+    
+                    updateAccordingly();
+    
+                    
+                }
+                })
+            
+              
+            }
+            catch(err)
+            {
+                console.error(err);
+                return false;
+            }
+
+            return true;
+
+        }
+        
+
     
         
 

@@ -11,12 +11,12 @@ export class CreatePropertyController{
 
 
 
-    async pushCreation(myPackage,image,street)
+    async pushCreation(myPackage,image,street,sellerEmail)
     {
         try{
 
             const myCreator = new CreateProperty();
-            const result = await myCreator.createNewProperty(myPackage,image,street);
+            const result = await myCreator.createNewProperty(myPackage,image,street,sellerEmail);
             return result;
 
         }
