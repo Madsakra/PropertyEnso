@@ -80,7 +80,7 @@ const CreatePropertyPage = ()=>{
 
             }
             else{
-                alert("wrong user email, please try again!")
+                alert("Either the account doesn't exist, or the account is not a seller.")
             }
 
         }
